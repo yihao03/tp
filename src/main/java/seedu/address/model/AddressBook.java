@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.classes.UniqueClassList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -16,19 +17,22 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    private final UniqueClassList classes;
 
     /*
-     * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
-     * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
+     * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication between
+     * constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
      *
-     * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
-     *   among constructors.
+     * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication among
+     * constructors.
      */
     {
         persons = new UniquePersonList();
+        classes = new UniqueClassList();
     }
 
-    public AddressBook() {}
+    public AddressBook() {
+    }
 
     /**
      * Creates an AddressBook using the Persons in the {@code toBeCopied}
@@ -94,18 +98,60 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    //// class-level operations
+
+    /**
+     * Returns true if a class with the same identity as {@code classToCheck} exists in the address book.
+     */
+    public boolean hasClass(seedu.address.model.classes.Class classToCheck) {
+        requireNonNull(classToCheck);
+        return classes.contains(classToCheck);
+    }
+
+    /**
+     * Adds a class to the address book.
+     * The class must not already exist in the address book.
+     */
+    public void addClass(seedu.address.model.classes.Class c) {
+        classes.add(c);
+    }
+
+    /**
+     * Replaces the given class {@code target} in the list with {@code editedClass}.
+     * {@code target} must exist in the address book.
+     * The class identity of {@code editedClass} must not be the same as another existing class in the address book.
+     */
+    public void setClass(seedu.address.model.classes.Class target, seedu.address.model.classes.Class editedClass) {
+        requireNonNull(editedClass);
+
+        classes.setClass(target, editedClass);
+    }
+
+    /**
+     * Removes {@code key} from this {@code AddressBook}.
+     * {@code key} must exist in the address book.
+     */
+    public void removeClass(seedu.address.model.classes.Class key) {
+        classes.remove(key);
+    }
+
     //// util methods
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("persons", persons)
-                .toString();
+        return new ToStringBuilder(this).add("persons", persons).add("classes", classes).toString();
     }
 
     @Override
     public ObservableList<Person> getPersonList() {
         return persons.asUnmodifiableObservableList();
+    }
+
+    /**
+     * Returns an unmodifiable view of the classes list.
+     */
+    public ObservableList<seedu.address.model.classes.Class> getClassList() {
+        return classes.asUnmodifiableObservableList();
     }
 
     @Override
@@ -120,11 +166,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons);
+        return persons.equals(otherAddressBook.persons) && classes.equals(otherAddressBook.classes);
     }
 
     @Override
     public int hashCode() {
-        return persons.hashCode();
+        return persons.hashCode() + classes.hashCode();
     }
 }

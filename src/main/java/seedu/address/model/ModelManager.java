@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.classes.Class;
 import seedu.address.model.person.Person;
 
 /**
@@ -22,6 +23,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Class> filteredClasses;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -34,13 +36,14 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredClasses = new FilteredList<>(this.addressBook.getClassList());
     }
 
     public ModelManager() {
         this(new AddressBook(), new UserPrefs());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // =========== UserPrefs ==================================================================================
 
     @Override
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
@@ -75,7 +78,7 @@ public class ModelManager implements Model {
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
-    //=========== AddressBook ================================================================================
+    // =========== AddressBook ================================================================================
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
@@ -111,7 +114,7 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    // =========== Filtered Person List Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
@@ -128,6 +131,49 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    // =========== Class Operations ===========================================================================
+
+    @Override
+    public boolean hasClass(Class classToCheck) {
+        requireNonNull(classToCheck);
+        return addressBook.hasClass(classToCheck);
+    }
+
+    @Override
+    public void deleteClass(Class target) {
+        addressBook.removeClass(target);
+    }
+
+    @Override
+    public void addClass(Class classToAdd) {
+        addressBook.addClass(classToAdd);
+        updateFilteredClassList(PREDICATE_SHOW_ALL_CLASSES);
+    }
+
+    @Override
+    public void setClass(Class target, Class editedClass) {
+        requireAllNonNull(target, editedClass);
+
+        addressBook.setClass(target, editedClass);
+    }
+
+    // =========== Filtered Class List Accessors ==============================================================
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Class} backed by the internal list of
+     * {@code versionedAddressBook}
+     */
+    @Override
+    public ObservableList<Class> getFilteredClassList() {
+        return filteredClasses;
+    }
+
+    @Override
+    public void updateFilteredClassList(Predicate<Class> predicate) {
+        requireNonNull(predicate);
+        filteredClasses.setPredicate(predicate);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -140,9 +186,9 @@ public class ModelManager implements Model {
         }
 
         ModelManager otherModelManager = (ModelManager) other;
-        return addressBook.equals(otherModelManager.addressBook)
-                && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+        return addressBook.equals(otherModelManager.addressBook) && userPrefs.equals(otherModelManager.userPrefs)
+                        && filteredPersons.equals(otherModelManager.filteredPersons)
+                        && filteredClasses.equals(otherModelManager.filteredClasses);
     }
 
 }

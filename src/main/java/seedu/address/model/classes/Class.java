@@ -1,6 +1,7 @@
-package seedu.address.model;
+package seedu.address.model.classes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
@@ -66,5 +67,41 @@ public class Class {
      */
     public ArrayList<Student> getStudents() {
         return students;
+    }
+
+    /**
+     * Returns true if both classes have the same name.
+     * This defines a weaker notion of equality between two classes.
+     */
+    public boolean isSameClass(Class otherClass) {
+        if (otherClass == this) {
+            return true;
+        }
+
+        return otherClass != null && otherClass.getClassName().equals(getClassName());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof Class)) {
+            return false;
+        }
+
+        Class otherClass = (Class) other;
+        return className.equals(otherClass.className);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(className);
+    }
+
+    @Override
+    public String toString() {
+        return className;
     }
 }
