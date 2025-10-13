@@ -18,8 +18,12 @@ public class AddClassCommand extends Command {
     public static final String COMMAND_WORD = "addclass";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a class to the address book. " + "Parameters: "
-                    + PREFIX_CLASSNAME + "CLASS_NAME " + PREFIX_SUBJECT + "SUBJECT\n" + "Example: " + COMMAND_WORD + " "
-                    + PREFIX_CLASSNAME + "CS2103T " + PREFIX_SUBJECT + "Software Engineering";
+            + PREFIX_CLASSNAME + "CLASS_NAME "
+            + PREFIX_SUBJECT + "SUBJECT\n"
+            + "Example: "
+            + COMMAND_WORD + " "
+            + PREFIX_CLASSNAME + "CS2103T "
+            + PREFIX_SUBJECT + "Software Engineering";
 
     public static final String MESSAGE_SUCCESS = "New class added: %1$s";
     public static final String MESSAGE_DUPLICATE_CLASS = "This class already exists in the address book";
