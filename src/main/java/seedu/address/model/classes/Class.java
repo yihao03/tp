@@ -20,16 +20,18 @@ public class Class {
     /** Human-readable name of the class. */
     private String className;
 
+    private String subject;
+
     /**
      * Constructs a class with the specified tutor and name.
      *
      * @param tutor the tutor in charge of the class
      * @param className the human-readable class name (e.g., "CS2103T T12")
      */
-    public Class(Tutor tutor, String className) {
-        this.tutor = tutor;
+    public Class(String className, String subject) {
         this.students = new ArrayList<>();
         this.className = className;
+        this.subject = subject;
     }
 
     /**
@@ -47,7 +49,7 @@ public class Class {
      * @return the class name
      */
     public String getClassName() {
-        return className;
+        return className + " " + subject;
     }
 
     /**
