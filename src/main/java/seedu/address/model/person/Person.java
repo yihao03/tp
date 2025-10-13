@@ -58,7 +58,7 @@ public abstract class Person {
      * @throws NullPointerException if any parameter is null.
      */
     public static Person newPerson(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
-                    PersonType role) {
+            PersonType role) {
         switch (role) {
         case STUDENT:
             return new Student(name, phone, email, address, tags);
@@ -152,7 +152,7 @@ public abstract class Person {
 
         Person otherPerson = (Person) other;
         return name.equals(otherPerson.name) && phone.equals(otherPerson.phone) && email.equals(otherPerson.email)
-                        && address.equals(otherPerson.address) && tags.equals(otherPerson.tags);
+                && address.equals(otherPerson.address) && tags.equals(otherPerson.tags);
     }
 
     /**
@@ -175,7 +175,7 @@ public abstract class Person {
     @Override
     public String toString() {
         return new ToStringBuilder(this).add("name", name).add("phone", phone).add("email", email)
-                        .add("address", address).add("tags", tags).toString();
+                .add("address", address).add("tags", tags).toString();
     }
 
     /**
