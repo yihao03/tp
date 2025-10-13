@@ -48,8 +48,8 @@ public class AddClassCommandTest {
         AddClassCommand addClassCommand = new AddClassCommand(validClass);
         ModelStub modelStub = new ModelStubWithClass(validClass);
 
-        assertThrows(CommandException.class, AddClassCommand.MESSAGE_DUPLICATE_CLASS,
-                () -> addClassCommand.execute(modelStub));
+        assertThrows(CommandException.class, AddClassCommand.MESSAGE_DUPLICATE_CLASS, () ->
+            addClassCommand.execute(modelStub));
     }
 
     @Test
