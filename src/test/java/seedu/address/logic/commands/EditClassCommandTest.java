@@ -33,7 +33,6 @@ public class EditClassCommandTest {
 
     @Test
     public void execute_duplicateClass_throwsCommandException() throws CommandException {
-        // Add two classes
         model.addClass(new TuitionClass(new ClassName("OldClass")));
         model.addClass(new TuitionClass(new ClassName("ExistingClass")));
 
@@ -43,7 +42,6 @@ public class EditClassCommandTest {
 
     @Test
     public void execute_validClass_editSuccessful() throws CommandException {
-        // Add a class
         model.addClass(new TuitionClass(new ClassName("OldClass")));
 
         EditClassCommand editClassCommand = new EditClassCommand("OldClass", "NewClass");
@@ -52,8 +50,6 @@ public class EditClassCommandTest {
         String expectedMessage = String.format(EditClassCommand.MESSAGE_EDIT_CLASS_SUCCESS,
                 "OldClass", "NewClass");
         assertEquals(expectedMessage, result.getFeedbackToUser());
-
-        // Verify the old class is replaced with new one
         assertFalse(model.hasClass(new TuitionClass(new ClassName("OldClass"))));
         assertTrue(model.hasClass(new TuitionClass(new ClassName("NewClass"))));
     }
@@ -64,19 +60,10 @@ public class EditClassCommandTest {
         EditClassCommand editClass2 = new EditClassCommand("Class2", "ClassB");
         EditClassCommand editClass1Copy = new EditClassCommand("Class1", "ClassA");
 
-        // same object -> returns true
         assertTrue(editClass1.equals(editClass1));
-
-        // same values -> returns true
         assertTrue(editClass1.equals(editClass1Copy));
-
-        // different values -> returns false
         assertFalse(editClass1.equals(editClass2));
-
-        // null -> returns false
         assertFalse(editClass1.equals(null));
-
-        // different type -> returns false
         assertFalse(editClass1.equals(new ClearCommand()));
     }
 }

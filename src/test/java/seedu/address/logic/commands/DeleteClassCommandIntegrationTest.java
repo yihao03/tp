@@ -29,18 +29,15 @@ public class DeleteClassCommandIntegrationTest {
 
     @Test
     public void execute_existingClass_deleteSuccessful() throws CommandException {
-        // Add class
         TuitionClass classToDelete = new TuitionClass(new ClassName("Math101"));
         model.addClass(classToDelete);
 
-        // Delete the class
         DeleteClassCommand deleteClassCommand = new DeleteClassCommand("Math101");
         CommandResult result = deleteClassCommand.execute(model);
 
         String expectedMessage = String.format(DeleteClassCommand.MESSAGE_DELETE_CLASS_SUCCESS, "Math101");
         assertEquals(expectedMessage, result.getFeedbackToUser());
 
-        // Verify the class is deleted
         assertFalse(model.hasClass(classToDelete));
     }
 
@@ -54,7 +51,6 @@ public class DeleteClassCommandIntegrationTest {
 
     @Test
     public void execute_multipleClassesDeleteSequentially_allSuccessful() throws CommandException {
-        // Add multiple classes
         TuitionClass class1 = new TuitionClass(new ClassName("Math101"));
         TuitionClass class2 = new TuitionClass(new ClassName("Physics201"));
         TuitionClass class3 = new TuitionClass(new ClassName("Chemistry301"));
@@ -62,12 +58,10 @@ public class DeleteClassCommandIntegrationTest {
         model.addClass(class2);
         model.addClass(class3);
 
-        // Delete them sequentially
         new DeleteClassCommand("Math101").execute(model);
         new DeleteClassCommand("Physics201").execute(model);
         new DeleteClassCommand("Chemistry301").execute(model);
 
-        // Verify all are deleted
         assertFalse(model.hasClass(class1));
         assertFalse(model.hasClass(class2));
         assertFalse(model.hasClass(class3));
@@ -75,11 +69,9 @@ public class DeleteClassCommandIntegrationTest {
 
     @Test
     public void execute_deleteClassTwice_throwsCommandException() throws CommandException {
-        // Add and delete a class
         model.addClass(new TuitionClass(new ClassName("Math101")));
         new DeleteClassCommand("Math101").execute(model);
 
-        // Try to delete again
         DeleteClassCommand deleteClassCommand = new DeleteClassCommand("Math101");
         assertThrows(CommandException.class, String.format(DeleteClassCommand.MESSAGE_CLASS_NOT_FOUND,
                 "Math101"), () -> deleteClassCommand.execute(model));
@@ -87,21 +79,17 @@ public class DeleteClassCommandIntegrationTest {
 
     @Test
     public void execute_deleteClassWithSpacesInName_successful() throws CommandException {
-        // Add class with spaces
         TuitionClass classWithSpaces = new TuitionClass(new ClassName("Advanced Math 101"));
         model.addClass(classWithSpaces);
 
-        // Delete the class
         DeleteClassCommand deleteClassCommand = new DeleteClassCommand("Advanced Math 101");
         deleteClassCommand.execute(model);
 
-        // Verify deletion
         assertFalse(model.hasClass(classWithSpaces));
     }
 
     @Test
     public void execute_deleteFromEmptyClassList_throwsCommandException() {
-        // Model starts with empty class list
         DeleteClassCommand deleteClassCommand = new DeleteClassCommand("AnyClass");
 
         assertThrows(CommandException.class, String.format(DeleteClassCommand.MESSAGE_CLASS_NOT_FOUND,

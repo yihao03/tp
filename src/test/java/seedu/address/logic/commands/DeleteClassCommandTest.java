@@ -33,7 +33,6 @@ public class DeleteClassCommandTest {
 
     @Test
     public void execute_validClass_deleteSuccessful() throws CommandException {
-        // Add a class
         TuitionClass classToDelete = new TuitionClass(new ClassName("ClassToDelete"));
         model.addClass(classToDelete);
 
@@ -42,8 +41,6 @@ public class DeleteClassCommandTest {
 
         String expectedMessage = String.format(DeleteClassCommand.MESSAGE_DELETE_CLASS_SUCCESS, "ClassToDelete");
         assertEquals(expectedMessage, result.getFeedbackToUser());
-
-        // Verify the class is deleted
         assertFalse(model.hasClass(classToDelete));
     }
 
@@ -53,19 +50,10 @@ public class DeleteClassCommandTest {
         DeleteClassCommand deleteClass2 = new DeleteClassCommand("Class2");
         DeleteClassCommand deleteClass1Copy = new DeleteClassCommand("Class1");
 
-        // same object -> returns true
         assertTrue(deleteClass1.equals(deleteClass1));
-
-        // same values -> returns true
         assertTrue(deleteClass1.equals(deleteClass1Copy));
-
-        // different values -> returns false
         assertFalse(deleteClass1.equals(deleteClass2));
-
-        // null -> returns false
         assertFalse(deleteClass1.equals(null));
-
-        // different type -> returns false
         assertFalse(deleteClass1.equals(new ClearCommand()));
     }
 }
