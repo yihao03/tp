@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import javafx.collections.ObservableList;
-import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.classroom.UniqueClassList;
 import seedu.address.model.person.Person;
@@ -150,6 +149,20 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the given tuition class {@code target} in the list with {@code editedClass}.
+     * <p>
+     * {@code target} must exist in the address book.
+     * The identity of {@code editedClass} must not be the same as another existing class.
+     *
+     * @param target       Class to replace.
+     * @param editedClass New class replacing the target.
+     */
+    public void setClass(TuitionClass target, TuitionClass editedClass) {
+        requireNonNull(editedClass);
+        classes.setClass(target, editedClass);
+    }
+
+    /**
      * Removes {@code tuitionClass} from this {@code AddressBook}.
      * <p>
      * {@code tuitionClass} must exist in the address book.
@@ -195,10 +208,9 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("persons", persons)
-                .add("classes", classes)
-                .toString();
+        return AddressBook.class.getCanonicalName()
+            + "{persons=" + persons.asUnmodifiableObservableList()
+            + ", classes=" + classes.asUnmodifiableObservableList() + "}";
     }
 
     @Override

@@ -49,6 +49,25 @@ public class UniqueClassList implements Iterable<TuitionClass> {
     }
 
     /**
+     * Replaces the tuition class {@code target} in the list with {@code editedClass}.
+     */
+    public void setClass(TuitionClass target, TuitionClass editedClass) {
+        requireNonNull(target);
+        requireNonNull(editedClass);
+
+        int index = internalList.indexOf(target);
+        if (index == -1) {
+            throw new ClassNotFoundException();
+        }
+
+        if (!target.isSameClass(editedClass) && contains(editedClass)) {
+            throw new DuplicateClassException();
+        }
+
+        internalList.set(index, editedClass);
+    }
+
+    /**
      * Removes the equivalent tuition class from the list.
      */
     public void remove(TuitionClass toRemove) {
@@ -63,6 +82,14 @@ public class UniqueClassList implements Iterable<TuitionClass> {
      */
     public ObservableList<TuitionClass> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
+    }
+
+    public int size() {
+        return internalList.size();
+    }
+
+    public void clear() {
+        internalList.clear();
     }
 
     @Override
@@ -92,7 +119,12 @@ public class UniqueClassList implements Iterable<TuitionClass> {
 
     @Override
     public String toString() {
-        return internalList.toString();
+        if (internalList.isEmpty()) {
+            return "[No classes available]";
+        }
+        StringBuilder sb = new StringBuilder("Classes:\n");
+        internalList.forEach(c -> sb.append(" - ").append(c.getClassName()).append("\n"));
+        return sb.toString().trim();
     }
 
     private boolean classesAreUnique(List<TuitionClass> classes) {
