@@ -10,7 +10,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 
 public class AddClassCommandParserTest {
 
-    private AddClassCommandParser parser = new AddClassCommandParser();
+    private final AddClassCommandParser parser = new AddClassCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
@@ -18,12 +18,40 @@ public class AddClassCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsAddClassCommand() throws Exception {
-        // no leading and trailing whitespaces
-        AddClassCommand expectedAddClassCommand = new AddClassCommand("Sec1-Math-A");
-        assertEquals(expectedAddClassCommand, parser.parse("Sec1-Math-A"));
+    public void parse_validArgsMinimal_returnsAddClassCommand() throws Exception {
+        System.out.println("Testing minimal case...");
+        AddClassCommand result = parser.parse("cn/Sec1-Math-A");
+        System.out.println("Parsed successfully: " + result);
 
-        // multiple whitespaces between words
-        assertEquals(expectedAddClassCommand, parser.parse("   Sec1-Math-A   "));
+        AddClassCommand expected = new AddClassCommand("Sec1-Math-A");
+        System.out.println("Expected: " + expected);
+        System.out.println("Are they equal? " + result.equals(expected));
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void parse_validArgsWithTutor_returnsAddClassCommand() throws Exception {
+        AddClassCommand expected = new AddClassCommand("Sec1-Math-A", "Ms Lee");
+        try {
+            AddClassCommand result = parser.parse("cn/Sec1-Math-A tutor/Ms Lee");
+            assertEquals(expected, result);
+        } catch (ParseException e) {
+            System.out.println("ParseException message: " + e.getMessage());
+            throw e; // re-throw to fail the test
+        }
+    }
+
+    @Test
+    public void parse_invalidPreamble_throwsParseException() {
+        // class name without cn/ is preamble -> invalid in strict mode
+        assertThrows(ParseException.class, () -> parser.parse("Sec1-Math-A"));
+        assertThrows(ParseException.class, () -> parser.parse("   Sec1-Math-A   "));
+    }
+
+    @Test
+    public void parse_invalidLegacyTutorPrefix_throwsParseException() {
+        // t/ is not accepted; only tutor/
+        assertThrows(ParseException.class, () -> parser.parse("cn/Sec1-Math-A t/Ms Lee"));
     }
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.classroom.ClassName;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -142,5 +143,32 @@ public class ParserUtil {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
         return PersonType.fromString(trimmedType);
+    }
+
+    /**
+     * Parses a raw class name string. Trims and validates non-empty.
+     */
+    public static String parseClassName(String className) throws ParseException {
+        requireNonNull(className);
+        String trimmed = className.trim();
+        System.out.println(trimmed);
+        if (trimmed.isEmpty()) {
+            throw new ParseException(ClassName.MESSAGE_CONSTRAINTS);
+        }
+        return trimmed;
+    }
+
+    /**
+     * Parses a raw tutor name string. Trims and validates non-empty.
+     * (Parser should only call this if a tutor value is present.)
+     */
+    public static String parseTutorName(String tutorName) throws ParseException {
+        requireNonNull(tutorName);
+        String trimmed = tutorName.trim();
+        System.out.println(trimmed);
+        if (trimmed.isEmpty()) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+        }
+        return trimmed;
     }
 }

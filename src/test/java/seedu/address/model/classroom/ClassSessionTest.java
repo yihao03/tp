@@ -1,4 +1,4 @@
-package seedu.address.model.classes;
+package seedu.address.model.classroom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -29,7 +29,7 @@ import seedu.address.model.tag.Tag;
 public class ClassSessionTest {
 
     private Tutor tutor;
-    private Class parentClass;
+    private TuitionClass parentClass;
     private Student alice;
     private Student bob;
 
@@ -62,7 +62,7 @@ public class ClassSessionTest {
                 emptyTags
         );
 
-        parentClass = new Class(tutor, "CS2103T T12");
+        parentClass = new TuitionClass(new ClassName("CS2103T T12"), tutor);
         parentClass.addStudent(alice);
         parentClass.addStudent(bob);
     }
@@ -70,8 +70,6 @@ public class ClassSessionTest {
     @Test
     @DisplayName("Get and set session name, date/time, and location")
     void gettersSetters_workCorrectly() {
-        parentClass.addStudent(alice);
-
         LocalDateTime time = LocalDateTime.of(2025, 10, 15, 14, 0);
         ClassSession session = new ClassSession(parentClass, "Week 5 Tutorial", time, "COM1-B201");
 
@@ -195,9 +193,8 @@ public class ClassSessionTest {
 
         assertTrue(summary.contains("Week 3 Tutorial"));
         assertTrue(summary.contains("COM1-B103"));
-        assertTrue(summary.contains("(0/2 present)"));
+        assertTrue(summary.contains("(0/2 present)")); // summary shown because attendance initialized in constructor
     }
-
 
     @Test
     @DisplayName("Throws exception when constructed with null parent class")
@@ -220,9 +217,11 @@ public class ClassSessionTest {
     @DisplayName("toString omits attendance summary when record empty")
     void toString_omitsAttendanceSummary_whenEmptyRecord() {
         ClassSession s = new ClassSession(parentClass, "Lesson 4", LocalDateTime.now(), "COM1");
-        // do not initialize attendance to keep it empty
+        // Intentionally clear the record to simulate "empty"
+        s.getAttendanceRecord().clear();
         String result = s.toString();
-        assertTrue(result.contains("present"), "Expected no attendance summary for empty attendanceRecord");
+        // Our ClassSession prints attendance summary ONLY when record is non-empty
+        assertFalse(result.contains("present"), "Expected no attendance summary for empty attendanceRecord");
     }
 
     @Test
@@ -249,18 +248,21 @@ public class ClassSessionTest {
     @Test
     @DisplayName("equals returns false for different parent class")
     void equals_differentParent_returnsFalse() {
-        Class anotherClass = new Class(tutor, "CS2103T T13");
-        ClassSession s1 = new ClassSession(parentClass, "Lesson X", LocalDateTime.of(2025, 10, 20, 9, 0), "COM1");
-        ClassSession s2 = new ClassSession(anotherClass, "Lesson X", LocalDateTime.of(2025, 10, 20, 9, 0), "COM1");
+        TuitionClass anotherClass = new TuitionClass(new ClassName("CS2103T T13"), tutor);
+        ClassSession s1 = new ClassSession(parentClass, "Lesson X",
+                LocalDateTime.of(2025, 10, 20, 9, 0), "COM1");
+        ClassSession s2 = new ClassSession(anotherClass, "Lesson X",
+                LocalDateTime.of(2025, 10, 20, 9, 0), "COM1");
         assertNotEquals(s1, s2);
     }
 
     @Test
     @DisplayName("equals returns false for different session name")
     void equals_differentName_returnsFalse() {
-        ClassSession s1 = new ClassSession(parentClass, "Lesson A", LocalDateTime.of(2025, 10, 21, 9, 0), "COM1");
-        ClassSession s2 = new ClassSession(parentClass, "Lesson B", LocalDateTime.of(2025, 10, 21, 9, 0), "COM1");
+        ClassSession s1 = new ClassSession(parentClass, "Lesson A",
+                LocalDateTime.of(2025, 10, 21, 9, 0), "COM1");
+        ClassSession s2 = new ClassSession(parentClass, "Lesson B",
+                LocalDateTime.of(2025, 10, 21, 9, 0), "COM1");
         assertNotEquals(s1, s2);
     }
-
 }

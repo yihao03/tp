@@ -84,6 +84,14 @@ public class UniqueClassList implements Iterable<TuitionClass> {
         return internalUnmodifiableList;
     }
 
+    public int size() {
+        return internalList.size();
+    }
+
+    public void clear() {
+        internalList.clear();
+    }
+
     @Override
     public Iterator<TuitionClass> iterator() {
         return internalList.iterator();
@@ -111,7 +119,12 @@ public class UniqueClassList implements Iterable<TuitionClass> {
 
     @Override
     public String toString() {
-        return internalList.toString();
+        if (internalList.isEmpty()) {
+            return "[No classes available]";
+        }
+        StringBuilder sb = new StringBuilder("Classes:\n");
+        internalList.forEach(c -> sb.append(" - ").append(c.getClassName()).append("\n"));
+        return sb.toString().trim();
     }
 
     private boolean classesAreUnique(List<TuitionClass> classes) {
