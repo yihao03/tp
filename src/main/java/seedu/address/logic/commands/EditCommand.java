@@ -90,12 +90,6 @@ public class EditCommand extends Command {
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        // Handle relationship updates by delegating to the person object
-        PersonType personType = personToEdit.getPersonType();
-        PersonType editedType = editedPerson.getPersonType();
-        boolean isTypeEdited = !editedType.equals(personType);
-
-        personToEdit.handleEdit(editedPerson, isTypeEdited);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS,
                         Messages.format(editedPerson)));
     }

@@ -90,12 +90,18 @@ public class AddressBook implements ReadOnlyAddressBook {
      * <p>
      * {@code target} must exist in the address book.
      * The identity of {@code editedPerson} must not be the same as another existing person.
+     * Handles updating all relationships before replacing.
      *
      * @param target       Person to replace.
      * @param editedPerson New person replacing the target.
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
+
+        // Handle relationship updates before replacing
+        boolean isTypeEdited = !target.getPersonType().equals(editedPerson.getPersonType());
+        target.handleEdit(editedPerson, isTypeEdited);
+
         persons.setPerson(target, editedPerson);
     }
 
@@ -103,10 +109,12 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code key} from this {@code AddressBook}.
      * <p>
      * {@code key} must exist in the address book.
+     * Handles cleanup of all relationships before removing.
      *
      * @param key Person to remove.
      */
     public void removePerson(Person key) {
+        key.delete();
         persons.remove(key);
     }
 
