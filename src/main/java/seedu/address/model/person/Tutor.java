@@ -61,14 +61,13 @@ public class Tutor extends Person {
     }
 
     /**
-     * Changes all tuition classes' tutor to point to the newly editedTutor instead
-     * and populates the editedTutor's tuitionClasses list.
+     * Changes all tuition classes' tutor to point to the newly editedTutor instead.
+     * The bidirectional relationship is automatically maintained by setTutor.
      */
     public void editTuitionClassMappings(Tutor editedTutor) {
-        tuitionClasses.forEach(tuitionClass -> {
-            tuitionClass.setTutor(this, editedTutor);
-            editedTutor.tuitionClasses.add(tuitionClass);
-        });
+        // Create a copy to avoid ConcurrentModificationException
+        // (setTutor modifies the list we're iterating over)
+        new ArrayList<>(tuitionClasses).forEach(tuitionClass -> tuitionClass.setTutor(editedTutor));
     }
 
     /**

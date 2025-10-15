@@ -54,7 +54,7 @@ public class Messages {
      * Formats the {@code tuitionClass} for display to the user.
      */
     public static String format(TuitionClass tuitionClass) {
-        String tutorStr = (tuitionClass.getTutor() == null)
+        String tutorStr = (!tuitionClass.isAssignedToTutor())
                 ? "Unassigned"
                 : tuitionClass.getTutor().getName().fullName;
         return String.format("%s (Tutor: %s)", tuitionClass.getClassName(), tutorStr);

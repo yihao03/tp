@@ -384,7 +384,7 @@ public class EditCommandTest {
         // Create tuition class and establish relationship
         TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
         Tutor tutorCast = (Tutor) tutor;
-        tuitionClass.addTutor(tutorCast);
+        tuitionClass.setTutor(tutorCast);
 
         // Edit tutor's phone
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
@@ -398,7 +398,7 @@ public class EditCommandTest {
 
         // Verify bidirectional relationship maintained
         assertTrue(((Tutor) editedTutor).getTuitionClasses().contains(tuitionClass));
-        assertTrue(tuitionClass.getTutors().contains(editedTutor));
+        assertEquals(editedTutor, tuitionClass.getTutor());
     }
 
     @Test
@@ -440,7 +440,7 @@ public class EditCommandTest {
         // Create tuition class and establish relationship
         TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
         Tutor tutorCast = (Tutor) tutor;
-        tuitionClass.addTutor(tutorCast);
+        tuitionClass.setTutor(tutorCast);
 
         // Change tutor to student
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
@@ -450,7 +450,7 @@ public class EditCommandTest {
         editCommand.execute(modelWithRelationships);
 
         // Verify tuition class no longer has tutor
-        assertEquals(0, tuitionClass.getTutors().size());
+        assertFalse(tuitionClass.isAssignedToTutor());
     }
 
 }

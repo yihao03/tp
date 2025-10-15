@@ -2,7 +2,6 @@ package seedu.address.model.classroom;
 
 import static java.util.Objects.requireNonNull;
 
-import seedu.address.model.person.exceptions.PersonNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Represents a tuition class in the address book.
@@ -22,8 +22,8 @@ public class TuitionClass {
     /** Canonical identity of the class. */
     private final ClassName name;
 
-    /** Tutor(s) responsible for this class (nullable until assigned). */
-    private ArrayList<Tutor> tutors = new ArrayList<>();
+    /** Tutor responsible for this class (nullable until assigned). */
+    private Tutor tutor;
 
     /** Mutable roster of enrolled students. */
     private final ArrayList<Student> students = new ArrayList<>();
@@ -43,13 +43,13 @@ public class TuitionClass {
     /**
      * Constructs a {@code TuitionClass} with the given name and tutor.
      *
-     * @param tutor2 non-null class name
+     * @param name non-null class name
      * @param tutor tutor in charge (nullable)
      */
     public TuitionClass(ClassName name, Tutor tutor) {
         requireNonNull(name);
         this.name = name;
-        this.tutors.add(tutor);
+        this.tutor = tutor;
     }
 
     // ---------------------------------------------------------------------
@@ -60,7 +60,7 @@ public class TuitionClass {
         return name;
     }
 
-          /**
+    /**
      * Back-compat helper for older code/tests that used a String name.
      */
     public String getClassName() {
@@ -74,6 +74,10 @@ public class TuitionClass {
         return other != null && name.equals(other.name);
     }
 
+    /**
+     * Returns true if both classes have the same identity fields.
+     */
+    @Override
     public boolean equals(Object other) {
         return other == this
                 || (other instanceof TuitionClass && name.equals(((TuitionClass) other).name));
@@ -86,7 +90,7 @@ public class TuitionClass {
 
     @Override
     public String toString() {
-        String tutorStr = (tutor == null) ? "Unassigned" : tutor.getName().fullName;
+        String tutorStr = !this.isAssignedToTutor() ? "Unassigned" : tutor.getName().fullName;
         return String.format("TuitionClass{name=%s, tutor=%s, students=%d, sessions=%d}",
                 name.value, tutorStr, students.size(), sessions.size());
     }
@@ -95,44 +99,46 @@ public class TuitionClass {
     // Tutor
     // ---------------------------------------------------------------------
 
-    public ArrayList<Tutor> getTutors() {
-        return tutors;
+    /**
+     * Returns the tutor assigned to this class.
+     */
+    public Tutor getTutor() {
+        return tutor;
     }
 
     /**
-     * Adds a tutor to this tuition class if not already present.
+     * Checks if this class has an assigned tutor.
      */
-    public void addTutor(Tutor tutor) {
-        if (!tutors.contains(tutor)) {
-            tutors.add(tutor);
+    public boolean isAssignedToTutor() {
+        return tutor != null;
+    }
+
+    /**
+     * Assigns a tutor to this tuition class.
+     * Replaces any existing tutor assignment.
+     */
+    public void setTutor(Tutor tutor) {
+        // Remove from old tutor's class list if exists
+        if (this.tutor != null) {
+            this.tutor.removeClass(this);
+        }
+        // Assign new tutor
+        this.tutor = tutor;
+        // Add to new tutor's class list if not null
+        if (tutor != null) {
             tutor.addClass(this);
         }
     }
 
     /**
-     * Removes a tutor from this tuition class.
-     * @throws PersonNotFoundException if tutor is not in this class
+     * Removes the tutor from this tuition class.
+     * @throws PersonNotFoundException if no tutor is assigned
      */
-    public void removeTutor(Tutor tutor) {
-        if (!tutors.remove(tutor)) {
+    public void removeTutor(Tutor tutorToRemove) {
+        if (this.tutor == null || !this.tutor.equals(tutorToRemove)) {
             throw new PersonNotFoundException();
         }
-    }
-
-    /**
-     * Replaces the target tutor with the edited tutor.
-     * @throws PersonNotFoundException if target tutor is not in this class
-     */
-    public void setTutor(Tutor target, Tutor editedTutor) {
-        requireNonNull(target);
-        requireNonNull(editedTutor);
-
-        int index = tutors.indexOf(target);
-        if (index == -1) {
-            throw new PersonNotFoundException();
-        }
-
-        tutors.set(index, editedTutor);
+        this.tutor = null;
     }
 
     // ---------------------------------------------------------------------
@@ -155,7 +161,7 @@ public class TuitionClass {
             student.addClass(this);
         }
     }
-   
+
     /**
      * Removes a student from this tuition class.
      * @throws PersonNotFoundException if student is not in this class
