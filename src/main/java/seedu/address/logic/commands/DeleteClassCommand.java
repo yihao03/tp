@@ -15,8 +15,9 @@ public class DeleteClassCommand extends Command {
     public static final String COMMAND_WORD = "deleteclass";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes the specified class from TutBook.\n"
-            + "Parameters: CLASS_NAME\n"
-            + "Example: " + COMMAND_WORD + " Sec3-Math-A";
+            + "Parameters: CLASS_NAME (can contain spaces)\n"
+            + "Example: " + COMMAND_WORD + " Sec3-Math-A\n"
+            + "Example: " + COMMAND_WORD + " Advanced Math";
 
     public static final String MESSAGE_DELETE_CLASS_SUCCESS = "Deleted class: %1$s";
     public static final String MESSAGE_CLASS_NOT_FOUND = "Class %1$s does not exist";

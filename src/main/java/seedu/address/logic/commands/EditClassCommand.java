@@ -17,7 +17,11 @@ public class EditClassCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the name of an existing class.\n"
             + "Parameters: o/OLD_CLASS_NAME c/NEW_CLASS_NAME\n"
-            + "Example: " + COMMAND_WORD + " o/Sec2-Math-A c/Sec3-Math-A";
+            + "  o/ specifies the old class name\n"
+            + "  c/ specifies the new class name\n"
+            + "  Class names can contain spaces.\n"
+            + "Example: " + COMMAND_WORD + " o/Sec2-Math-A c/Sec3-Math-A\n"
+            + "Example: " + COMMAND_WORD + " o/Advanced Math c/Honors Mathematics";
 
     public static final String MESSAGE_EDIT_CLASS_SUCCESS = "Edited class from %1$s to %2$s";
     public static final String MESSAGE_CLASS_NOT_FOUND = "Class %1$s does not exist";
