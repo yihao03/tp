@@ -173,4 +173,65 @@ public class UniqueClassListTest {
     public void toStringMethod() {
         assertEquals(uniqueClassList.asUnmodifiableObservableList().toString(), uniqueClassList.toString());
     }
+
+    @Test
+    public void iterator_iteratesOverClasses() {
+        Class a = cls("CS2103T", "SE");
+        Class b = cls("CS2040C", "Algo");
+        uniqueClassList.add(a);
+        uniqueClassList.add(b);
+
+        int count = 0;
+        for (Class c : uniqueClassList) {
+            count++;
+            assertTrue(c.equals(a) || c.equals(b));
+        }
+        assertEquals(2, count);
+    }
+
+    @Test
+    public void hashCode_sameContent_returnsSameHashCode() {
+        Class a = cls("CS2103T", "SE");
+        UniqueClassList list1 = new UniqueClassList();
+        UniqueClassList list2 = new UniqueClassList();
+
+        list1.add(a);
+        list2.add(a);
+
+        assertEquals(list1.hashCode(), list2.hashCode());
+    }
+
+    @Test
+    public void equals_sameObject_returnsTrue() {
+        assertTrue(uniqueClassList.equals(uniqueClassList));
+    }
+
+    @Test
+    public void equals_null_returnsFalse() {
+        assertFalse(uniqueClassList.equals(null));
+    }
+
+    @Test
+    public void equals_differentType_returnsFalse() {
+        assertFalse(uniqueClassList.equals("string"));
+    }
+
+    @Test
+    public void equals_differentContent_returnsFalse() {
+        Class a = cls("CS2103T", "SE");
+        uniqueClassList.add(a);
+
+        UniqueClassList otherList = new UniqueClassList();
+        assertFalse(uniqueClassList.equals(otherList));
+    }
+
+    @Test
+    public void equals_sameContent_returnsTrue() {
+        Class a = cls("CS2103T", "SE");
+        uniqueClassList.add(a);
+
+        UniqueClassList otherList = new UniqueClassList();
+        otherList.add(a);
+        assertTrue(uniqueClassList.equals(otherList));
+    }
 }

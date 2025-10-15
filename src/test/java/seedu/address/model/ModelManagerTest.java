@@ -94,6 +94,84 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasClass_nullClass_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasClass(null));
+    }
+
+    @Test
+    public void hasClass_classNotInAddressBook_returnsFalse() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        assertFalse(modelManager.hasClass(cls));
+    }
+
+    @Test
+    public void hasClass_classInAddressBook_returnsTrue() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        modelManager.addClass(cls);
+        assertTrue(modelManager.hasClass(cls));
+    }
+
+    @Test
+    public void addClass_validClass_addsSuccessfully() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        modelManager.addClass(cls);
+        assertTrue(modelManager.hasClass(cls));
+    }
+
+    @Test
+    public void deleteClass_existingClass_removesClass() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        modelManager.addClass(cls);
+        modelManager.deleteClass(cls);
+        assertFalse(modelManager.hasClass(cls));
+    }
+
+    @Test
+    public void setClass_validClass_setsSuccessfully() {
+        seedu.address.model.classes.Class original = new seedu.address.model.classes.Class("CS2103T", "SE");
+        seedu.address.model.classes.Class edited = new seedu.address.model.classes.Class("CS2040C", "Algo");
+        modelManager.addClass(original);
+        modelManager.setClass(original, edited);
+        assertFalse(modelManager.hasClass(original));
+        assertTrue(modelManager.hasClass(edited));
+    }
+
+    @Test
+    public void setClass_nullTarget_throwsNullPointerException() {
+        seedu.address.model.classes.Class edited = new seedu.address.model.classes.Class("CS2040C", "Algo");
+        assertThrows(NullPointerException.class, () -> modelManager.setClass(null, edited));
+    }
+
+    @Test
+    public void setClass_nullEdited_throwsNullPointerException() {
+        seedu.address.model.classes.Class original = new seedu.address.model.classes.Class("CS2103T", "SE");
+        modelManager.addClass(original);
+        assertThrows(NullPointerException.class, () -> modelManager.setClass(original, null));
+    }
+
+    @Test
+    public void getFilteredClassList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredClassList().remove(0));
+    }
+
+    @Test
+    public void updateFilteredClassList_validPredicate_filtersClasses() {
+        seedu.address.model.classes.Class cls1 = new seedu.address.model.classes.Class("CS2103T", "SE");
+        seedu.address.model.classes.Class cls2 = new seedu.address.model.classes.Class("CS2040C", "Algo");
+        modelManager.addClass(cls1);
+        modelManager.addClass(cls2);
+
+        modelManager.updateFilteredClassList(cls -> cls.getClassName().contains("CS2103T"));
+        assertEquals(1, modelManager.getFilteredClassList().size());
+        assertTrue(modelManager.getFilteredClassList().contains(cls1));
+    }
+
+    @Test
+    public void updateFilteredClassList_nullPredicate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.updateFilteredClassList(null));
+    }
+
+    @Test
     public void equals() {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();

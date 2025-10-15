@@ -84,6 +84,61 @@ public class AddressBookTest {
     }
 
     @Test
+    public void hasClass_nullClass_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> addressBook.hasClass(null));
+    }
+
+    @Test
+    public void hasClass_classNotInAddressBook_returnsFalse() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        assertFalse(addressBook.hasClass(cls));
+    }
+
+    @Test
+    public void hasClass_classInAddressBook_returnsTrue() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        addressBook.addClass(cls);
+        assertTrue(addressBook.hasClass(cls));
+    }
+
+    @Test
+    public void addClass_validClass_success() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        addressBook.addClass(cls);
+        assertTrue(addressBook.hasClass(cls));
+    }
+
+    @Test
+    public void removeClass_existingClass_removesClass() {
+        seedu.address.model.classes.Class cls = new seedu.address.model.classes.Class("CS2103T", "SE");
+        addressBook.addClass(cls);
+        addressBook.removeClass(cls);
+        assertFalse(addressBook.hasClass(cls));
+    }
+
+    @Test
+    public void setClass_validClass_success() {
+        seedu.address.model.classes.Class original = new seedu.address.model.classes.Class("CS2103T", "SE");
+        seedu.address.model.classes.Class edited = new seedu.address.model.classes.Class("CS2040C", "Algo");
+        addressBook.addClass(original);
+        addressBook.setClass(original, edited);
+        assertFalse(addressBook.hasClass(original));
+        assertTrue(addressBook.hasClass(edited));
+    }
+
+    @Test
+    public void setClass_nullClass_throwsNullPointerException() {
+        seedu.address.model.classes.Class original = new seedu.address.model.classes.Class("CS2103T", "SE");
+        addressBook.addClass(original);
+        assertThrows(NullPointerException.class, () -> addressBook.setClass(original, null));
+    }
+
+    @Test
+    public void getClassList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> addressBook.getClassList().remove(0));
+    }
+
+    @Test
     public void toStringMethod() {
         String expected = AddressBook.class.getCanonicalName() + "{persons=" + addressBook.getPersonList()
                         + ", classes=" + addressBook.getClassList() + "}";
@@ -95,6 +150,7 @@ public class AddressBookTest {
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<seedu.address.model.classes.Class> classes = FXCollections.observableArrayList();
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
@@ -103,6 +159,10 @@ public class AddressBookTest {
         @Override
         public ObservableList<Person> getPersonList() {
             return persons;
+        }
+
+        public ObservableList<seedu.address.model.classes.Class> getClassList() {
+            return classes;
         }
     }
 }
