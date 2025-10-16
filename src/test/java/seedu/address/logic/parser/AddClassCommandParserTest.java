@@ -62,18 +62,18 @@ public class AddClassCommandParserTest {
 
     @Test
     public void parse_emptyClassNameValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse("cn/   tutor/Ms Lee"));
+        assertThrows(ParseException.class, () -> parser.parse("c/   tutor/Ms Lee"));
     }
 
     @Test
     public void parse_emptyTutorNameValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> parser.parse("cn/Math101 tutor/   "));
+        assertThrows(ParseException.class, () -> parser.parse("c/Math101 tutor/   "));
     }
 
     @Test
     public void parse_validArgsWithExtraWhitespace_returnsAddClassCommand() throws Exception {
         AddClassCommand expected = new AddClassCommand("Math101", "Ms Lee");
-        AddClassCommand result = parser.parse("  cn/Math101   tutor/Ms Lee  ");
+        AddClassCommand result = parser.parse("  c/Math101   tutor/Ms Lee  ");
         assertEquals(expected, result);
     }
 }

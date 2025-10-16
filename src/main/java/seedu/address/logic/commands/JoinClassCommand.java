@@ -91,14 +91,14 @@ public class JoinClassCommand extends Command {
                 throw new CommandException(MESSAGE_STUDENT_ALREADY_IN_CLASS);
             }
             model.addStudentToClass(studentToJoin, tuitionClass);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", className));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", className, personName));
         } else if (toJoin instanceof Tutor) {
             Tutor tutorToJoin = (Tutor) toJoin;
             if (tuitionClass.hasTutor(tutorToJoin)) {
                 throw new CommandException(MESSAGE_TUTOR_ALREADY_ASSIGNED);
             }
             model.assignTutorToClass(tutorToJoin, tuitionClass);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", className));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", className, personName));
         } else {
             throw new CommandException("Only students and tutors can join classes.");
         }
