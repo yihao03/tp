@@ -43,7 +43,7 @@ public class TuitionClass {
      * Constructs a {@code TuitionClass} with the given name and tutor.
      *
      * @param tutor2 non-null class name
-     * @param tutor tutor in charge (nullable)
+     * @param tutor  tutor in charge (nullable)
      */
     public TuitionClass(ClassName name, Tutor tutor) {
         requireNonNull(name);
@@ -103,6 +103,14 @@ public class TuitionClass {
         this.tutor = tutor;
     }
 
+    /**
+     * Checks if a tutor is assigned to this class.
+     */
+    public boolean hasTutor(Tutor tutor) {
+        requireNonNull(tutor);
+        return this.tutor != null && this.tutor.equals(tutor);
+    }
+
     // ---------------------------------------------------------------------
     // Roster
     // ---------------------------------------------------------------------
@@ -120,6 +128,14 @@ public class TuitionClass {
     public void addStudent(Student student) {
         requireNonNull(student);
         students.add(student);
+    }
+
+    /**
+     * Checks if a student is already in the class roster.
+     */
+    public boolean hasStudent(Student student) {
+        requireNonNull(student);
+        return students.contains(student);
     }
 
     /**

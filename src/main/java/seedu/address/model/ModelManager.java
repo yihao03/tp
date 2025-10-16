@@ -13,6 +13,8 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Tutor;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -139,8 +141,14 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addPersonToClass(Person person, TuitionClass c) {
-        c.addPerson(person);
+    public void addStudentToClass(Student student, TuitionClass c) {
+        c.addStudent(student);
+
+    }
+
+    @Override
+    public void assignTutorToClass(Tutor tutor, TuitionClass c) {
+        c.setTutor(tutor);
     }
 
     // =========== Filtered Person List Accessors =============================================================
