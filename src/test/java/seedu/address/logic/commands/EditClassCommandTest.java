@@ -55,6 +55,26 @@ public class EditClassCommandTest {
     }
 
     @Test
+    public void execute_sameClassName_noChangeSuccess() throws CommandException {
+        model.addClass(new TuitionClass(new ClassName("SameName")));
+
+        EditClassCommand editClassCommand = new EditClassCommand("SameName", "SameName");
+        CommandResult result = editClassCommand.execute(model);
+
+        String expectedMessage = String.format(EditClassCommand.MESSAGE_EDIT_CLASS_SUCCESS,
+                "SameName", "SameName");
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+        assertTrue(model.hasClass(new TuitionClass(new ClassName("SameName"))));
+    }
+
+    @Test
+    public void hashCode_sameValues_equalHashCode() {
+        EditClassCommand first = new EditClassCommand("Class1", "Class2");
+        EditClassCommand second = new EditClassCommand("Class1", "Class2");
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
     public void equals() {
         EditClassCommand editClass1 = new EditClassCommand("Class1", "ClassA");
         EditClassCommand editClass2 = new EditClassCommand("Class2", "ClassB");

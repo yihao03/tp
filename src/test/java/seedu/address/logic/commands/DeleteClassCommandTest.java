@@ -45,6 +45,13 @@ public class DeleteClassCommandTest {
     }
 
     @Test
+    public void hashCode_sameClassName_equalHashCode() {
+        DeleteClassCommand first = new DeleteClassCommand("Class1");
+        DeleteClassCommand second = new DeleteClassCommand("Class1");
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
     public void equals() {
         DeleteClassCommand deleteClass1 = new DeleteClassCommand("Class1");
         DeleteClassCommand deleteClass2 = new DeleteClassCommand("Class2");
