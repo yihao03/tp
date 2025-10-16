@@ -50,7 +50,9 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
 
-        // Display the person's role (type) as a chip
-        role.setText(person.getPersonType().toString());
+        // Display the person's role (type) as a chip with role-specific styling
+        String roleType = person.getPersonType().toString();
+        role.setText(roleType);
+        role.getStyleClass().add("role-" + roleType.toLowerCase());
     }
 }
