@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TUTOR;
 
 import java.util.List;
@@ -22,10 +22,10 @@ public class AddClassCommand extends Command {
     public static final String COMMAND_WORD = "addclass";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a class to TutBook.\n"
-            + "Parameters: " + PREFIX_CLASS_NAME + "CLASS_NAME [" + PREFIX_TUTOR + "TUTOR_NAME]\n"
+            + "Parameters: " + PREFIX_CLASS + "CLASS_NAME [" + PREFIX_TUTOR + "TUTOR_NAME]\n"
             + "Examples:\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_CLASS_NAME + "Sec2-Math-A\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_CLASS_NAME + "Sec2-Math-A " + PREFIX_TUTOR + "Ms Lim";
+            + "  " + COMMAND_WORD + " " + PREFIX_CLASS + "Sec2-Math-A\n"
+            + "  " + COMMAND_WORD + " " + PREFIX_CLASS + "Sec2-Math-A " + PREFIX_TUTOR + "Ms Lim";
 
     public static final String MESSAGE_SUCCESS = "New class added: %1$s";
     public static final String MESSAGE_DUPLICATE_CLASS = "This class already exists.";

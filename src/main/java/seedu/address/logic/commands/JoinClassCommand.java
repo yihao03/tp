@@ -24,7 +24,7 @@ public class JoinClassCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a student or tutor to a class. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
-            + PREFIX_CLASS + "CLASS ";
+            + PREFIX_CLASS + "CLASS";
 
     public static final String MESSAGE_SUCCESS = "%s added to class %s: %s";
     public static final String MESSAGE_PERSON_NOT_EXIST = "This person does not exist in the address book";
