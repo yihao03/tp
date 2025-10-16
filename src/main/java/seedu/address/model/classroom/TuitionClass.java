@@ -50,6 +50,10 @@ public class TuitionClass {
         requireNonNull(name);
         this.name = name;
         this.tutor = tutor;
+        // Register this class with the tutor if not null
+        if (tutor != null) {
+            tutor.addClass(this);
+        }
     }
 
     // ---------------------------------------------------------------------

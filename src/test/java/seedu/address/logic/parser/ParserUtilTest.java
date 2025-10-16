@@ -215,4 +215,50 @@ public class ParserUtilTest {
         assertThrows(ParseException.class, () -> ParserUtil.parsePersonType("unknown"));
         assertThrows(ParseException.class, () -> ParserUtil.parsePersonType(""));
     }
+
+    @Test
+    public void parseClassName_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseClassName(null));
+    }
+
+    @Test
+    public void parseClassName_emptyString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseClassName(""));
+        assertThrows(ParseException.class, () -> ParserUtil.parseClassName("   "));
+    }
+
+    @Test
+    public void parseClassName_validValueWithoutWhitespace_returnsClassName() throws Exception {
+        String validClassName = "Math101";
+        assertEquals(validClassName, ParserUtil.parseClassName(validClassName));
+    }
+
+    @Test
+    public void parseClassName_validValueWithWhitespace_returnsTrimmedClassName() throws Exception {
+        String classNameWithWhitespace = WHITESPACE + "Math101" + WHITESPACE;
+        assertEquals("Math101", ParserUtil.parseClassName(classNameWithWhitespace));
+    }
+
+    @Test
+    public void parseTutorName_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseTutorName(null));
+    }
+
+    @Test
+    public void parseTutorName_emptyString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTutorName(""));
+        assertThrows(ParseException.class, () -> ParserUtil.parseTutorName("   "));
+    }
+
+    @Test
+    public void parseTutorName_validValueWithoutWhitespace_returnsTutorName() throws Exception {
+        String validTutorName = "Ms Lee";
+        assertEquals(validTutorName, ParserUtil.parseTutorName(validTutorName));
+    }
+
+    @Test
+    public void parseTutorName_validValueWithWhitespace_returnsTrimmedTutorName() throws Exception {
+        String tutorNameWithWhitespace = WHITESPACE + "Ms Lee" + WHITESPACE;
+        assertEquals("Ms Lee", ParserUtil.parseTutorName(tutorNameWithWhitespace));
+    }
 }

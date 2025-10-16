@@ -46,24 +46,80 @@ public class AddClassCommandTest {
     }
 
     @Test
+    public void execute_classWithTutor_addSuccessful() throws Exception {
+        Model model = new ModelManager(new AddressBook(), new UserPrefs());
+
+        seedu.address.model.person.Tutor tutor = new seedu.address.model.person.Tutor(
+                new seedu.address.model.person.Name("Ms Lee"),
+                new seedu.address.model.person.Phone("98765432"),
+                new seedu.address.model.person.Email("lee@example.com"),
+                new seedu.address.model.person.Address("456 School St"),
+                new java.util.HashSet<>()
+        );
+        model.addPerson(tutor);
+
+        CommandResult commandResult = new AddClassCommand("Sec1-Math-A", "Ms Lee").execute(model);
+
+        assertTrue(commandResult.getFeedbackToUser().contains("New class added"));
+        assertTrue(model.hasClass(new TuitionClass(new ClassName("Sec1-Math-A"))));
+    }
+
+    @Test
+    public void execute_tutorNotFound_throwsCommandException() {
+        Model model = new ModelManager(new AddressBook(), new UserPrefs());
+        AddClassCommand command = new AddClassCommand("Sec1-Math-A", "NonExistent Tutor");
+
+        assertThrows(CommandException.class, () -> command.execute(model));
+    }
+
+    @Test
+    public void execute_ambiguousTutor_throwsCommandException() {
+        Model model = new ModelManager(new AddressBook(), new UserPrefs());
+
+        seedu.address.model.person.Tutor tutor1 = new seedu.address.model.person.Tutor(
+                new seedu.address.model.person.Name("Jane Doe"),
+                new seedu.address.model.person.Phone("98765432"),
+                new seedu.address.model.person.Email("jane@example.com"),
+                new seedu.address.model.person.Address("456 School St"),
+                new java.util.HashSet<>()
+        );
+        seedu.address.model.person.Tutor tutor2 = new seedu.address.model.person.Tutor(
+                new seedu.address.model.person.Name("jane doe"),
+                new seedu.address.model.person.Phone("91234567"),
+                new seedu.address.model.person.Email("janedoe@example.com"),
+                new seedu.address.model.person.Address("789 College Rd"),
+                new java.util.HashSet<>()
+        );
+        model.addPerson(tutor1);
+        model.addPerson(tutor2);
+
+        AddClassCommand command = new AddClassCommand("Sec1-Math-A", "Jane Doe");
+        assertThrows(CommandException.class, () -> command.execute(model));
+    }
+
+    @Test
     public void equals() {
         AddClassCommand addClassCommand = new AddClassCommand("Sec1-Math-A");
         AddClassCommand addClassCommandCopy = new AddClassCommand("Sec1-Math-A");
         AddClassCommand addClassCommandDifferent = new AddClassCommand("Sec2-Math-B");
+        AddClassCommand addClassCommandWithTutor = new AddClassCommand("Sec1-Math-A", "Ms Lee");
+        AddClassCommand addClassCommandWithTutorCopy = new AddClassCommand("Sec1-Math-A", "Ms Lee");
+        AddClassCommand addClassCommandWithDifferentTutor = new AddClassCommand("Sec1-Math-A", "Mr Smith");
 
-        // same object -> returns true
         assertTrue(addClassCommand.equals(addClassCommand));
 
-        // same values -> returns true
         assertTrue(addClassCommand.equals(addClassCommandCopy));
 
-        // different types -> returns false
         assertFalse(addClassCommand.equals(1));
 
-        // null -> returns false
         assertFalse(addClassCommand.equals(null));
 
-        // different class name -> returns false
         assertFalse(addClassCommand.equals(addClassCommandDifferent));
+
+        assertFalse(addClassCommand.equals(addClassCommandWithTutor));
+
+        assertTrue(addClassCommandWithTutor.equals(addClassCommandWithTutorCopy));
+
+        assertFalse(addClassCommandWithTutor.equals(addClassCommandWithDifferentTutor));
     }
 }
