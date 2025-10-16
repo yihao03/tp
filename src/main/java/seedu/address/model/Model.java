@@ -58,6 +58,7 @@ public interface Model {
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
     boolean hasPerson(Person person);
+
     /**
      * Returns true if a tuitionClass with the same identity as {@code tuitionClass} exists in the address book.
      */
@@ -93,6 +94,11 @@ public interface Model {
      * The class identity of {@code editedClass} must not be the same as another existing class in the address book.
      */
     void setClass(TuitionClass target, TuitionClass editedClass);
+     * Adds the given person to the specified class.
+     * {@code person} must already exist in the address book.
+     * {@code toJoin} must already exist in the address book.
+     */
+    void addPersonToClass(Person person, TuitionClass toJoin);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
@@ -109,12 +115,14 @@ public interface Model {
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     * 
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
      * Updates the filter of the filtered class list to filter by the given {@code class}.
+     * 
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredClassList(Predicate<TuitionClass> predicate);
