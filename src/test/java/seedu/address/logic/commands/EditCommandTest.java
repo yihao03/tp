@@ -24,7 +24,13 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.classroom.ClassName;
+import seedu.address.model.classroom.TuitionClass;
+import seedu.address.model.person.Parent;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonType;
+import seedu.address.model.person.Student;
+import seedu.address.model.person.Tutor;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 
@@ -56,10 +62,10 @@ public class EditCommandTest {
 
         PersonBuilder personInList = new PersonBuilder(lastPerson);
         Person editedPerson = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withTags(VALID_TAG_HUSBAND).build();
+                        .withTags(VALID_TAG_HUSBAND).build();
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
+                        .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditCommand(indexLastPerson, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
@@ -89,7 +95,7 @@ public class EditCommandTest {
         Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
-                new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                        new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
 
@@ -115,7 +121,7 @@ public class EditCommandTest {
         // edit person in filtered list into a duplicate in address book
         Person personInList = model.getAddressBook().getPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
-                new EditPersonDescriptorBuilder(personInList).build());
+                        new EditPersonDescriptorBuilder(personInList).build());
 
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
     }
@@ -141,7 +147,7 @@ public class EditCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
 
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
-                new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                        new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
@@ -177,8 +183,274 @@ public class EditCommandTest {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         EditCommand editCommand = new EditCommand(index, editPersonDescriptor);
         String expected = EditCommand.class.getCanonicalName() + "{index=" + index + ", editPersonDescriptor="
-                + editPersonDescriptor + "}";
+                        + editPersonDescriptor + "}";
         assertEquals(expected, editCommand.toString());
+    }
+
+    @Test
+    public void execute_editStudentWithoutTypeChange_maintainsBidirectionalRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create parent and student
+        Person parent = new PersonBuilder().withName("Parent").withPhone("91234567")
+                .withPersonType(PersonType.PARENT).build();
+        Person student = new PersonBuilder().withName("Student").withPhone("98765432")
+                .withPersonType(PersonType.STUDENT).build();
+
+        modelWithRelationships.addPerson(parent);
+        modelWithRelationships.addPerson(student);
+
+        // Establish relationship
+        Student studentCast = (Student) student;
+        Parent parentCast = (Parent) parent;
+        studentCast.addParent(parentCast);
+
+        // Edit student's phone
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone("99999999").build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get edited student
+        Person editedStudent = modelWithRelationships.getFilteredPersonList().get(1);
+
+        // Verify bidirectional relationship maintained
+        assertTrue(((Student) editedStudent).getParents().contains(parent));
+        assertTrue(((Parent) parent).getChildren().contains(editedStudent));
+    }
+
+    @Test
+    public void execute_editParentWithoutTypeChange_maintainsBidirectionalRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create parent and student
+        Person parent = new PersonBuilder().withName("Parent").withPhone("91234567")
+                .withPersonType(PersonType.PARENT).build();
+        Person student = new PersonBuilder().withName("Student").withPhone("98765432")
+                .withPersonType(PersonType.STUDENT).build();
+
+        modelWithRelationships.addPerson(parent);
+        modelWithRelationships.addPerson(student);
+
+        // Establish relationship
+        Parent parentCast = (Parent) parent;
+        Student studentCast = (Student) student;
+        parentCast.addChild(studentCast);
+
+        // Edit parent's phone
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone("99999999").build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get edited parent
+        Person editedParent = modelWithRelationships.getFilteredPersonList().get(0);
+
+        // Verify bidirectional relationship maintained
+        assertTrue(((Parent) editedParent).getChildren().contains(student));
+        assertTrue(((Student) student).getParents().contains(editedParent));
+    }
+
+    @Test
+    public void execute_changeStudentToTutor_removesRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create parent and student
+        Person parent = new PersonBuilder().withName("Parent").withPhone("91234567")
+                .withPersonType(PersonType.PARENT).build();
+        Person student = new PersonBuilder().withName("Student").withPhone("98765432")
+                .withPersonType(PersonType.STUDENT).build();
+
+        modelWithRelationships.addPerson(parent);
+        modelWithRelationships.addPerson(student);
+
+        // Establish relationship
+        Student studentCast = (Student) student;
+        Parent parentCast = (Parent) parent;
+        studentCast.addParent(parentCast);
+
+        // Change student to tutor
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPersonType(PersonType.TUTOR).build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(2), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get parent from model (it should still be a Parent)
+        Person parentFromModel = modelWithRelationships.getFilteredPersonList().get(0);
+
+        // Verify parent no longer has student as child
+        assertEquals(0, ((Parent) parentFromModel).getChildren().size());
+    }
+
+    @Test
+    public void execute_editTutor_noRelationshipLogic() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create a tutor
+        Person tutor = new PersonBuilder().withName("Tutor").withPhone("91234567")
+                .withPersonType(PersonType.TUTOR).build();
+
+        modelWithRelationships.addPerson(tutor);
+
+        // Edit tutor's phone
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone("99999999").build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get edited tutor
+        Person editedTutor = modelWithRelationships.getFilteredPersonList().get(0);
+
+        // Verify tutor was edited (no relationship logic should execute for tutors)
+        assertEquals(PersonType.TUTOR, editedTutor.getPersonType());
+    }
+
+    @Test
+    public void execute_changeParentToTutor_removesRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create parent and student
+        Person parent = new PersonBuilder().withName("Parent").withPhone("91234567")
+                .withPersonType(PersonType.PARENT).build();
+        Person student = new PersonBuilder().withName("Student").withPhone("98765432")
+                .withPersonType(PersonType.STUDENT).build();
+
+        modelWithRelationships.addPerson(parent);
+        modelWithRelationships.addPerson(student);
+
+        // Establish relationship
+        Parent parentCast = (Parent) parent;
+        Student studentCast = (Student) student;
+        parentCast.addChild(studentCast);
+
+        // Change parent to tutor
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPersonType(PersonType.TUTOR).build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get student from model (it should still be a Student)
+        Person studentFromModel = modelWithRelationships.getFilteredPersonList().get(1);
+
+        // Verify student no longer has parent
+        assertEquals(0, ((Student) studentFromModel).getParents().size());
+    }
+
+    @Test
+    public void execute_editStudentWithoutTypeChange_maintainsTuitionClassRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create student and tuition class
+        Person student = new PersonBuilder().withName("Student").withPhone("98765432")
+                .withPersonType(PersonType.STUDENT).build();
+
+        modelWithRelationships.addPerson(student);
+
+        // Create tuition class and establish relationship
+        TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
+        Student studentCast = (Student) student;
+        tuitionClass.addStudent(studentCast);
+
+        // Edit student's phone
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone("99999999").build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get edited student
+        Person editedStudent = modelWithRelationships.getFilteredPersonList().get(0);
+
+        // Verify bidirectional relationship maintained
+        assertTrue(((Student) editedStudent).getTuitionClasses().contains(tuitionClass));
+        assertTrue(tuitionClass.getStudents().contains(editedStudent));
+    }
+
+    @Test
+    public void execute_editTutorWithoutTypeChange_maintainsTuitionClassRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create tutor and tuition class
+        Person tutor = new PersonBuilder().withName("Tutor").withPhone("91234567")
+                .withPersonType(PersonType.TUTOR).build();
+
+        modelWithRelationships.addPerson(tutor);
+
+        // Create tuition class and establish relationship
+        TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
+        Tutor tutorCast = (Tutor) tutor;
+        tuitionClass.setTutor(tutorCast);
+
+        // Edit tutor's phone
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone("99999999").build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get edited tutor
+        Person editedTutor = modelWithRelationships.getFilteredPersonList().get(0);
+
+        // Verify bidirectional relationship maintained
+        assertTrue(((Tutor) editedTutor).getTuitionClasses().contains(tuitionClass));
+        assertEquals(editedTutor, tuitionClass.getTutor());
+    }
+
+    @Test
+    public void execute_changeStudentToParent_removesTuitionClassRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create student and tuition class
+        Person student = new PersonBuilder().withName("Student").withPhone("98765432")
+                .withPersonType(PersonType.STUDENT).build();
+
+        modelWithRelationships.addPerson(student);
+
+        // Create tuition class and establish relationship
+        TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
+        Student studentCast = (Student) student;
+        tuitionClass.addStudent(studentCast);
+
+        // Change student to parent
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPersonType(PersonType.PARENT).build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Verify tuition class no longer has student
+        assertEquals(0, tuitionClass.getStudents().size());
+    }
+
+    @Test
+    public void execute_changeTutorToStudent_removesTuitionClassRelationships() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create tutor and tuition class
+        Person tutor = new PersonBuilder().withName("Tutor").withPhone("91234567")
+                .withPersonType(PersonType.TUTOR).build();
+
+        modelWithRelationships.addPerson(tutor);
+
+        // Create tuition class and establish relationship
+        TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
+        Tutor tutorCast = (Tutor) tutor;
+        tuitionClass.setTutor(tutorCast);
+
+        // Change tutor to student
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPersonType(PersonType.STUDENT).build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Verify tuition class no longer has tutor
+        assertFalse(tuitionClass.isAssignedToTutor());
     }
 
 }

@@ -17,6 +17,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.PersonType;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -43,8 +44,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseIndex_outOfRangeInput_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, ()
-            -> ParserUtil.parseIndex(Long.toString(Integer.MAX_VALUE + 1)));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil
+                        .parseIndex(Long.toString(Integer.MAX_VALUE + 1)));
     }
 
     @Test
@@ -178,7 +179,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseTags_collectionWithInvalidTags_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, INVALID_TAG)));
+        assertThrows(ParseException.class, () -> ParserUtil
+                        .parseTags(Arrays.asList(VALID_TAG_1, INVALID_TAG)));
     }
 
     @Test
@@ -189,8 +191,74 @@ public class ParserUtilTest {
     @Test
     public void parseTags_collectionWithValidTags_returnsTagSet() throws Exception {
         Set<Tag> actualTagSet = ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
-        Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
+        Set<Tag> expectedTagSet = new HashSet<Tag>(
+                        Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parsePersonType_validLowercase_returnsEnum() throws Exception {
+        assertEquals(PersonType.STUDENT, ParserUtil.parsePersonType("student"));
+        assertEquals(PersonType.TUTOR, ParserUtil.parsePersonType("tutor"));
+        assertEquals(PersonType.PARENT, ParserUtil.parsePersonType("parent"));
+    }
+
+    @Test
+    public void parsePersonType_validMixedCaseAndWhitespace_returnsEnum() throws Exception {
+        assertEquals(PersonType.TUTOR, ParserUtil.parsePersonType("  TuToR "));
+        assertEquals(PersonType.PARENT, ParserUtil.parsePersonType("\tPARENT\n"));
+    }
+
+    @Test
+    public void parsePersonType_invalid_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parsePersonType("unknown"));
+        assertThrows(ParseException.class, () -> ParserUtil.parsePersonType(""));
+    }
+
+    @Test
+    public void parseClassName_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseClassName(null));
+    }
+
+    @Test
+    public void parseClassName_emptyString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseClassName(""));
+        assertThrows(ParseException.class, () -> ParserUtil.parseClassName("   "));
+    }
+
+    @Test
+    public void parseClassName_validValueWithoutWhitespace_returnsClassName() throws Exception {
+        String validClassName = "Math101";
+        assertEquals(validClassName, ParserUtil.parseClassName(validClassName));
+    }
+
+    @Test
+    public void parseClassName_validValueWithWhitespace_returnsTrimmedClassName() throws Exception {
+        String classNameWithWhitespace = WHITESPACE + "Math101" + WHITESPACE;
+        assertEquals("Math101", ParserUtil.parseClassName(classNameWithWhitespace));
+    }
+
+    @Test
+    public void parseTutorName_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseTutorName(null));
+    }
+
+    @Test
+    public void parseTutorName_emptyString_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTutorName(""));
+        assertThrows(ParseException.class, () -> ParserUtil.parseTutorName("   "));
+    }
+
+    @Test
+    public void parseTutorName_validValueWithoutWhitespace_returnsTutorName() throws Exception {
+        String validTutorName = "Ms Lee";
+        assertEquals(validTutorName, ParserUtil.parseTutorName(validTutorName));
+    }
+
+    @Test
+    public void parseTutorName_validValueWithWhitespace_returnsTrimmedTutorName() throws Exception {
+        String tutorNameWithWhitespace = WHITESPACE + "Ms Lee" + WHITESPACE;
+        assertEquals("Ms Lee", ParserUtil.parseTutorName(tutorNameWithWhitespace));
     }
 }
