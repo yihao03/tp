@@ -5,6 +5,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.ArrayList;
 import java.util.Set;
 
+import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -24,6 +25,11 @@ public class Student extends Person {
      * and may contain duplicates.
      */
     private ArrayList<Parent> parents = new ArrayList<>();
+
+    /**
+     * Tuition classes this student is enrolled in.
+     */
+    private ArrayList<TuitionClass> tuitionClasses = new ArrayList<>();
 
     /**
      * Constructs a {@code Student}.
@@ -60,6 +66,36 @@ public class Student extends Person {
         return parents;
     }
 
+    public ArrayList<TuitionClass> getTuitionClasses() {
+        return tuitionClasses;
+    }
+
+    /**
+     * Adds this student to a tuition class if not already enrolled.
+     */
+    public void addClass(TuitionClass tuitionClass) {
+        if (!tuitionClasses.contains(tuitionClass)) {
+            tuitionClasses.add(tuitionClass);
+        }
+    }
+
+    /**
+     * Removes this student from a tuition class.
+     * @throws PersonNotFoundException if not enrolled in this class
+     */
+    public void removeClass(TuitionClass tuitionClass) {
+        if (!tuitionClasses.remove(tuitionClass)) {
+            throw new PersonNotFoundException();
+        }
+    }
+
+    /**
+     * Removes this student from all tuition classes.
+     */
+    public void removeFromAllClasses() {
+        tuitionClasses.forEach(tuitionClass -> tuitionClass.removeStudent(this));
+    }
+
     /**
      * Changes the parent to the newly appointed parent
      */
@@ -91,16 +127,23 @@ public class Student extends Person {
     }
 
     /**
+     * Changes all tuition classes' student to point to the newly editedStudent instead
+     * and populates the editedStudent's tuitionClasses list.
+     */
+    public void editTuitionClassMappings(Student editedStudent) {
+        tuitionClasses.forEach(tuitionClass -> {
+            tuitionClass.setStudent(this, editedStudent);
+            editedStudent.tuitionClasses.add(tuitionClass);
+        });
+    }
+
+    /**
      * Remove parent from parents list
      */
     public void removeParent(Parent parentToRemove) {
-
-        int index = parents.indexOf(parentToRemove);
-        if (index == -1) {
+        if (!parents.remove(parentToRemove)) {
             throw new PersonNotFoundException();
         }
-
-        parents.remove(index);
     }
 
     /**
@@ -108,6 +151,34 @@ public class Student extends Person {
      */
     public void removeChildFromParents() {
         parents.forEach(parent -> parent.removeChild(this));
+    }
+
+    /**
+     * Delete student
+     */
+    @Override
+    public void delete() {
+        // Remove instance of this student from related parents
+        this.removeChildFromParents();
+        // Remove instance of student from related TuitionClass-es
+        this.removeFromAllClasses();
+    }
+
+    /**
+     * Handles editing of this student by updating or removing relationships.
+     */
+    @Override
+    public void handleEdit(Person editedPerson, boolean isTypeEdited) {
+        if (isTypeEdited) {
+            // Type changed, remove this student from all parents and classes
+            this.removeChildFromParents();
+            this.removeFromAllClasses();
+        } else {
+            // Type unchanged, update bidirectional relationships
+            Student editedStudent = (Student) editedPerson;
+            this.editParentToChildMappings(editedStudent);
+            this.editTuitionClassMappings(editedStudent);
+        }
     }
 
     /**

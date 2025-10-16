@@ -89,12 +89,30 @@ public class Parent extends Person {
      * Remove child from children list
      */
     public void removeChild(Student childToRemove) {
-        int index = children.indexOf(childToRemove);
-        if (index == -1) {
+        if (!children.remove(childToRemove)) {
             throw new PersonNotFoundException();
         }
+    }
 
-        children.remove(index);
+    @Override
+    public void delete() {
+        // Remove this parent from associated children
+        this.removeParentFromChildren();
+    }
+
+    /**
+     * Handles editing of this parent by updating or removing relationships.
+     */
+    @Override
+    public void handleEdit(Person editedPerson, boolean isTypeEdited) {
+        if (isTypeEdited) {
+            // Type changed, remove this parent from all children
+            this.removeParentFromChildren();
+        } else {
+            // Type unchanged, update bidirectional relationships
+            Parent editedParent = (Parent) editedPerson;
+            this.editChildToParentMappings(editedParent);
+        }
     }
 
 

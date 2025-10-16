@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Represents a tuition class in the address book.
@@ -42,7 +43,7 @@ public class TuitionClass {
     /**
      * Constructs a {@code TuitionClass} with the given name and tutor.
      *
-     * @param tutor2 non-null class name
+     * @param name non-null class name
      * @param tutor tutor in charge (nullable)
      */
     public TuitionClass(ClassName name, Tutor tutor) {
@@ -73,6 +74,9 @@ public class TuitionClass {
         return other != null && name.equals(other.name);
     }
 
+    /**
+     * Returns true if both classes have the same identity fields.
+     */
     @Override
     public boolean equals(Object other) {
         return other == this
@@ -86,7 +90,7 @@ public class TuitionClass {
 
     @Override
     public String toString() {
-        String tutorStr = (tutor == null) ? "Unassigned" : tutor.getName().fullName;
+        String tutorStr = !this.isAssignedToTutor() ? "Unassigned" : tutor.getName().fullName;
         return String.format("TuitionClass{name=%s, tutor=%s, students=%d, sessions=%d}",
                 name.value, tutorStr, students.size(), sessions.size());
     }
@@ -95,12 +99,46 @@ public class TuitionClass {
     // Tutor
     // ---------------------------------------------------------------------
 
+    /**
+     * Returns the tutor assigned to this class.
+     */
     public Tutor getTutor() {
         return tutor;
     }
 
+    /**
+     * Checks if this class has an assigned tutor.
+     */
+    public boolean isAssignedToTutor() {
+        return tutor != null;
+    }
+
+    /**
+     * Assigns a tutor to this tuition class.
+     * Replaces any existing tutor assignment.
+     */
     public void setTutor(Tutor tutor) {
+        // Remove from old tutor's class list if exists
+        if (this.tutor != null) {
+            this.tutor.removeClass(this);
+        }
+        // Assign new tutor
         this.tutor = tutor;
+        // Add to new tutor's class list if not null
+        if (tutor != null) {
+            tutor.addClass(this);
+        }
+    }
+
+    /**
+     * Removes the tutor from this tuition class.
+     * @throws PersonNotFoundException if no tutor is assigned
+     */
+    public void removeTutor(Tutor tutorToRemove) {
+        if (this.tutor == null || !this.tutor.equals(tutorToRemove)) {
+            throw new PersonNotFoundException();
+        }
+        this.tutor = null;
     }
 
     // ---------------------------------------------------------------------
@@ -115,19 +153,40 @@ public class TuitionClass {
     }
 
     /**
-     * Add student to student list
+     * Adds a student to this tuition class if not already present.
      */
     public void addStudent(Student student) {
-        requireNonNull(student);
-        students.add(student);
+        if (!students.contains(student)) {
+            students.add(student);
+            student.addClass(this);
+        }
     }
 
     /**
-     * Remove student from student list
+     * Removes a student from this tuition class.
+     * @throws PersonNotFoundException if student is not in this class
      */
     public void removeStudent(Student student) {
         requireNonNull(student);
-        students.remove(student);
+        if (!students.remove(student)) {
+            throw new PersonNotFoundException();
+        }
+    }
+
+    /**
+     * Replaces the target student with the edited student.
+     * @throws PersonNotFoundException if target student is not in this class
+     */
+    public void setStudent(Student target, Student editedStudent) {
+        requireNonNull(target);
+        requireNonNull(editedStudent);
+
+        int index = students.indexOf(target);
+        if (index == -1) {
+            throw new PersonNotFoundException();
+        }
+
+        students.set(index, editedStudent);
     }
 
     // ---------------------------------------------------------------------
