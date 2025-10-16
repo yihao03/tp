@@ -45,4 +45,19 @@ public class JoinClassCommandParserTest {
     public void parse_invalidPreamble_throwsParseException() {
         assertThrows(ParseException.class, () -> parser.parse("extra c/CS2103T n/Alice Tan"));
     }
+
+    @Test
+    public void parse_missingAllPrefixes_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse("some random text"));
+    }
+
+    @Test
+    public void parse_onlyClassPrefix_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse("c/CS2103T"));
+    }
+
+    @Test
+    public void parse_onlyNamePrefix_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse("n/Alice Tan"));
+    }
 }

@@ -137,6 +137,13 @@ public class ModelManagerTest {
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
+
+        // different filteredClasses -> returns false
+        ModelManager modelManagerWithClass = new ModelManager(addressBook, userPrefs);
+        TuitionClass testClass = new TuitionClass(new ClassName("TestClass"));
+        modelManagerWithClass.addClass(testClass);
+        modelManagerWithClass.updateFilteredClassList(c -> c.getName().value.equals("TestClass"));
+        assertFalse(modelManager.equals(modelManagerWithClass));
     }
 
     @Test
