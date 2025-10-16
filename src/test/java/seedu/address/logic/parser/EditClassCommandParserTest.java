@@ -1,11 +1,14 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OLD_CLASS;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditClassCommand;
 
 public class EditClassCommandParserTest {
@@ -46,6 +49,15 @@ public class EditClassCommandParserTest {
 
         assertParseFailure(parser, "extra o/Math101 c/Mathematics101",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditClassCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_duplicatePrefixes_throwsParseException() {
+        assertParseFailure(parser, " o/Math101 o/Math102 c/NewName",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_OLD_CLASS));
+
+        assertParseFailure(parser, " o/Math101 c/NewName c/AnotherName",
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_CLASS));
     }
 
     @Test

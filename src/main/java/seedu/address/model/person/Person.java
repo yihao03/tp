@@ -131,6 +131,16 @@ public abstract class Person {
 
         return otherPerson != null && otherPerson.getName().equals(getName());
     }
+    // Abstract method for deletion
+    public abstract void delete();
+
+    /**
+     * Handles the editing of this person by updating or removing relationships.
+     *
+     * @param editedPerson The newly edited person with updated details.
+     * @param isTypeEdited Whether the person's type has changed.
+     */
+    public abstract void handleEdit(Person editedPerson, boolean isTypeEdited);
 
     /**
      * Returns true if both persons have the same identity and data fields. This

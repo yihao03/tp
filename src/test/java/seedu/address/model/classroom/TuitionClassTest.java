@@ -138,4 +138,131 @@ public class TuitionClassTest {
                 new Address("Somewhere"), new HashSet<>());
         assertFalse(tuitionClass.hasTutor(other));
     }
+
+    @Test
+    @DisplayName("setTutor updates tutor successfully")
+    void setTutor_updatesTutor() {
+        Set<Tag> emptyTags = new HashSet<>();
+        Tutor newTutor = new Tutor(
+                new Name("Mr Brown"),
+                new Phone("99887766"),
+                new Email("brown@example.com"),
+                new Address("123 New Street"),
+                emptyTags
+        );
+
+        tuitionClass.setTutor(newTutor);
+        assertEquals(newTutor, tuitionClass.getTutor());
+    }
+
+    @Test
+    @DisplayName("getTutor returns correct tutor")
+    void getTutor_returnsCorrectTutor() {
+        assertEquals(tutor, tuitionClass.getTutor());
+    }
+
+    @Test
+    @DisplayName("getName returns correct ClassName object")
+    void getName_returnsCorrectClassName() {
+        assertEquals(new ClassName("CS2103T T12"), tuitionClass.getName());
+    }
+
+    @Test
+    @DisplayName("getClassName returns correct string value")
+    void getClassName_returnsCorrectString() {
+        assertEquals("CS2103T T12", tuitionClass.getClassName());
+    }
+
+    @Test
+    @DisplayName("isSameClass returns true for same class name")
+    void isSameClass_sameClassName_returnsTrue() {
+        TuitionClass otherClass = new TuitionClass(new ClassName("CS2103T T12"));
+        assertTrue(tuitionClass.isSameClass(otherClass));
+    }
+
+    @Test
+    @DisplayName("isSameClass returns false for different class name")
+    void isSameClass_differentClassName_returnsFalse() {
+        TuitionClass otherClass = new TuitionClass(new ClassName("CS2103T T13"));
+        assertFalse(tuitionClass.isSameClass(otherClass));
+    }
+
+    @Test
+    @DisplayName("isSameClass returns false for null")
+    void isSameClass_null_returnsFalse() {
+        assertFalse(tuitionClass.isSameClass(null));
+    }
+
+    @Test
+    @DisplayName("equals returns true for same object")
+    void equals_sameObject_returnsTrue() {
+        assertTrue(tuitionClass.equals(tuitionClass));
+    }
+
+    @Test
+    @DisplayName("equals returns false for null")
+    void equals_null_returnsFalse() {
+        assertFalse(tuitionClass.equals(null));
+    }
+
+    @Test
+    @DisplayName("equals returns false for different type")
+    void equals_differentType_returnsFalse() {
+        assertFalse(tuitionClass.equals("not a class"));
+    }
+
+    @Test
+    @DisplayName("equals returns true for same class name")
+    void equals_sameClassName_returnsTrue() {
+        TuitionClass otherClass = new TuitionClass(new ClassName("CS2103T T12"));
+        assertTrue(tuitionClass.equals(otherClass));
+    }
+
+    @Test
+    @DisplayName("equals returns false for different class name")
+    void equals_differentClassName_returnsFalse() {
+        TuitionClass otherClass = new TuitionClass(new ClassName("CS2103T T13"));
+        assertFalse(tuitionClass.equals(otherClass));
+    }
+
+    @Test
+    @DisplayName("hashCode is consistent")
+    void hashCode_isConsistent() {
+        int hash1 = tuitionClass.hashCode();
+        int hash2 = tuitionClass.hashCode();
+        assertEquals(hash1, hash2);
+    }
+
+    @Test
+    @DisplayName("hashCode is same for equal objects")
+    void hashCode_equalObjects_sameHashCode() {
+        TuitionClass otherClass = new TuitionClass(new ClassName("CS2103T T12"));
+        assertEquals(tuitionClass.hashCode(), otherClass.hashCode());
+    }
+
+    @Test
+    @DisplayName("toString contains class information")
+    void toString_containsClassInfo() {
+        String result = tuitionClass.toString();
+        assertTrue(result.contains("CS2103T T12"));
+        assertTrue(result.contains("Mr Smith"));
+    }
+
+    @Test
+    @DisplayName("toString shows Unassigned for null tutor")
+    void toString_nullTutor_showsUnassigned() {
+        TuitionClass classWithoutTutor = new TuitionClass(new ClassName("Math101"));
+        String result = classWithoutTutor.toString();
+        assertTrue(result.contains("Unassigned"));
+    }
+
+    @Test
+    @DisplayName("Constructor without tutor initializes correctly")
+    void constructor_withoutTutor_initializesCorrectly() {
+        TuitionClass classWithoutTutor = new TuitionClass(new ClassName("Math101"));
+        assertEquals("Math101", classWithoutTutor.getClassName());
+        assertEquals(null, classWithoutTutor.getTutor());
+        assertTrue(classWithoutTutor.getStudents().isEmpty());
+        assertTrue(classWithoutTutor.getAllSessions().isEmpty());
+    }
 }
