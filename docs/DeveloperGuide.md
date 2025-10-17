@@ -288,17 +288,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | admin                                      | prevent duplicate student records when adding | keep the data accurate                               |
 | `* * *`  | admin                                      | update any contact's information | always have their latest details                                    |
 | `* * *`  | admin                                      | view all contacts              | have easy access to all information                                   |
-| `* * *`  | admin                                      | search for parents by their child's name | quickly locate linked contacts                         |
-| `* * *`  | admin                                      | filter tutors and students by subjects | plan and allocate classes                                    |
-| `* * *`  | admin                                      | see contacts of students and tutors for each class | track the status of each class                    |
-| `* * *`  | admin                                      | see all assigned students under teachers' profiles | manage their classes easily                       |
+| `* * *`  | admin                                      | filter contacts by role (student/tutor/parent) | quickly view specific groups of people                |
+| `* * *`  | admin                                      | search for contacts by name    | quickly locate specific people                                        |
+| `* * *`  | admin                                      | link parents to students       | establish and track family relationships                              |
+| `* * *`  | admin                                      | view all children of a parent  | see family groupings at a glance                                      |
+| `* * *`  | admin                                      | view all children (students) in the system | get an overview of all students with parents            |
+| `* * *`  | admin                                      | create classes                 | organize students and tutors into teaching groups                     |
+| `* * *`  | admin                                      | assign tutors to classes       | track which tutor is teaching each class                              |
+| `* * *`  | admin                                      | add students to classes        | manage class rosters efficiently                                      |
+| `* * *`  | admin                                      | view all classes with enrolled students | see the full class roster at a glance                        |
+| `* * *`  | admin                                      | rename classes                 | keep class names current as terms progress                            |
+| `* * *`  | admin                                      | delete classes                 | remove outdated or cancelled classes                                  |
+| `* * *`  | admin                                      | see role indicators for each contact | quickly identify whether someone is a student, tutor, or parent |
 | `* *`    | admin                                      | link parents to multiple children | only need one contact profile to manage all tuition-related information |
-| `* *`    | admin                                      | assign tutors to multiple subjects | reflect real-world teaching responsibilities                      |
-| `* *`    | admin                                      | record attendance for each student | don't need a separate sheet                                       |
+| `* *`    | admin                                      | assign tutors to multiple classes | reflect real-world teaching responsibilities                      |
+| `* *`    | admin                                      | record attendance for students | track student participation without separate sheets                   |
 | `* *`    | admin                                      | add performance remarks to students' profiles | monitor academic progress over time                     |
-| `* *`    | admin                                      | tag contacts with labels      | inform tutors to plan follow-ups effectively                         |
-| `* *`    | admin                                      | generate lists of students by academic year | plan exam preparation sessions                          |
-| `* *`    | admin                                      | view tuition schedule          | easily keep track of lesson dates                                     |
+| `* *`    | admin                                      | tag contacts with labels      | categorize and organize contacts effectively                          |
+| `* *`    | admin                                      | view class sessions            | keep track of scheduled lessons                                       |
 | `*`      | admin                                      | import existing contact lists from Excel/CSV | quickly set up the system without retyping data         |
 | `*`      | admin                                      | export the entire address book in JSON format | back up the data safely                              |
 | `*`      | admin                                      | merge duplicate contacts       | maintain a clean and accurate address book                           |
@@ -338,53 +345,72 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  Admin searches for the student by name
-2.  TutBook displays the student's profile
-3.  Admin searches for the parent by name
-4.  TutBook displays the parent's profile
-5.  Admin enters command to link parent to student
-6.  TutBook creates the relationship link
-7.  TutBook displays success message
+1.  Admin enters command to link parent to student with their names
+2.  TutBook searches for the parent by name
+3.  TutBook searches for the student by name
+4.  TutBook validates both contacts exist and have correct roles
+5.  TutBook creates the bidirectional relationship link
+6.  TutBook displays success message showing parent and child names
 
     Use case ends.
 
 **Extensions**
 
-* 2a. Student not found.
-    * 2a1. TutBook shows error message "Student not found."
+* 2a. Parent not found.
+    * 2a1. TutBook shows error message "Parent [name] not found."
 
       Use case ends.
 
-* 4a. Parent not found.
-    * 4a1. TutBook shows error message "Parent not found."
+* 2b. Multiple parents match the given name.
+    * 2b1. TutBook shows error message "Multiple parents found with name [name]. Please be more specific."
 
       Use case ends.
 
-* 6a. Link already exists.
-    * 6a1. TutBook shows message "This relationship already exists."
+* 3a. Student not found.
+    * 3a1. TutBook shows error message "Child [name] not found."
 
       Use case ends.
 
-**Use case: UC03 - Search for tutor by subject**
+* 3b. Multiple students match the given name.
+    * 3b1. TutBook shows error message "Multiple children found with name [name]. Please be more specific."
+
+      Use case ends.
+
+* 4a. Parent contact is not of type PARENT.
+    * 4a1. TutBook shows error message "Contact [name] is not a parent."
+
+      Use case ends.
+
+* 4b. Child contact is not of type STUDENT.
+    * 4b1. TutBook shows error message "Contact [name] is not a student."
+
+      Use case ends.
+
+* 5a. Link already exists between parent and student.
+    * 5a1. TutBook shows message "Parent [name] is already linked to child [name]."
+
+      Use case ends.
+
+**Use case: UC03 - Filter contacts by role**
 
 **MSS**
 
-1.  Admin enters filter command with subject parameter
-2.  TutBook searches for all tutors teaching the specified subject
-3.  TutBook displays a list of matching tutors with their details
+1.  Admin enters filter command with role parameter (STUDENT/TUTOR/PARENT)
+2.  TutBook filters the contact list by the specified role
+3.  TutBook displays filtered list showing only contacts matching the role
 4.  Admin views the filtered results
 
     Use case ends.
 
 **Extensions**
 
-* 2a. No tutors found for the specified subject.
-    * 2a1. TutBook shows message "No tutors found teaching [subject]."
+* 1a. Invalid role specified.
+    * 1a1. TutBook shows error message "Invalid role. Must be STUDENT, TUTOR, or PARENT."
 
       Use case ends.
 
-* 1a. Invalid subject format.
-    * 1a1. TutBook shows error message with valid subject format.
+* 2a. No contacts found with the specified role.
+    * 2a1. TutBook displays empty list with message "0 persons listed!"
 
       Use case ends.
 
@@ -482,27 +508,209 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-**Use case: UC07 - View all students assigned to a tutor**
+**Use case: UC07 - View all children (students with parents)**
 
 **MSS**
 
-1.  Admin enters command to view tutor with tutor's name
-2.  TutBook searches for the tutor
-3.  TutBook retrieves all students assigned to this tutor
-4.  TutBook displays the tutor's profile with list of assigned students
-5.  Admin views the student list with their subjects and schedules
+1.  Admin enters children command without parameters
+2.  TutBook retrieves all students who have at least one parent linked
+3.  TutBook displays list of students with their parent information
+4.  Admin views the list of children and their families
 
     Use case ends.
 
 **Extensions**
 
-* 2a. Tutor not found.
-    * 2a1. TutBook shows error message "Tutor not found."
+* 2a. No students have parents linked.
+    * 2a1. TutBook shows message "No children found with linked parents."
 
       Use case ends.
 
-* 3a. No students assigned to this tutor.
-    * 3a1. TutBook displays tutor profile with message "No students currently assigned."
+**Use case: UC08 - View children of a specific parent**
+
+**MSS**
+
+1.  Admin enters children command with parent's name
+2.  TutBook searches for the parent by name
+3.  TutBook retrieves all students linked to this parent
+4.  TutBook displays list of the parent's children
+5.  Admin views the children associated with the parent
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Parent not found.
+    * 2a1. TutBook shows error message "Parent [name] not found."
+
+      Use case ends.
+
+* 2b. Multiple parents match the given name.
+    * 2b1. TutBook shows error message "Multiple parents found with name [name]. Please be more specific."
+
+      Use case ends.
+
+* 3a. Parent has no children linked.
+    * 3a1. TutBook shows message "Parent [name] has no children linked."
+
+      Use case ends.
+
+**Use case: UC09 - Create a new class**
+
+**MSS**
+
+1.  Admin enters command to create a class with class name
+2.  TutBook validates the class name is not empty and doesn't already exist
+3.  TutBook creates the new class
+4.  TutBook displays success message with class name
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Class name already exists.
+    * 2a1. TutBook shows error message "Class [name] already exists."
+
+      Use case ends.
+
+* 2b. Class name is empty or invalid format.
+    * 2b1. TutBook shows error message about invalid class name format.
+
+      Use case ends.
+
+**Use case: UC10 - Create a new class with tutor assigned**
+
+**MSS**
+
+1.  Admin enters command to create a class with class name and tutor name
+2.  TutBook validates the class name doesn't already exist
+3.  TutBook searches for the tutor by name
+4.  TutBook validates the contact is a tutor
+5.  TutBook creates the new class and assigns the tutor
+6.  TutBook displays success message with class and tutor names
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Class name already exists.
+    * 2a1. TutBook shows error message "Class [name] already exists."
+
+      Use case ends.
+
+* 3a. Tutor not found.
+    * 3a1. TutBook shows error message "Tutor [name] not found."
+
+      Use case ends.
+
+* 3b. Multiple tutors match the given name.
+    * 3b1. TutBook shows error message "Multiple tutors found with name [name]. Please be more specific."
+
+      Use case ends.
+
+* 4a. Contact is not of type TUTOR.
+    * 4a1. TutBook shows error message "Contact [name] is not a tutor."
+
+      Use case ends.
+
+**Use case: UC11 - Add student to a class**
+
+**MSS**
+
+1.  Admin enters command to join student to class with student name and class name
+2.  TutBook searches for the student by name
+3.  TutBook validates the contact is a student
+4.  TutBook searches for the class by name
+5.  TutBook adds the student to the class
+6.  TutBook displays success message
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Student not found.
+    * 2a1. TutBook shows error message "Student [name] not found."
+
+      Use case ends.
+
+* 2b. Multiple students match the given name.
+    * 2b1. TutBook shows error message "Multiple students found with name [name]. Please be more specific."
+
+      Use case ends.
+
+* 3a. Contact is not of type STUDENT.
+    * 3a1. TutBook shows error message "Contact [name] is not a student."
+
+      Use case ends.
+
+* 4a. Class not found.
+    * 4a1. TutBook shows error message "Class [name] not found."
+
+      Use case ends.
+
+* 5a. Student is already enrolled in the class.
+    * 5a1. TutBook shows message "Student [name] is already in class [class name]."
+
+      Use case ends.
+
+**Use case: UC12 - View all classes with enrolled students**
+
+**MSS**
+
+1.  Admin enters listclass command
+2.  TutBook retrieves all classes in the system
+3.  TutBook displays list of classes with their enrolled students and assigned tutors
+4.  Admin views the complete class roster
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. No classes exist in the system.
+    * 2a1. TutBook shows message "No classes found."
+
+      Use case ends.
+
+**Use case: UC13 - Rename a class**
+
+**MSS**
+
+1.  Admin enters command to rename class with old name and new name
+2.  TutBook searches for the class by old name
+3.  TutBook validates the new name doesn't already exist
+4.  TutBook renames the class while maintaining all student enrollments and tutor assignments
+5.  TutBook displays success message
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Class with old name not found.
+    * 2a1. TutBook shows error message "Class [old name] not found."
+
+      Use case ends.
+
+* 3a. Class with new name already exists.
+    * 3a1. TutBook shows error message "Class [new name] already exists."
+
+      Use case ends.
+
+**Use case: UC14 - Delete a class**
+
+**MSS**
+
+1.  Admin enters command to delete class with class name
+2.  TutBook searches for the class by name
+3.  TutBook removes all student enrollments and tutor assignments
+4.  TutBook deletes the class
+5.  TutBook displays success message
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Class not found.
+    * 2a1. TutBook shows error message "Class [name] not found."
 
       Use case ends.
 
@@ -617,6 +825,182 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Adding a person
+
+1. Adding a person with all required fields
+
+   1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2 pt/student`<br>
+      Expected: New student contact is added to the list. Success message shows the added contact details with role displayed as a colored chip.
+
+   1. Test case: `add n/Jane Smith p/87654321 e/janes@example.com a/123 Main St pt/tutor`<br>
+      Expected: New tutor contact is added. Success message displayed.
+
+   1. Test case: `add n/Bob Lee p/91234567 e/bobl@example.com a/456 Park Ave pt/parent`<br>
+      Expected: New parent contact is added. Success message displayed.
+
+1. Adding a person with invalid or missing fields
+
+   1. Test case: `add n/John p/invalid e/johnd@example.com a/311, Clementi Ave 2 pt/student`<br>
+      Expected: No person is added. Error message about invalid phone number format is shown.
+
+   1. Test case: `add n/John p/98765432 e/invalid-email a/311, Clementi Ave 2 pt/student`<br>
+      Expected: No person is added. Error message about invalid email format is shown.
+
+   1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2 pt/invalid`<br>
+      Expected: No person is added. Error message about invalid person type is shown.
+
+   1. Test case: `add n/John Doe p/98765432`<br>
+      Expected: No person is added. Error message about missing required fields is shown.
+
+1. Adding a duplicate person
+
+   1. Prerequisites: A contact with name "John Doe" and phone "98765432" already exists.
+
+   1. Test case: `add n/John Doe p/98765432 e/different@example.com a/Different Address pt/student`<br>
+      Expected: No person is added. Error message states "Contact already exists. Cannot add duplicate."
+
+### Filtering contacts by role
+
+1. Filtering by student role
+
+   1. Prerequisites: Address book contains multiple contacts of different types.
+
+   1. Test case: `filter ro/student`<br>
+      Expected: Only students are displayed in the list. Success message shows number of students listed.
+
+   1. Test case: `filter ro/STUDENT` (case insensitive)<br>
+      Expected: Same as above. Only students displayed.
+
+1. Filtering by other roles
+
+   1. Test case: `filter ro/tutor`<br>
+      Expected: Only tutors are displayed.
+
+   1. Test case: `filter ro/parent`<br>
+      Expected: Only parents are displayed.
+
+1. Invalid filter commands
+
+   1. Test case: `filter ro/invalid`<br>
+      Expected: No filtering occurs. Error message about invalid role is shown.
+
+   1. Test case: `filter`<br>
+      Expected: Error message about missing role parameter.
+
+### Linking parent to child
+
+1. Linking a valid parent to a valid student
+
+   1. Prerequisites:
+      - A parent contact "Mary Doe" exists
+      - A student contact "Alice Doe" exists
+      - They are not already linked
+
+   1. Test case: `link p/Mary Doe c/Alice Doe`<br>
+      Expected: Parent and child are linked. Success message shows "Linked parent Mary Doe to child Alice Doe."
+
+1. Invalid link operations
+
+   1. Test case: `link p/NonExistent Parent c/Alice Doe`<br>
+      Expected: No link created. Error message states parent not found.
+
+   1. Test case: `link p/Mary Doe c/NonExistent Child`<br>
+      Expected: No link created. Error message states child not found.
+
+   1. Test case: `link p/John Tutor c/Alice Doe` (where John Tutor is not a parent)<br>
+      Expected: No link created. Error message states the contact is not a parent.
+
+   1. Test case: `link p/Mary Doe c/Bob Tutor` (where Bob Tutor is not a student)<br>
+      Expected: No link created. Error message states the contact is not a student.
+
+1. Linking already linked contacts
+
+   1. Prerequisites: Mary Doe is already linked to Alice Doe.
+
+   1. Test case: `link p/Mary Doe c/Alice Doe`<br>
+      Expected: No new link created. Message states they are already linked.
+
+### Viewing children
+
+1. Viewing all children in the system
+
+   1. Prerequisites: Some students have parents linked to them.
+
+   1. Test case: `children`<br>
+      Expected: All students who have at least one parent linked are displayed.
+
+1. Viewing children of a specific parent
+
+   1. Prerequisites: Parent "Mary Doe" exists and has children linked.
+
+   1. Test case: `children n/Mary Doe`<br>
+      Expected: All children of Mary Doe are displayed.
+
+   1. Test case: `children n/NonExistent Parent`<br>
+      Expected: Error message states parent not found.
+
+### Creating and managing classes
+
+1. Creating a new class
+
+   1. Test case: `addclass c/Math-101`<br>
+      Expected: New class "Math-101" is created. Success message displayed.
+
+   1. Test case: `addclass c/Physics-201 tu/Mr. Smith` (where Mr. Smith is a tutor)<br>
+      Expected: New class "Physics-201" is created with Mr. Smith as tutor. Success message displayed.
+
+1. Creating a class with invalid parameters
+
+   1. Prerequisites: Class "Math-101" already exists.
+
+   1. Test case: `addclass c/Math-101`<br>
+      Expected: No class created. Error message states class already exists.
+
+   1. Test case: `addclass c/Physics-201 tu/NonExistent Tutor`<br>
+      Expected: No class created. Error message states tutor not found.
+
+1. Adding students to a class
+
+   1. Prerequisites:
+      - Class "Math-101" exists
+      - Student "Alice Doe" exists
+
+   1. Test case: `join n/Alice Doe c/Math-101`<br>
+      Expected: Alice Doe is added to Math-101. Success message displayed.
+
+   1. Test case: `join n/NonExistent Student c/Math-101`<br>
+      Expected: No student added. Error message states student not found.
+
+   1. Test case: `join n/Alice Doe c/NonExistent Class`<br>
+      Expected: No student added. Error message states class not found.
+
+1. Listing all classes
+
+   1. Prerequisites: At least one class exists in the system.
+
+   1. Test case: `listclass`<br>
+      Expected: All classes are displayed with their enrolled students and assigned tutors.
+
+1. Renaming a class
+
+   1. Prerequisites: Class "Math-101" exists and "Math-102" does not exist.
+
+   1. Test case: `editclass o/Math-101 c/Math-102`<br>
+      Expected: Class is renamed from Math-101 to Math-102. All student enrollments are maintained. Success message displayed.
+
+   1. Test case: `editclass o/NonExistent c/Math-102`<br>
+      Expected: No rename occurs. Error message states old class not found.
+
+1. Deleting a class
+
+   1. Prerequisites: Class "Math-101" exists.
+
+   1. Test case: `deleteclass Math-101`<br>
+      Expected: Class "Math-101" is deleted. All student enrollments are removed. Success message displayed.
+
+   1. Test case: `deleteclass NonExistent`<br>
+      Expected: No class deleted. Error message states class not found.
+
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
@@ -624,20 +1008,89 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
    1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. All relationships (parent-child, class enrollments) are cleaned up.
 
    1. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+      Expected: No person is deleted. Error details shown in the status message.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+1. Deleting a student with relationships
+
+   1. Prerequisites:
+      - Student "Alice Doe" at index 1 has a parent linked
+      - Student is enrolled in at least one class
+
+   1. Test case: `delete 1`<br>
+      Expected: Student is deleted. Automatically removed from parent's children list and from all enrolled classes. Success message displayed.
+
+1. Deleting a parent with children
+
+   1. Prerequisites: Parent "Mary Doe" at index 1 has children linked.
+
+   1. Test case: `delete 1`<br>
+      Expected: Parent is deleted. Automatically removed from all children's parent lists. Success message displayed.
+
+1. Deleting a tutor assigned to classes
+
+   1. Prerequisites: Tutor "Mr. Smith" at index 1 is assigned to at least one class.
+
+   1. Test case: `delete 1`<br>
+      Expected: Tutor is deleted. Automatically unassigned from all classes. Success message displayed.
+
+### Finding contacts
+
+1. Finding contacts by name
+
+   1. Prerequisites: Address book contains contacts including "Alice Doe", "Bob Lee", and "Alice Wang".
+
+   1. Test case: `find Alice`<br>
+      Expected: All contacts with "Alice" in their name are displayed (Alice Doe and Alice Wang).
+
+   1. Test case: `find alice` (case insensitive)<br>
+      Expected: Same as above.
+
+   1. Test case: `find Alice Bob`<br>
+      Expected: All contacts with "Alice" OR "Bob" in their name are displayed.
+
+   1. Test case: `find NonExistentName`<br>
+      Expected: No contacts displayed. Message shows "0 persons listed!"
+
+### Editing a contact
+
+1. Editing contact details
+
+   1. Prerequisites: List all persons. First person in the list is a student.
+
+   1. Test case: `edit 1 p/99999999`<br>
+      Expected: First contact's phone number is updated to 99999999. Success message shows updated details.
+
+   1. Test case: `edit 1 n/New Name e/newemail@example.com`<br>
+      Expected: First contact's name and email are updated. Success message displayed.
+
+   1. Test case: `edit 0 p/99999999`<br>
+      Expected: No contact edited. Error message about invalid index.
+
+   1. Test case: `edit 1` (no fields to edit)<br>
+      Expected: No contact edited. Error message about at least one field to edit required.
 
 ### Saving data
 
-1. Dealing with missing/corrupted data files
+1. Data persistence after commands
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+   1. Prerequisites: Application is running normally.
 
-1. _{ more test cases …​ }_
+   1. Test case: Add a new contact, close the application, restart the application<br>
+      Expected: The added contact is still present after restart.
+
+   1. Test case: Delete a contact, close the application, restart the application<br>
+      Expected: The deleted contact is not present after restart.
+
+1. Dealing with corrupted data files
+
+   1. Test case: Navigate to data folder, open addressbook.json, delete some closing braces to corrupt the JSON, restart the application<br>
+      Expected: Application starts with empty data. Warning about corrupted data may be logged.
+
+   1. Test case: Delete addressbook.json file, restart the application<br>
+      Expected: Application starts with sample data preloaded.
