@@ -10,6 +10,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.model.person.PersonType.TUTOR;
+import static seedu.address.model.person.PersonType.PARENT;
 
 import org.junit.jupiter.api.Test;
 
@@ -64,8 +66,25 @@ public class EditPersonDescriptorTest {
                 + editPersonDescriptor.getName().orElse(null) + ", phone="
                 + editPersonDescriptor.getPhone().orElse(null) + ", email="
                 + editPersonDescriptor.getEmail().orElse(null) + ", address="
-                + editPersonDescriptor.getAddress().orElse(null) + ", tags="
+                + editPersonDescriptor.getAddress().orElse(null) + ", role="
+                + editPersonDescriptor.getPersonType().orElse(null) + ", tags="
                 + editPersonDescriptor.getTags().orElse(null) + "}";
         assertEquals(expected, editPersonDescriptor.toString());
     }
+
+    @Test
+    public void isAnyFieldEdited_roleOnly_returnsTrue() {
+        EditPersonDescriptor descriptor = new EditPersonDescriptor();
+        descriptor.setPersonType(PARENT);
+        assertTrue(descriptor.isAnyFieldEdited(), "Role should count as an edited field");
+    }
+
+    @Test
+    public void equals_differentRole_returnsFalse() {
+        EditPersonDescriptor amy = new EditPersonDescriptor(DESC_AMY);
+        EditPersonDescriptor editedAmy = new EditPersonDescriptor(DESC_AMY);
+        editedAmy.setPersonType(TUTOR);
+        assertFalse(amy.equals(editedAmy), "Descriptors with different roles should not be equal");
+    }
+
 }

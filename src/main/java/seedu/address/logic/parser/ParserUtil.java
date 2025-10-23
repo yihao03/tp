@@ -140,7 +140,7 @@ public class ParserUtil {
         requireNonNull(role);
         String trimmedType = role.trim();
         if (!Role.isValidRole(trimmedType)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Role.MESSAGE_CONSTRAINTS);
         }
         return PersonType.fromString(trimmedType);
     }
