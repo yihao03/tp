@@ -171,4 +171,19 @@ public class ParserUtil {
         }
         return trimmed;
     }
+
+    /**
+     * Parses a {@code String sessionName} into a session name string.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code sessionName} is empty.
+     */
+    public static String parseSessionName(String sessionName) throws ParseException {
+        requireNonNull(sessionName);
+        String trimmed = sessionName.trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException("Session name cannot be empty.");
+        }
+        return trimmed;
+    }
 }
