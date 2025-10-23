@@ -58,7 +58,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `listclass`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -77,21 +77,36 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​`
+
+* `PERSON_TYPE` can be `student`, `tutor`, or `parent`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
 </div>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ro/student`
+* `add n/Ms Lim p/91234567 e/mslim@example.com a/Clementi Ave 2 ro/tutor t/experienced`
 
 ### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
 
 Format: `list`
+
+### Filtering persons by role : `filter`
+
+Filters and displays persons by their role (student, tutor, or parent).
+
+Format: `filter ro/PERSON_TYPE`
+
+* `PERSON_TYPE` must be `student`, `tutor`, or `parent` (case-insensitive)
+* Shows only persons matching the specified role
+
+Examples:
+* `filter ro/student` shows all students
+* `filter ro/tutor` shows all tutors
 
 ### Editing a person : `edit`
 
@@ -142,6 +157,32 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Linking a parent to a child : `link`
+
+Links a parent to a student (child), establishing a parent-child relationship.
+
+Format: `link p/PARENT_NAME c/CHILD_NAME`
+
+* Both parent and child must already exist in the address book
+* The parent must have the role `parent` and the child must have the role `student`
+* Names are case-sensitive
+
+Examples:
+* `link p/John Doe c/Jane Doe` links parent John Doe to child Jane Doe
+
+### Listing children : `children`
+
+Lists all students, or lists children of a specific parent.
+
+Format: `children [n/PARENT_NAME]`
+
+* Without parameters, lists all students in the address book
+* With `n/PARENT_NAME`, lists only the children linked to that parent
+
+Examples:
+* `children` lists all students
+* `children n/John Doe` lists all children of John Doe
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book.
@@ -153,6 +194,73 @@ Format: `clear`
 Exits the program.
 
 Format: `exit`
+
+### Adding a class : `addclass`
+
+Adds a new tuition class to the system.
+
+Format: `addclass c/CLASS_NAME [tu/TUTOR_NAME]`
+
+* `CLASS_NAME` can contain spaces
+* `TUTOR_NAME` is optional; if provided, the tutor must already exist in the address book
+
+Examples:
+* `addclass c/Sec2-Math-A` creates a class without a tutor
+* `addclass c/Sec2-Math-A tu/Ms Lim` creates a class and assigns Ms Lim as the tutor
+
+### Listing all classes : `listclass`
+
+Lists all tuition classes with their enrolled students.
+
+Format: `listclass`
+
+### Editing a class : `editclass`
+
+Renames an existing class.
+
+Format: `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME`
+
+* Class names can contain spaces
+* All students and tutor assignments are preserved
+
+Examples:
+* `editclass o/Sec2-Math-A c/Sec3-Math-A` renames the class from Sec2-Math-A to Sec3-Math-A
+
+### Deleting a class : `deleteclass`
+
+Deletes a class from the system.
+
+Format: `deleteclass CLASS_NAME`
+
+* Class name can contain spaces
+
+Examples:
+* `deleteclass Sec3-Math-A` deletes the class Sec3-Math-A
+
+### Joining a class : `join`
+
+Adds a student or tutor to a class.
+
+Format: `join n/NAME c/CLASS`
+
+* The person and class must already exist in the address book
+* Students will be enrolled in the class
+* Tutors will be assigned to teach the class
+
+Examples:
+* `join n/John Doe c/Sec2-Math-A` enrolls student John Doe in Sec2-Math-A
+* `join n/Ms Lim c/Sec2-Math-A` assigns tutor Ms Lim to Sec2-Math-A
+
+### Marking attendance : `attend`
+
+Marks attendance for a person in a specific session.
+
+Format: `attend n/NAME s/SESSION_ID st/STATUS`
+
+* `STATUS` must be either `PRESENT` or `ABSENT`
+
+Examples:
+* `attend n/John Doe s/1 st/PRESENT` marks John Doe as present in session 1
 
 ### Saving the data
 
@@ -191,10 +299,20 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 ro/student`
+**Add Class** | `addclass c/CLASS_NAME [tu/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tu/Ms Lim`
+**Attend** | `attend n/NAME s/SESSION_ID st/STATUS` <br> e.g., `attend n/John Doe s/1 st/PRESENT`
+**Children** | `children [n/PARENT_NAME]` <br> e.g., `children n/John Doe`
 **Clear** | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List** | `list`
+**Delete** | `delete INDEX` <br> e.g., `delete 3`
+**Delete Class** | `deleteclass CLASS_NAME` <br> e.g., `deleteclass Sec3-Math-A`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
+**Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
+**Exit** | `exit`
+**Filter** | `filter ro/STUDENT|TUTOR|PARENT` <br> e.g., `filter ro/student`
+**Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`
 **Help** | `help`
+**Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A`
+**Link** | `link p/PARENT_NAME c/CHILD_NAME` <br> e.g., `link p/John Doe c/Jane Doe`
+**List** | `list`
+**List Class** | `listclass`
