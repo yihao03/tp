@@ -61,7 +61,7 @@ public class ListChildrenCommand extends Command {
      * Lists all children in the address book.
      */
     private CommandResult listAllChildren(Model model) {
-        String output = model.getFilteredPersonList().stream()
+        String output = model.getPersonList().stream()
                 .filter(person -> person.getPersonType() == PersonType.STUDENT)
                 .map(Person::getName)
                 .map(Object::toString)
@@ -78,7 +78,7 @@ public class ListChildrenCommand extends Command {
      * Lists children for a specific parent.
      */
     private CommandResult listChildrenByParent(Model model) throws CommandException {
-        List<Person> personList = model.getFilteredPersonList();
+        List<Person> personList = model.getPersonList();
 
         Parent parent = personList.stream()
                 .filter(p -> p.getPersonType() == PersonType.PARENT)

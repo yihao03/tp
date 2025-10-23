@@ -157,6 +157,13 @@ public class ModelManager implements Model {
      * Returns an unmodifiable view of the list of {@code Person} or list of {@code TuitionClass}
      * backed by the internal list of {@code versionedAddressBook}
      */
+
+    @Override
+    public ObservableList<Person> getPersonList() {
+        return this.addressBook.getPersonList();
+    }
+
+
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
