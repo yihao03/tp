@@ -52,7 +52,6 @@ public class AttendCommandTest {
                 "Room 101"
         );
 
-        model.addPerson(testStudent);
         model.addClass(testClass);
     }
 
