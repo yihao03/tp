@@ -220,7 +220,7 @@ Lists all tuition classes with their enrolled students.
 
 Format: `listclass`
 
-![list class command](images/listclassCommand.png)
+![list class command](images/listClassCommand.png)
 
 ### Editing a class : `editclass`
 
@@ -308,14 +308,14 @@ _Details coming soon ..._
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?
+**Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.<br>
 
-**Q**: Can I undo a delete or clear command?
+**Q**: Can I undo a delete or clear command?<br>
 **A**: No. All destructive commands (like `delete`, `deleteclass`, and `clear`) are irreversible and cannot be undone.<br>
 
-**Q**: Why is the `link` command failing?
-**A**: This is typically due to two reasons: 1) The names do not exactly match (the command is case-sensitive). 2) The persons do not have the correct roles. The parent must have the parent role, and the child must have the student role. Use `list` or `filter ro/parent` to check.
+**Q**: Why is the `link` command failing?<br>
+**A**: This is typically due to two reasons: 1) The names do not exactly match (the command is case-sensitive). 2) The persons do not have the correct roles. The parent must have the parent role, and the child must have the student role. Use `list` or `filter ro/parent` to check.<br>
 
 --------------------------------------------------------------------------------------------------------------------
 
