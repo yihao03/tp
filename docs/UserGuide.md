@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+TutBook is a **desktop app for managing tuition centre contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). This release represents a significant enhancement over AB3, transforming it into a comprehensive tuition centre management system.
 
 * Table of Contents
 {:toc}
@@ -15,11 +15,11 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+1. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W09-3/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutbook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -28,7 +28,9 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `listclass` : Lists all classes.
+
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ro/student` : Adds a student named `John Doe` to the Address Book.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -68,10 +70,9 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 Shows a message explaining how to access the help page.
 
-![help message](images/helpMessage.png)
-
 Format: `help`
 
+![help message](images/helpMessageNew.png)
 
 ### Adding a person: `add`
 
@@ -86,8 +87,10 @@ A person can have any number of tags (including 0)
 </div>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 ro/student`
 * `add n/Ms Lim p/91234567 e/mslim@example.com a/Clementi Ave 2 ro/tutor t/experienced`
+* `add n/Yi Hao p/98765432 e/johnd@example.com a/31 John street, block 123, #01-01 ro/student`
+
+![add command](images/addCommand.png)
 
 ### Listing all persons : `list`
 
@@ -95,18 +98,25 @@ Shows a list of all persons in the address book.
 
 Format: `list`
 
+![list command](images/listCommand.png)
+
 ### Filtering persons by role : `filter`
 
 Filters and displays persons by their role (student, tutor, or parent).
 
 Format: `filter ro/PERSON_TYPE`
 
-* `PERSON_TYPE` must be `student`, `tutor`, or `parent` (case-insensitive)
 * Shows only persons matching the specified role
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Commands like `edit` and `delete` operate on the index of the **currently displayed list**. After using `filter`, the indexes will change. For example, `delete 1` will delete the first person in the *filtered list*, not the first person in the main address book.
+</div> <br>
+
 Examples:
-* `filter ro/student` shows all students
 * `filter ro/tutor` shows all tutors
+* `filter ro/student` shows all students
+
+![filter command](images/filterCommand.png)
 
 ### Editing a person : `edit`
 
@@ -122,8 +132,10 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
     specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 1 p/87438807 e/alex@gmail.com` Edits the phone number and email address of the 1st person to be `87438807` and `alex@gmail.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+
+![edit command](images/editCommandReal.png)
 
 ### Locating persons by name: `find`
 
@@ -140,8 +152,8 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 * `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find david damian` returns `David Li`, `Damian`<br>
+  ![result for 'find david damian'](images/findCommand.png)
 
 ### Deleting a person : `delete`
 
@@ -161,14 +173,16 @@ Examples:
 
 Links a parent to a student (child), establishing a parent-child relationship.
 
-Format: `link p/PARENT_NAME c/CHILD_NAME`
+Format: `link parent/PARENT_NAME child/CHILD_NAME`
 
 * Both parent and child must already exist in the address book
 * The parent must have the role `parent` and the child must have the role `student`
 * Names are case-sensitive
 
 Examples:
-* `link p/John Doe c/Jane Doe` links parent John Doe to child Jane Doe
+* `link parent/Bernice Yu child/Damian` links parent Bernice Yu to child Damian
+
+![link command](images/linkCommand.png)
 
 ### Listing children : `children`
 
@@ -181,19 +195,9 @@ Format: `children [n/PARENT_NAME]`
 
 Examples:
 * `children` lists all students
-* `children n/John Doe` lists all children of John Doe
+* `children n/Bernice Yu` lists all children of Bernice Yu
 
-### Clearing all entries : `clear`
-
-Clears all entries from the address book.
-
-Format: `clear`
-
-### Exiting the program : `exit`
-
-Exits the program.
-
-Format: `exit`
+![children command](images/childrenCommand.png)
 
 ### Adding a class : `addclass`
 
@@ -206,13 +210,17 @@ Format: `addclass c/CLASS_NAME [tu/TUTOR_NAME]`
 
 Examples:
 * `addclass c/Sec2-Math-A` creates a class without a tutor
-* `addclass c/Sec2-Math-A tu/Ms Lim` creates a class and assigns Ms Lim as the tutor
+* `addclass c/CS2101 tu/Alex Yeoh` creates a class and assigns Alex Yeoh as the tutor
+
+![add class command](images/addClassCommand.png)
 
 ### Listing all classes : `listclass`
 
 Lists all tuition classes with their enrolled students.
 
 Format: `listclass`
+
+![list class command](images/listclassCommand.png)
 
 ### Editing a class : `editclass`
 
@@ -223,8 +231,11 @@ Format: `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME`
 * Class names can contain spaces
 * All students and tutor assignments are preserved
 
+
 Examples:
-* `editclass o/Sec2-Math-A c/Sec3-Math-A` renames the class from Sec2-Math-A to Sec3-Math-A
+* `editclass o/Sec3 Math c/Sec4 Math` renames the class from Sec3 Math to Sec4 Math
+
+![edit class command](images/editclassCommand.png)
 
 ### Deleting a class : `deleteclass`
 
@@ -248,8 +259,10 @@ Format: `join n/NAME c/CLASS`
 * Tutors will be assigned to teach the class
 
 Examples:
-* `join n/John Doe c/Sec2-Math-A` enrolls student John Doe in Sec2-Math-A
+* `join n/Damian c/Sec4 Math` enrolls student Damian in Sec4 Math
 * `join n/Ms Lim c/Sec2-Math-A` assigns tutor Ms Lim to Sec2-Math-A
+
+![join command](images/joinCommand.png)
 
 ### Marking attendance : `attend`
 
@@ -261,6 +274,18 @@ Format: `attend n/NAME s/SESSION_ID st/STATUS`
 
 Examples:
 * `attend n/John Doe s/1 st/PRESENT` marks John Doe as present in session 1
+
+### Clearing all entries : `clear`
+
+Clears all entries from the address book.
+
+Format: `clear`
+
+### Exiting the program : `exit`
+
+Exits the program.
+
+Format: `exit`
 
 ### Saving the data
 
@@ -283,8 +308,14 @@ _Details coming soon ..._
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**Q**: How do I transfer my data to another Computer?
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.<br>
+
+**Q**: Can I undo a delete or clear command?
+**A**: No. All destructive commands (like `delete`, `deleteclass`, and `clear`) are irreversible and cannot be undone.<br>
+
+**Q**: Why is the `link` command failing?
+**A**: This is typically due to two reasons: 1) The names do not exactly match (the command is case-sensitive). 2) The persons do not have the correct roles. The parent must have the parent role, and the child must have the student role. Use `list` or `filter ro/parent` to check.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -306,13 +337,13 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX` <br> e.g., `delete 3`
 **Delete Class** | `deleteclass CLASS_NAME` <br> e.g., `deleteclass Sec3-Math-A`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
 **Exit** | `exit`
-**Filter** | `filter ro/STUDENT|TUTOR|PARENT` <br> e.g., `filter ro/student`
+**Filter** | `filter ro/STUDENT\|TUTOR\|PARENT` <br> e.g., `filter ro/student`
 **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`
 **Help** | `help`
 **Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A`
-**Link** | `link p/PARENT_NAME c/CHILD_NAME` <br> e.g., `link p/John Doe c/Jane Doe`
+**Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe`
 **List** | `list`
 **List Class** | `listclass`
