@@ -2,6 +2,9 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -170,5 +173,52 @@ public class ParserUtil {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return trimmed;
+    }
+
+    /**
+     * Parses a {@code String dateTime} into a {@code LocalDateTime}.
+     * Expected format: yyyy-MM-dd HH:mm
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code dateTime} is invalid.
+     */
+    public static LocalDateTime parseDateTime(String dateTime) throws ParseException {
+        requireNonNull(dateTime);
+        String trimmed = dateTime.trim();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        try {
+            return LocalDateTime.parse(trimmed, formatter);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Invalid date/time format. Expected format: yyyy-MM-dd HH:mm "
+                    + "(e.g., 2024-03-15 14:30)");
+        }
+    }
+
+    /**
+     * Parses a {@code String sessionName} into a session name string.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code sessionName} is empty.
+     */
+    public static String parseSessionName(String sessionName) throws ParseException {
+        requireNonNull(sessionName);
+        String trimmed = sessionName.trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException("Session name cannot be empty.");
+        }
+        return trimmed;
+    }
+
+    /**
+     * Parses a {@code String location} into a location string.
+     * Leading and trailing whitespaces will be trimmed.
+     * Returns null if the location string is empty (optional field).
+     */
+    public static String parseLocation(String location) {
+        if (location == null) {
+            return null;
+        }
+        String trimmed = location.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 }
