@@ -25,6 +25,8 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_ATTENDANCE_STATUS =
+            "Attendance status must be either 'PRESENT' or 'ABSENT'.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
@@ -171,4 +173,26 @@ public class ParserUtil {
         }
         return trimmed;
     }
+
+    /**
+     * Parses a string representation of attendance status and converts it to a Boolean value.
+     *
+     * @param status the attendance status string to parse (e.g., "present", "absent", "true", "false")
+     * @return {@code true} if the status indicates present
+     * @throws ParseException if the status string cannot be parsed into a valid attendance status
+     */
+    public static Boolean parseAttendanceStatus(String status) throws ParseException {
+        if (status == null) {
+            return null;
+        }
+
+        String normalizedStatus = status.trim().toLowerCase();
+
+        return switch (normalizedStatus) {
+        case "present" -> true;
+        case "absent" -> false;
+        default -> throw new ParseException("Invalid attendance status: " + status);
+        };
+    }
+
 }
