@@ -235,7 +235,7 @@ Format: `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME`
 Examples:
 * `editclass o/Sec3 Math c/Sec4 Math` renames the class from Sec3 Math to Sec4 Math
 
-![edit class command](images/editclassCommand.png)
+![edit class command](images/editClassCommand.png)
 
 ### Deleting a class : `deleteclass`
 
