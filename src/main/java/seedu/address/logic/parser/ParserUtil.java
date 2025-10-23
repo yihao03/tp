@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_ATTENDANCE_STATUS;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,8 +26,6 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-    public static final String MESSAGE_INVALID_ATTENDANCE_STATUS =
-            "Attendance status must be either 'PRESENT' or 'ABSENT'.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
@@ -186,12 +185,12 @@ public class ParserUtil {
             return null;
         }
 
-        String normalizedStatus = status.trim().toLowerCase();
+        String normalizedStatus = status.trim();
 
         return switch (normalizedStatus) {
-        case "present" -> true;
-        case "absent" -> false;
-        default -> throw new ParseException("Invalid attendance status: " + status);
+        case "PRESENT" -> true;
+        case "ABSENT" -> false;
+        default -> throw new ParseException(MESSAGE_INVALID_ATTENDANCE_STATUS);
         };
     }
 

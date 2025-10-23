@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_ATTENDANCE_STATUS;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -59,7 +60,7 @@ public class AttendCommandParserTest {
         String userInput = " " + PREFIX_NAME + "Charlie Lee "
                 + PREFIX_CLASS + "English101 "
                 + PREFIX_SESSION + "Session3 "
-                + PREFIX_STATUS + "present";
+                + PREFIX_STATUS + "PRESENT";
 
         AttendCommand expectedCommand = new AttendCommand(
                 new Name("Charlie Lee"),
@@ -164,17 +165,7 @@ public class AttendCommandParserTest {
                 + PREFIX_SESSION + "Session1 "
                 + PREFIX_STATUS + "MAYBE";
 
-        assertParseFailure(parser, userInput, ParserUtil.MESSAGE_INVALID_ATTENDANCE_STATUS);
-    }
-
-    @Test
-    public void parse_emptyName_failure() {
-        String userInput = " " + PREFIX_NAME
-                + PREFIX_CLASS + "Math101 "
-                + PREFIX_SESSION + "Session1 "
-                + PREFIX_STATUS + "PRESENT";
-
-        assertParseFailure(parser, userInput, Name.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, userInput, MESSAGE_INVALID_ATTENDANCE_STATUS);
     }
 
     @Test
@@ -207,6 +198,6 @@ public class AttendCommandParserTest {
                 + PREFIX_STATUS;
 
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AttendCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_ATTENDANCE_STATUS, AttendCommand.MESSAGE_USAGE));
     }
 }

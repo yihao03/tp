@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SESSION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
@@ -26,11 +27,13 @@ public class AttendCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Marks attendance for a student in a session. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
-            + PREFIX_SESSION + "SESSION_ID "
+            + PREFIX_CLASS + "CLASS_NAME "
+            + PREFIX_SESSION + "SESSION_NAME "
             + PREFIX_STATUS + "STATUS (PRESENT or ABSENT)\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
-            + PREFIX_SESSION + "1 "
+            + PREFIX_SESSION + "MATH101 "
+            + PREFIX_SESSION + "Session 1 "
             + PREFIX_STATUS + "PRESENT";
 
     public static final String MESSAGE_SUCCESS = "Attendance marked: %1$s";
