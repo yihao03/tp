@@ -9,7 +9,10 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+* Adapted the undo/redo mechanism from the original AB3 implementation.
+* Uses [JavaFX](https://openjfx.io/) for GUI rendering.
+* Icons from [Material Design Icons](https://materialdesignicons.com/).
+* Diagram styling adapted from [PlantUML Standard Library](https://plantuml.com/stdlib).
 
 --------------------------------------------------------------------------------------------------------------------
 
