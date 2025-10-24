@@ -137,7 +137,7 @@ public class ClassSession {
         for (Map.Entry<Student, Boolean> entry : attendanceRecord.entrySet()) {
             Student student = entry.getKey();
             Boolean present = entry.getValue();
-            String line = "- " + (student == null ? "Unknown student" : student.toString()) + System.lineSeparator();
+            String line = "- " + (student == null ? "Unknown student" : student.getName()) + System.lineSeparator();
             if (present != null && present) {
                 presentSb.append(line);
             } else {
