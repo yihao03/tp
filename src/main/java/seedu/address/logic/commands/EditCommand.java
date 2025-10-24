@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
@@ -44,7 +45,7 @@ public class EditCommand extends Command {
                     + "Parameters: INDEX (must be a positive integer) " + "["
                     + PREFIX_NAME + "NAME] " + "[" + PREFIX_PHONE + "PHONE] "
                     + "[" + PREFIX_EMAIL + "EMAIL] " + "[" + PREFIX_ADDRESS
-                    + "ADDRESS] " + "[" + PREFIX_TAG + "TAG]...\n" + "Example: "
+                    + "ADDRESS] " + "[" + PREFIX_PERSON_TYPE + "ROLE] " + "[" + PREFIX_TAG + "TAG]...\n" + "Example: "
                     + COMMAND_WORD + " 1 " + PREFIX_PHONE + "91234567 "
                     + PREFIX_EMAIL + "johndoe@example.com";
 
@@ -175,7 +176,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(name, phone, email, address,
-                            tags);
+                            tags, role);
         }
 
         public void setName(Name name) {
@@ -257,14 +258,16 @@ public class EditCommand extends Command {
                             && Objects.equals(address,
                                             otherEditPersonDescriptor.address)
                             && Objects.equals(tags,
-                                            otherEditPersonDescriptor.tags);
+                                            otherEditPersonDescriptor.tags)
+                            && Objects.equals(role,
+                                            otherEditPersonDescriptor.role);
         }
 
         @Override
         public String toString() {
             return new ToStringBuilder(this).add("name", name)
                             .add("phone", phone).add("email", email)
-                            .add("address", address).add("tags", tags)
+                            .add("address", address).add("role", role).add("tags", tags)
                             .toString();
         }
     }
