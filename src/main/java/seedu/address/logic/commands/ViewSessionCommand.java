@@ -49,6 +49,7 @@ public class ViewSessionCommand extends Command {
         requireNonNull(model);
 
         TuitionClass classToView = model.getClassByName(this.className);
+        System.out.println("found class: " + classToView);
 
         if (classToView == null) {
             throw new CommandException(MESSAGE_CLASS_NOT_FOUND);
