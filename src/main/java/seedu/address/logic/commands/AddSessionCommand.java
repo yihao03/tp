@@ -46,10 +46,10 @@ public class AddSessionCommand extends Command {
     /**
      * Creates an AddSessionCommand to add the specified session to the specified class.
      *
-     * @param className The name of the class.
+     * @param className   The name of the class.
      * @param sessionName The name of the session.
-     * @param dateTime The date and time of the session.
-     * @param location The location of the session (can be null).
+     * @param dateTime    The date and time of the session.
+     * @param location    The location of the session (can be null).
      */
     public AddSessionCommand(String className, String sessionName, LocalDateTime dateTime, String location) {
         requireNonNull(className);
@@ -116,7 +116,7 @@ public class AddSessionCommand extends Command {
                 && sessionName.equals(otherCommand.sessionName)
                 && dateTime.equals(otherCommand.dateTime)
                 && ((location == null && otherCommand.location == null)
-                    || (location != null && location.equals(otherCommand.location)));
+                        || (location != null && location.equals(otherCommand.location)));
     }
 
     /**

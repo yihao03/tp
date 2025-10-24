@@ -175,7 +175,6 @@ public class ModelManager implements Model {
         return this.addressBook.getPersonList();
     }
 
-
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
@@ -184,6 +183,17 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<TuitionClass> getFilteredClassList() {
         return filteredClasses;
+    }
+
+    @Override
+    public TuitionClass getClassByName(String className) {
+        requireNonNull(className);
+        for (TuitionClass c : addressBook.getClassList()) {
+            if (c.getName().value.equals(className)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     @Override

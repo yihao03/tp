@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import seedu.address.model.person.Student;
@@ -43,7 +44,7 @@ public class TuitionClass {
     /**
      * Constructs a {@code TuitionClass} with the given name and tutor.
      *
-     * @param name non-null class name
+     * @param name  non-null class name
      * @param tutor tutor in charge (nullable)
      */
     public TuitionClass(ClassName name, Tutor tutor) {
@@ -136,6 +137,7 @@ public class TuitionClass {
 
     /**
      * Removes the tutor from this tuition class.
+     *
      * @throws PersonNotFoundException if no tutor is assigned
      */
     public void removeTutor(Tutor tutorToRemove) {
@@ -184,6 +186,7 @@ public class TuitionClass {
 
     /**
      * Removes a student from this tuition class.
+     *
      * @throws PersonNotFoundException if student is not in this class
      */
     public void removeStudent(Student student) {
@@ -195,6 +198,7 @@ public class TuitionClass {
 
     /**
      * Replaces the target student with the edited student.
+     *
      * @throws PersonNotFoundException if target student is not in this class
      */
     public void setStudent(Student target, Student editedStudent) {
@@ -263,6 +267,17 @@ public class TuitionClass {
     public boolean hasSessionName(String sessionName) {
         requireNonNull(sessionName);
         return sessions.stream()
-            .anyMatch(s -> s.getSessionName().trim().equalsIgnoreCase(sessionName.trim()));
+                .anyMatch(s -> s.getSessionName().trim().equalsIgnoreCase(sessionName.trim()));
+    }
+
+    /**
+     * Returns the a ClassSession with the matching Name
+     */
+    public Optional<ClassSession> getSession(String sessionName) {
+        requireNonNull(sessionName);
+
+        return sessions.stream()
+                .filter(s -> s.getSessionName().trim().equalsIgnoreCase(sessionName.trim()))
+                .findFirst();
     }
 }

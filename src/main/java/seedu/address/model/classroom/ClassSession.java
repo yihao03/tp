@@ -25,6 +25,9 @@ public class ClassSession {
     /** Optional location (e.g., "COM1-B103"). */
     private String location;
 
+    /** Optional remarks about the session. */
+    private String remarks;
+
     /** Attendance record: true = present, false = absent. */
     private Map<Student, Boolean> attendanceRecord;
 
@@ -33,8 +36,8 @@ public class ClassSession {
      *
      * @param parentClass parent class
      * @param sessionName session title
-     * @param dateTime scheduled time
-     * @param location location (nullable)
+     * @param dateTime    scheduled time
+     * @param location    location (nullable)
      */
     public ClassSession(TuitionClass parentClass, String sessionName, LocalDateTime dateTime, String location) {
         if (parentClass == null) {
@@ -108,6 +111,55 @@ public class ClassSession {
 
     public long getAttendanceCount() {
         return attendanceRecord.values().stream().filter(Boolean::booleanValue).count();
+    }
+
+    /**
+     * Returns a multi-line string describing detailed session information including
+     * date/time, location, remarks and per-student attendance.
+     */
+    public String getSessionDetails() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Session: ").append(sessionName == null ? "N/A" : sessionName).append(System.lineSeparator());
+        sb.append("Date/Time: ").append(dateTime == null ? "N/A" : dateTime.format(fmt)).append(System.lineSeparator());
+        if (location != null && !location.isEmpty()) {
+            sb.append("Location: ").append(location).append(System.lineSeparator());
+        }
+        if (remarks != null && !remarks.isEmpty()) {
+            sb.append("Remarks: ").append(remarks).append(System.lineSeparator());
+        }
+        sb.append("Attendance: ").append(getAttendanceCount()).append("/").append(attendanceRecord.size())
+                .append(" present").append(System.lineSeparator());
+
+        // Split attendance into Present and Absent sections
+        StringBuilder presentSb = new StringBuilder();
+        StringBuilder absentSb = new StringBuilder();
+        for (Map.Entry<Student, Boolean> entry : attendanceRecord.entrySet()) {
+            Student student = entry.getKey();
+            Boolean present = entry.getValue();
+            String line = "- " + (student == null ? "Unknown student" : student.toString()) + System.lineSeparator();
+            if (present != null && present) {
+                presentSb.append(line);
+            } else {
+                absentSb.append(line);
+            }
+        }
+
+        sb.append("Present:").append(System.lineSeparator());
+        if (presentSb.length() == 0) {
+            sb.append("None").append(System.lineSeparator());
+        } else {
+            sb.append(presentSb.toString());
+        }
+
+        sb.append("Absent:").append(System.lineSeparator());
+        if (absentSb.length() == 0) {
+            sb.append("None").append(System.lineSeparator());
+        } else {
+            sb.append(absentSb.toString());
+        }
+
+        return sb.toString().trim();
     }
 
     @Override
