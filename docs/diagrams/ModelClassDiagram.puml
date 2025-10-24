@@ -1,7 +1,7 @@
 @startuml
 ' TutBook Model Class Diagram
 ' Core domain model for tuition centre management
-' Handles Students, Tutors, Parents, TuitionClasses, and ClassSessions
+' Handles Students, Tutors, Parents, TuitionClasses, and ClassSessions (with add/delete operations)
 ' Supports bidirectional relationships between parents-children and persons-classes
 !include style.puml
 skinparam arrowThickness 1.1
