@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_ATTENDANCE_STATUS;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -171,4 +172,26 @@ public class ParserUtil {
         }
         return trimmed;
     }
+
+    /**
+     * Parses a string representation of attendance status and converts it to a Boolean value.
+     *
+     * @param status the attendance status string to parse (e.g., "present", "absent", "true", "false")
+     * @return {@code true} if the status indicates present
+     * @throws ParseException if the status string cannot be parsed into a valid attendance status
+     */
+    public static Boolean parseAttendanceStatus(String status) throws ParseException {
+        if (status == null) {
+            return null;
+        }
+
+        String normalizedStatus = status.trim();
+
+        return switch (normalizedStatus) {
+        case "PRESENT" -> true;
+        case "ABSENT" -> false;
+        default -> throw new ParseException(MESSAGE_INVALID_ATTENDANCE_STATUS);
+        };
+    }
+
 }
