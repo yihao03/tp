@@ -246,6 +246,124 @@ _{more aspects and alternatives to be added}_
 
 _{Explain here how the data archiving feature will be implemented}_
 
+### Session Management Feature
+
+#### Implementation
+
+The session management feature allows users to create, view, and manage class sessions with attendance tracking. This is implemented through several key components:
+
+**Core Classes:**
+* `ClassSession` - Represents a single session with date/time, location, and attendance records
+* `TuitionClass` - Enhanced to store a list of sessions
+* `AddSessionCommand`, `DeleteSessionCommand`, `ViewSessionCommand`, `ListSessionCommand` - Command classes for session operations
+
+**Storage Implementation:**
+* Sessions are persisted in the JSON file through `JsonAdaptedSession`
+* Each session stores attendance records as a map of student names to attendance status
+* Sessions are associated with their parent class and stored within the class structure
+
+**Key Operations:**
+
+1. **Adding a Session**: Creates a new `ClassSession` object with the specified date/time and optional location, then adds it to the target class.
+
+2. **Marking Attendance**: The enhanced `AttendCommand` now works with specific sessions, updating the attendance map within the `ClassSession` object.
+
+3. **Viewing Sessions**: `ViewSessionCommand` retrieves detailed session information including all attendance records for enrolled students.
+
+The following sequence diagram illustrates the add session operation:
+
+```
+User -> AddSessionCommand: addsession c/Math101 s/Week1 dt/2024-03-15 14:30
+AddSessionCommand -> Model: getClassByName("Math101")
+Model -> AddSessionCommand: TuitionClass
+AddSessionCommand -> ClassSession: new ClassSession(name, dateTime, location)
+AddSessionCommand -> TuitionClass: addSession(session)
+TuitionClass -> Model: update
+Model -> Storage: save
+```
+
+#### Design Considerations
+
+**Aspect: Session Storage Structure**
+* **Alternative 1 (chosen)**: Store sessions within each class
+  * Pros: Maintains clear ownership relationship, easier to manage class-specific sessions
+  * Cons: Requires traversing class structure to access sessions
+* **Alternative 2**: Store sessions separately with class references
+  * Pros: Direct access to all sessions
+  * Cons: More complex relationship management, potential for orphaned sessions
+
+### Parent Management Feature
+
+#### Implementation
+
+The parent management feature enhances the parent-child relationship system with better listing and filtering capabilities.
+
+**Key Components:**
+* `ListParentsCommand` - Lists all parents or parents of a specific child
+* Enhanced filtering in `Model` to support parent-specific queries
+
+**Operations:**
+
+1. **List All Parents**: Filters the person list to show only those with the parent role
+2. **List Child's Parents**: Given a child's name, finds all linked parents through the relationship system
+
+The command supports two modes:
+- `listparents` - Shows all parents in the system
+- `listparents n/ChildName` - Shows only parents linked to the specified child
+
+### Remove From Class Feature
+
+#### Implementation
+
+The remove from class feature provides the inverse operation of the join command, allowing removal of students and tutors from classes.
+
+**Key Components:**
+* `RemoveFromClassCommand` - Handles removal logic
+* Enhanced `TuitionClass` with removal methods for students and tutors
+
+**Operations:**
+
+1. **Remove Student**: Removes a student from the class's enrollment list
+2. **Remove Tutor**: Removes a tutor from the class's assigned tutors
+3. **Cascade Handling**: When a person is deleted, they are automatically removed from all associated classes
+
+The command validates:
+- Person exists and has the appropriate role
+- Person is actually enrolled/assigned to the target class
+- Class exists in the system
+
+### Enhanced Class Storage
+
+#### Implementation
+
+Classes now store comprehensive details including sessions and maintain persistent state across application restarts.
+
+**Storage Enhancements:**
+* Classes store their complete list of sessions with all attendance records
+* Session details (date, time, location) are preserved
+* Attendance records maintain the history of each student's attendance
+
+**JSON Structure:**
+```json
+{
+  "className": "Math101",
+  "tutors": ["Ms. Lim"],
+  "students": ["John Doe", "Jane Smith"],
+  "sessions": [
+    {
+      "sessionName": "Week 1 Tutorial",
+      "dateTime": "2024-03-15T14:30:00",
+      "location": "COM1-B103",
+      "attendanceRecords": {
+        "John Doe": "PRESENT",
+        "Jane Smith": "ABSENT"
+      }
+    }
+  ]
+}
+```
+
+This structure ensures all class-related data is cohesively stored and can be fully reconstructed when the application restarts.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -309,6 +427,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | admin                                      | add performance remarks to students' profiles | monitor academic progress over time                     |
 | `* *`    | admin                                      | tag contacts with labels      | categorize and organize contacts effectively                          |
 | `* *`    | admin                                      | view class sessions            | keep track of scheduled lessons                                       |
+| `* * *`  | admin                                      | add sessions to classes        | schedule and organize class meetings                                  |
+| `* * *`  | admin                                      | delete sessions from classes   | remove cancelled or rescheduled sessions                              |
+| `* * *`  | admin                                      | view detailed session information | see date, time, location, and attendance for each session          |
+| `* * *`  | admin                                      | list all sessions for a class  | get an overview of the class schedule                                 |
+| `* * *`  | admin                                      | mark attendance for specific sessions | maintain accurate attendance records per session                |
+| `* * *`  | admin                                      | remove students from classes   | handle dropouts and class changes                                     |
+| `* * *`  | admin                                      | remove tutors from classes     | reassign teaching responsibilities                                    |
+| `* *`    | admin                                      | list all parents               | quickly contact all parents for announcements                         |
+| `* *`    | admin                                      | list parents of specific children | identify who to contact for a student's issues                     |
 | `*`      | admin                                      | import existing contact lists from Excel/CSV | quickly set up the system without retyping data         |
 | `*`      | admin                                      | export the entire address book in JSON format | back up the data safely                              |
 | `*`      | admin                                      | merge duplicate contacts       | maintain a clean and accurate address book                           |
@@ -717,6 +844,145 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
+**Use case: UC15 - Add a session to a class**
+
+**MSS**
+
+1.  Admin enters command to add session with class name, session name, date/time, and optional location
+2.  TutBook searches for the class by name
+3.  TutBook validates the session name is unique within the class
+4.  TutBook creates the new session with specified details
+5.  TutBook displays success message with session details
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Class not found.
+    * 2a1. TutBook shows error message "Class [name] not found."
+
+      Use case ends.
+
+* 3a. Session with same name already exists in the class.
+    * 3a1. TutBook shows error message "Session [name] already exists for this class."
+
+      Use case ends.
+
+**Use case: UC16 - Mark attendance for a session**
+
+**MSS**
+
+1.  Admin enters command to mark attendance with student name, class name, session name, and status
+2.  TutBook searches for the student by name
+3.  TutBook searches for the class by name
+4.  TutBook searches for the session within the class
+5.  TutBook verifies student is enrolled in the class
+6.  TutBook updates attendance record for the student in the session
+7.  TutBook displays success message
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Student not found.
+    * 2a1. TutBook shows error message "Student [name] not found."
+
+      Use case ends.
+
+* 3a. Class not found.
+    * 3a1. TutBook shows error message "Class [name] not found."
+
+      Use case ends.
+
+* 4a. Session not found.
+    * 4a1. TutBook shows error message "Session [name] not found in class."
+
+      Use case ends.
+
+* 5a. Student not enrolled in class.
+    * 5a1. TutBook shows error message "Student [name] is not enrolled in class [name]."
+
+      Use case ends.
+
+**Use case: UC17 - View session details**
+
+**MSS**
+
+1.  Admin enters command to view session with class name and session name
+2.  TutBook searches for the class by name
+3.  TutBook searches for the session within the class
+4.  TutBook retrieves session details (date, time, location)
+5.  TutBook retrieves attendance records for all enrolled students
+6.  TutBook displays session information and attendance summary
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Class not found.
+    * 2a1. TutBook shows error message "Class [name] not found."
+
+      Use case ends.
+
+* 3a. Session not found.
+    * 3a1. TutBook shows error message "Session [name] not found in class."
+
+      Use case ends.
+
+**Use case: UC18 - Remove student from class**
+
+**MSS**
+
+1.  Admin enters command to remove student with student name and class name
+2.  TutBook searches for the student by name
+3.  TutBook searches for the class by name
+4.  TutBook verifies student is enrolled in the class
+5.  TutBook removes student from class enrollment
+6.  TutBook displays success message
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. Student not found.
+    * 2a1. TutBook shows error message "Student [name] not found."
+
+      Use case ends.
+
+* 3a. Class not found.
+    * 3a1. TutBook shows error message "Class [name] not found."
+
+      Use case ends.
+
+* 4a. Student not enrolled in class.
+    * 4a1. TutBook shows error message "Student [name] is not enrolled in class [name]."
+
+      Use case ends.
+
+**Use case: UC19 - List parents**
+
+**MSS**
+
+1.  Admin enters command to list parents
+2.  TutBook filters all persons to show only those with parent role
+3.  TutBook displays the filtered list of parents
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Admin specifies a child's name.
+    * 1a1. TutBook searches for the child by name
+    * 1a2. TutBook retrieves all linked parents for that child
+    * 1a3. TutBook displays the parent(s) of the specified child
+
+      Use case ends.
+
+* 1a1a. Child not found.
+    * 1a1a1. TutBook shows error message "Child [name] not found."
+
+      Use case ends.
+
 ### Non-Functional Requirements
 
 #### Performance Requirements
@@ -1003,6 +1269,122 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `deleteclass NonExistent`<br>
       Expected: No class deleted. Error message states class not found.
+
+### Session Management
+
+1. Adding a session to a class
+
+   1. Prerequisites: Class "Math-101" exists.
+
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30 l/COM1-B103`<br>
+      Expected: Session "Week 1 Tutorial" is added to Math-101 with the specified date/time and location. Success message displayed.
+
+   1. Test case: `addsession c/Math-101 s/Week 2 Tutorial dt/2024-03-22 14:30`<br>
+      Expected: Session "Week 2 Tutorial" is added without location. Success message displayed.
+
+   1. Test case: `addsession c/NonExistent s/Session dt/2024-03-15 14:30`<br>
+      Expected: No session created. Error message states class not found.
+
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30` (duplicate session name)<br>
+      Expected: No session created. Error message states session already exists.
+
+1. Viewing session details
+
+   1. Prerequisites:
+      - Class "Math-101" exists with session "Week 1 Tutorial"
+      - Students are enrolled in Math-101
+      - Some attendance records exist
+
+   1. Test case: `viewsession c/Math-101 s/Week 1 Tutorial`<br>
+      Expected: Displays session details including date/time, location, and attendance status for all enrolled students.
+
+   1. Test case: `viewsession c/Math-101 s/NonExistent Session`<br>
+      Expected: Error message states session not found.
+
+1. Listing all sessions
+
+   1. Prerequisites: Class "Math-101" exists with multiple sessions.
+
+   1. Test case: `listsession c/Math-101`<br>
+      Expected: All sessions for Math-101 are displayed chronologically with their details.
+
+   1. Test case: `listsession c/NonExistent`<br>
+      Expected: Error message states class not found.
+
+1. Marking attendance
+
+   1. Prerequisites:
+      - Class "Math-101" exists with session "Week 1 Tutorial"
+      - Student "Alice Doe" is enrolled in Math-101
+
+   1. Test case: `attend n/Alice Doe c/Math-101 s/Week 1 Tutorial st/PRESENT`<br>
+      Expected: Alice Doe marked as present for the session. Success message displayed.
+
+   1. Test case: `attend n/Alice Doe c/Math-101 s/Week 1 Tutorial st/ABSENT`<br>
+      Expected: Alice Doe's attendance updated to absent. Success message displayed.
+
+   1. Test case: `attend n/NonEnrolled Student c/Math-101 s/Week 1 Tutorial st/PRESENT`<br>
+      Expected: Error message states student not enrolled in class.
+
+1. Deleting a session
+
+   1. Prerequisites: Class "Math-101" exists with session "Week 1 Tutorial".
+
+   1. Test case: `deletesession c/Math-101 s/Week 1 Tutorial`<br>
+      Expected: Session is deleted along with all attendance records. Success message displayed.
+
+   1. Test case: `deletesession c/Math-101 s/NonExistent`<br>
+      Expected: Error message states session not found.
+
+### Parent Listing
+
+1. Listing all parents
+
+   1. Prerequisites: Multiple parents exist in the system.
+
+   1. Test case: `listparents`<br>
+      Expected: All persons with parent role are displayed.
+
+1. Listing parents of a specific child
+
+   1. Prerequisites:
+      - Student "Alice Doe" exists
+      - Parents "John Doe" and "Mary Doe" are linked to Alice
+
+   1. Test case: `listparents n/Alice Doe`<br>
+      Expected: John Doe and Mary Doe are displayed as Alice's parents.
+
+   1. Test case: `listparents n/NonExistent Child`<br>
+      Expected: Error message states child not found.
+
+   1. Test case: `listparents n/Bob Smith` (student with no parents)<br>
+      Expected: Message indicates no parents found for Bob Smith.
+
+### Removing from Class
+
+1. Removing a student from a class
+
+   1. Prerequisites:
+      - Class "Math-101" exists
+      - Student "Alice Doe" is enrolled in Math-101
+
+   1. Test case: `removefrom n/Alice Doe c/Math-101`<br>
+      Expected: Alice Doe is removed from Math-101. Success message displayed.
+
+   1. Test case: `removefrom n/Alice Doe c/Math-101` (already removed)<br>
+      Expected: Error message states student not enrolled in class.
+
+1. Removing a tutor from a class
+
+   1. Prerequisites:
+      - Class "Math-101" exists
+      - Tutor "Mr. Smith" is assigned to Math-101
+
+   1. Test case: `removefrom n/Mr. Smith c/Math-101`<br>
+      Expected: Mr. Smith is unassigned from Math-101. Success message displayed.
+
+   1. Test case: `removefrom n/NonExistent Person c/Math-101`<br>
+      Expected: Error message states person not found.
 
 ### Deleting a person
 
