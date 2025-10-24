@@ -264,16 +264,100 @@ Examples:
 
 ![join command](images/joinCommand.png)
 
-### Marking attendance : `attend`
+### Removing from a class : `removefrom`
 
-Marks attendance for a person in a specific session.
+Removes a student or tutor from a class.
 
-Format: `attend n/NAME s/SESSION_ID st/STATUS`
+Format: `removefrom n/NAME c/CLASS`
 
-* `STATUS` must be either `PRESENT` or `ABSENT`
+* The person must be enrolled or assigned to the class
+* Works for both students and tutors
 
 Examples:
-* `attend n/John Doe s/1 st/PRESENT` marks John Doe as present in session 1
+* `removefrom n/Damian c/Sec4 Math` removes student Damian from Sec4 Math
+* `removefrom n/Ms Lim c/Sec2-Math-A` removes tutor Ms Lim from Sec2-Math-A
+
+### Adding a session : `addsession`
+
+Adds a session to an existing class.
+
+Format: `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [l/LOCATION]`
+
+* The class must already exist
+* `DATETIME` format: `YYYY-MM-DD HH:mm` (e.g., 2024-03-15 14:30)
+* Location is optional
+* Session names must be unique within a class
+
+Examples:
+* `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 l/COM1-B103`
+* `addsession c/Physics s/Lab Session 1 dt/2024-03-20 10:00`
+
+### Deleting a session : `deletesession`
+
+Removes a session from a class.
+
+Format: `deletesession c/CLASS_NAME s/SESSION_NAME`
+
+* The session must exist in the specified class
+* All attendance records for the session will be deleted
+
+Examples:
+* `deletesession c/Math101 s/Week 3 Tutorial`
+* `deletesession c/Physics s/Lab Session 1`
+
+### Viewing a session : `viewsession`
+
+Shows detailed information about a specific session, including attendance records.
+
+Format: `viewsession c/CLASS_NAME s/SESSION_NAME`
+
+* Displays session details (date, time, location)
+* Shows attendance status for all enrolled students
+
+Examples:
+* `viewsession c/Math101 s/Week 3 Tutorial`
+* `viewsession c/Physics s/Lab Session 1`
+
+### Listing sessions : `listsession`
+
+Lists all sessions for a specific class.
+
+Format: `listsession c/CLASS_NAME`
+
+* Shows all sessions chronologically
+* Displays date, time, and location for each session
+
+Examples:
+* `listsession c/Math101`
+* `listsession c/Physics`
+
+### Listing parents : `listparents`
+
+Lists all parents or the parents of a specific child.
+
+Format: `listparents [n/CHILD_NAME]`
+
+* Without parameters, lists all parents in the system
+* With a child's name, shows only that child's parents
+
+Examples:
+* `listparents` lists all parents
+* `listparents n/Damian` lists Damian's parents
+
+### Marking attendance : `attend`
+
+Marks attendance for a student in a specific class session.
+
+Format: `attend n/NAME c/CLASS_NAME s/SESSION_NAME st/STATUS`
+
+* The student must be enrolled in the specified class
+* The session must exist in the class
+* `STATUS` must be either `PRESENT` or `ABSENT`
+* Attendance records are persistent and can be viewed with `viewsession`
+
+Examples:
+* `attend n/John Doe c/Math101 s/Week 3 Tutorial st/PRESENT` marks John Doe as present
+* `attend n/Jane Smith c/Physics s/Lab Session 1 st/ABSENT` marks Jane Smith as absent
 
 ### Clearing all entries : `clear`
 
@@ -332,11 +416,13 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 ro/student`
 **Add Class** | `addclass c/CLASS_NAME [tu/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tu/Ms Lim`
-**Attend** | `attend n/NAME s/SESSION_ID st/STATUS` <br> e.g., `attend n/John Doe s/1 st/PRESENT`
+**Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [l/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 l/COM1-B103`
+**Attend** | `attend n/NAME c/CLASS_NAME s/SESSION_NAME st/STATUS` <br> e.g., `attend n/John Doe c/Math101 s/Week 3 Tutorial st/PRESENT`
 **Children** | `children [n/PARENT_NAME]` <br> e.g., `children n/John Doe`
 **Clear** | `clear`
 **Delete** | `delete INDEX` <br> e.g., `delete 3`
 **Delete Class** | `deleteclass CLASS_NAME` <br> e.g., `deleteclass Sec3-Math-A`
+**Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
 **Exit** | `exit`
@@ -347,3 +433,7 @@ Action | Format, Examples
 **Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe`
 **List** | `list`
 **List Class** | `listclass`
+**List Parents** | `listparents [n/CHILD_NAME]` <br> e.g., `listparents n/Damian`
+**List Session** | `listsession c/CLASS_NAME` <br> e.g., `listsession c/Math101`
+**Remove From** | `removefrom n/NAME c/CLASS` <br> e.g., `removefrom n/Damian c/Sec4 Math`
+**View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial`
