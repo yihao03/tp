@@ -174,6 +174,21 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String sessionName} into a session name string.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code sessionName} is empty.
+     */
+    public static String parseSessionName(String sessionName) throws ParseException {
+        requireNonNull(sessionName);
+        String trimmed = sessionName.trim();
+        if (trimmed.isEmpty()) {
+            throw new ParseException("Session name cannot be empty.");
+        }
+        return trimmed;
+    }
+
+    /**
      * Parses a string representation of attendance status and converts it to a Boolean value.
      *
      * @param status the attendance status string to parse (e.g., "present", "absent", "true", "false")
