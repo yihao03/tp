@@ -24,6 +24,7 @@
     </HBox>
     <Label fx:id="email" styleClass="card-email" text="\$email" />
     <Label fx:id="role" styleClass="role-label" />
+    <Label fx:id="enrolledClasses" styleClass="card-email" text="\$enrolledClasses" />
   </VBox>
 
   <!-- Right: Contact info -->
