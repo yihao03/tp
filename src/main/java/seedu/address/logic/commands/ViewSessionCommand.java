@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SESSION;
 
 import java.util.Optional;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.classroom.ClassSession;
@@ -28,16 +29,17 @@ public class ViewSessionCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Session details: %s\n";
     public static final String MESSAGE_CLASS_NOT_FOUND = "The specified class does not exist.";
-    private static final String MESSAGE_SESSION_NOT_FOUND = "The specified session cannot be found. ";
+    public static final String MESSAGE_SESSION_NOT_FOUND = "The specified session cannot be found. ";
 
     private final String className;
     private final String sessionName;
 
     /**
-     * Creates an ViewSessionCommand to add the specified {@code Person}
+     * Creates an ViewSessionCommand to view the specified session.
      */
     public ViewSessionCommand(String className, String sessionName) {
-        requireNonNull(className, sessionName);
+        requireNonNull(className);
+        requireNonNull(sessionName);
         this.className = className;
         this.sessionName = sessionName;
     }
@@ -71,7 +73,20 @@ public class ViewSessionCommand extends Command {
         }
 
         ViewSessionCommand otherViewCommand = (ViewSessionCommand) other;
-        return this.sessionName == otherViewCommand.sessionName
-                && this.sessionName == otherViewCommand.sessionName;
+        return this.className.equals(otherViewCommand.className)
+                && this.sessionName.equals(otherViewCommand.sessionName);
+    }
+
+    /**
+     * Returns a string representation of this ViewSessionCommand.
+     *
+     * @return A string representation of this command.
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("className", className)
+                .add("sessionName", sessionName)
+                .toString();
     }
 }

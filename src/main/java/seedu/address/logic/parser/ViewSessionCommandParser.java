@@ -11,35 +11,32 @@ import seedu.address.logic.commands.ViewSessionCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new AddClass object
+ * Parses input arguments and creates a new ViewSessionCommand object
  */
 public class ViewSessionCommandParser implements Parser<ViewSessionCommand> {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the ViewSessionCommand
+     * and returns a ViewSessionCommand object for execution.
+     *
+     * @throws ParseException if the user input does not conform the expected format
+     */
     @Override
     public ViewSessionCommand parse(String args) throws ParseException {
         requireNonNull(args);
 
         String trimmed = args.trim();
-        String cmd = ViewSessionCommand.COMMAND_WORD;
-        if (trimmed.regionMatches(true, 0, cmd, 0, cmd.length())) {
-            trimmed = trimmed.substring(cmd.length()).trim();
-        }
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_CLASS, PREFIX_SESSION);
 
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_CLASS, PREFIX_SESSION);
-
-        if (!arePrefixesPresent(map, PREFIX_CLASS, PREFIX_SESSION) || !map.getPreamble().isEmpty()) {
+        if (!arePrefixesPresent(argMultimap, PREFIX_CLASS, PREFIX_SESSION)
+                || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewSessionCommand.MESSAGE_USAGE));
         }
 
-        String className = ParserUtil.parseClassName(map.getValue(PREFIX_CLASS).get());
-        if (className.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewSessionCommand.MESSAGE_USAGE));
-        }
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLASS, PREFIX_SESSION);
 
-        String sessionName = ParserUtil.parseClassName(map.getValue(PREFIX_SESSION).get());
-        if (sessionName.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ViewSessionCommand.MESSAGE_USAGE));
-        }
+        String className = ParserUtil.parseClassName(argMultimap.getValue(PREFIX_CLASS).get());
+        String sessionName = ParserUtil.parseSessionName(argMultimap.getValue(PREFIX_SESSION).get());
 
         return new ViewSessionCommand(className, sessionName);
     }

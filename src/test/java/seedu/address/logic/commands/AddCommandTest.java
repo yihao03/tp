@@ -205,6 +205,11 @@ public class AddCommandTest {
         public void updateFilteredClassList(Predicate<TuitionClass> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public TuitionClass getClassByName(String className) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
