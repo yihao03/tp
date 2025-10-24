@@ -312,4 +312,148 @@ public class ClassSessionTest {
                 parentClass.addSession("TUTORIAL", LocalDateTime.now().plusDays(1), "COM1")
         );
     }
+
+    @Test
+    @DisplayName("getSessionDetails returns formatted details")
+    void getSessionDetails_returnsFormattedDetails() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103"
+        );
+
+        String details = session.getSessionDetails();
+
+        assertTrue(details.contains("Session: Week 1 Tutorial"));
+        assertTrue(details.contains("Date/Time: 2024-03-15 14:30"));
+        assertTrue(details.contains("Location: COM1-B103"));
+        assertTrue(details.contains("Attendance:"));
+        assertTrue(details.contains("Present:"));
+        assertTrue(details.contains("Absent:"));
+    }
+
+    @Test
+    @DisplayName("getSessionDetails omits location when null")
+    void getSessionDetails_omitsLocationWhenNull() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                null
+        );
+
+        String details = session.getSessionDetails();
+
+        assertTrue(details.contains("Session: Week 1 Tutorial"));
+        assertTrue(details.contains("Date/Time: 2024-03-15 14:30"));
+        assertFalse(details.contains("Location:"));
+    }
+
+    @Test
+    @DisplayName("getSessionDetails shows correct attendance count")
+    void getSessionDetails_showsCorrectAttendanceCount() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103"
+        );
+
+        session.markPresent(alice);
+        session.markAbsent(bob);
+
+        String details = session.getSessionDetails();
+
+        assertTrue(details.contains("Attendance: 1/2 present"));
+    }
+
+    @Test
+    @DisplayName("getSessionDetails shows None when no present students")
+    void getSessionDetails_showsNoneWhenNoPresentStudents() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103"
+        );
+
+        String details = session.getSessionDetails();
+
+        assertTrue(details.contains("Present:" + System.lineSeparator() + "None"));
+    }
+
+    @Test
+    @DisplayName("getSessionDetails shows None when no absent students")
+    void getSessionDetails_showsNoneWhenNoAbsentStudents() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103"
+        );
+
+        session.markPresent(alice);
+        session.markPresent(bob);
+
+        String details = session.getSessionDetails();
+
+        assertTrue(details.contains("Absent:" + System.lineSeparator() + "None"));
+    }
+
+    @Test
+    @DisplayName("getSessionDetails handles null student gracefully")
+    void getSessionDetails_handlesNullStudent() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103"
+        );
+
+        // Manually add a null entry to simulate edge case
+        session.getAttendanceRecord().put(null, true);
+
+        String details = session.getSessionDetails();
+
+        assertTrue(details.contains("Unknown student"));
+    }
+
+    @Test
+    @DisplayName("toString with location shows @ symbol")
+    void toString_withLocation_showsAtSymbol() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103"
+        );
+
+        String result = session.toString();
+
+        assertTrue(result.contains("@"));
+        assertTrue(result.contains("COM1-B103"));
+    }
+
+    @Test
+    @DisplayName("getAttendanceCount returns correct count for multiple students")
+    void getAttendanceCount_multipleStudents_returnsCorrectCount() {
+        ClassSession session = new ClassSession(
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103"
+        );
+
+        assertEquals(0, session.getAttendanceCount());
+
+        session.markPresent(alice);
+        assertEquals(1, session.getAttendanceCount());
+
+        session.markPresent(bob);
+        assertEquals(2, session.getAttendanceCount());
+
+        session.markAbsent(alice);
+        assertEquals(1, session.getAttendanceCount());
+    }
 }
