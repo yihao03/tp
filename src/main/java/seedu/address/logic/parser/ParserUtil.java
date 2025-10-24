@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_ATTENDANCE_STATUS;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -130,17 +131,17 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String tag} into a {@code Tag}. Leading and trailing
+     * Parses a {@code String role} into a {@code PersonType}. Leading and trailing
      * whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code tag} is invalid.
+     * @throws ParseException if the given {@code role} is invalid.
      */
     public static PersonType parsePersonType(String role)
                     throws ParseException {
         requireNonNull(role);
         String trimmedType = role.trim();
         if (!Role.isValidRole(trimmedType)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+            throw new ParseException(Role.MESSAGE_CONSTRAINTS);
         }
         return PersonType.fromString(trimmedType);
     }
@@ -186,4 +187,24 @@ public class ParserUtil {
         }
         return trimmed;
     }
+     * Parses a string representation of attendance status and converts it to a Boolean value.
+     *
+     * @param status the attendance status string to parse (e.g., "present", "absent", "true", "false")
+     * @return {@code true} if the status indicates present
+     * @throws ParseException if the status string cannot be parsed into a valid attendance status
+     */
+    public static Boolean parseAttendanceStatus(String status) throws ParseException {
+        if (status == null) {
+            return null;
+        }
+
+        String normalizedStatus = status.trim();
+
+        return switch (normalizedStatus) {
+        case "PRESENT" -> true;
+        case "ABSENT" -> false;
+        default -> throw new ParseException(MESSAGE_INVALID_ATTENDANCE_STATUS);
+        };
+    }
+
 }
