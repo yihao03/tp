@@ -1,11 +1,14 @@
 @startuml
+' TutBook Logic Component Class Diagram
+' Handles command parsing and execution for tuition centre operations
+' Commands include: add, edit, delete (persons), addClass, join (enrollment), link (parent-child), attend (sessions)
 !include style.puml
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4
 skinparam classBackgroundColor LOGIC_COLOR
 
 package Logic as LogicPackage {
-
+' Parser classes handle CLI input for various tuition centre commands
 package "Parser Classes" as ParserClasses{
     ' Week 10 update: added new parsers
     Class AddressBookParser
