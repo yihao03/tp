@@ -5,6 +5,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SESSION;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -31,6 +33,7 @@ public class ViewSessionCommand extends Command {
     public static final String MESSAGE_CLASS_NOT_FOUND = "The specified class does not exist.";
     public static final String MESSAGE_SESSION_NOT_FOUND = "The specified session cannot be found. ";
 
+    private static Logger logger = Logger.getLogger(ViewSessionCommand.class.getName());
     private final String className;
     private final String sessionName;
 
@@ -49,9 +52,9 @@ public class ViewSessionCommand extends Command {
         requireNonNull(model);
 
         TuitionClass classToView = model.getClassByName(this.className);
-        System.out.println("found class: " + classToView);
 
         if (classToView == null) {
+            logger.log(Level.WARNING, "Class not found: " + this.className);
             throw new CommandException(MESSAGE_CLASS_NOT_FOUND);
         }
 
@@ -59,6 +62,8 @@ public class ViewSessionCommand extends Command {
         if (toView.isEmpty()) {
             throw new CommandException(MESSAGE_SESSION_NOT_FOUND);
         }
+
+        logger.log(Level.INFO, "Viewing session: " + sessionName + " of class: " + className);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toView.get().getSessionDetails()));
     }
 
