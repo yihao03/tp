@@ -187,6 +187,8 @@ public class ParserUtil {
         }
         return trimmed;
     }
+
+    /**
      * Parses a string representation of attendance status and converts it to a Boolean value.
      *
      * @param status the attendance status string to parse (e.g., "present", "absent", "true", "false")
