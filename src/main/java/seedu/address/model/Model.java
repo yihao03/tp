@@ -131,6 +131,9 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered class list */
     ObservableList<TuitionClass> getFilteredClassList();
 
+    /** Returns the class by its name */
+    TuitionClass getClassByName(String className);
+
     /**
      * Updates the filter of the filtered person list to filter by the given
      * {@code predicate}.
