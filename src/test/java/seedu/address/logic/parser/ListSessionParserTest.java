@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -91,7 +90,7 @@ public class ListSessionParserTest {
     @DisplayName("arePrefixesPresent method works correctly for missing prefix")
     void arePrefixesPresent_missingPrefix_returnsFalse() {
         // This tests the arePrefixesPresent method indirectly
-        assertParseFailure(parser, " Math101",  // no c/ prefix
+        assertParseFailure(parser, " Math101",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListSessionCommand.MESSAGE_USAGE));
     }
 
