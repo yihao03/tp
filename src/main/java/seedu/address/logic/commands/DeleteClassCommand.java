@@ -45,7 +45,8 @@ public class DeleteClassCommand extends Command {
 
         model.deleteClass(classToDelete);
 
-        return new CommandResult(String.format(MESSAGE_DELETE_CLASS_SUCCESS, className));
+        return new CommandResult(String.format(MESSAGE_DELETE_CLASS_SUCCESS, className),
+                CommandResult.DisplayType.CLASSES);
     }
 
     @Override

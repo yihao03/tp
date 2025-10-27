@@ -25,7 +25,6 @@ public class ListClassCommandTest {
 
         CommandResult result = command.execute(model);
 
-        assertTrue(result.getFeedbackToUser().contains("Listed all classes"));
         assertTrue(result.getFeedbackToUser().contains("[No classes]"));
     }
 
@@ -38,9 +37,8 @@ public class ListClassCommandTest {
         ListClassCommand command = new ListClassCommand();
         CommandResult result = command.execute(model);
 
-        assertTrue(result.getFeedbackToUser().contains("Listed all classes"));
-        assertTrue(result.getFeedbackToUser().contains("Sec1-Math-A"));
-        assertTrue(result.getFeedbackToUser().contains("[No students]"));
+        // Now displays in GUI, so just check count
+        assertTrue(result.getFeedbackToUser().contains("1 class"));
     }
 
     @Test
@@ -74,11 +72,8 @@ public class ListClassCommandTest {
         ListClassCommand command = new ListClassCommand();
         CommandResult result = command.execute(model);
 
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all classes"));
-        assertTrue(feedback.contains("Sec1-Math-A"));
-        assertTrue(feedback.contains("Alice Tan"));
-        assertTrue(feedback.contains("Bob Lee"));
+        // Now displays in GUI, so just check count
+        assertTrue(result.getFeedbackToUser().contains("1 class"));
     }
 
     @Test
@@ -106,12 +101,8 @@ public class ListClassCommandTest {
         ListClassCommand command = new ListClassCommand();
         CommandResult result = command.execute(model);
 
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all classes"));
-        assertTrue(feedback.contains("Sec1-Math-A"));
-        assertTrue(feedback.contains("Sec2-Science-B"));
-        assertTrue(feedback.contains("Charlie Wong"));
-        assertTrue(feedback.contains("[No students]"));
+        // Now displays in GUI, so just check count
+        assertTrue(result.getFeedbackToUser().contains("2 class"));
     }
 
     @Test
@@ -135,7 +126,7 @@ public class ListClassCommandTest {
         ListClassCommand command = new ListClassCommand();
         CommandResult result = command.execute(model);
 
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Sec1-Math-A (Tutor: Unassigned): David Lim"));
+        // Now displays in GUI, so just check count
+        assertTrue(result.getFeedbackToUser().contains("1 class"));
     }
 }

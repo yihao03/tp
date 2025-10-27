@@ -90,7 +90,11 @@ public class DeleteSessionCommand extends Command {
         // Remove the session
         tuitionClass.removeSession(sessionToDelete);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, className, sessionToDelete.getSessionName()));
+        // Update the UI by refreshing the session list
+        model.updateSessionListForClass(tuitionClass);
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, className, sessionToDelete.getSessionName()),
+                CommandResult.DisplayType.SESSIONS);
     }
 
     /**

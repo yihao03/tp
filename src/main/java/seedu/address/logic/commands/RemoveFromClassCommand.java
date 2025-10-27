@@ -106,8 +106,12 @@ public class RemoveFromClassCommand extends Command {
             logger.info("Successfully removed tutor " + personName + " from class " + className);
         }
 
+        // Force ObservableList to update by calling setClass
+        model.setClass(tuitionClass, tuitionClass);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, personName, className.value));
+        model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, personName, className.value),
+                CommandResult.DisplayType.CLASSES);
     }
 
     @Override

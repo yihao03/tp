@@ -68,7 +68,8 @@ public class AddClassCommand extends Command {
 
         model.addClass(newClass);
         final String displayName = newClass.getClassName().toString();
-        return new CommandResult(String.format(MESSAGE_SUCCESS, displayName));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, displayName),
+                CommandResult.DisplayType.CLASSES);
     }
 
     /**

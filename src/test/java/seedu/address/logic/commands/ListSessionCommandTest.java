@@ -83,11 +83,11 @@ public class ListSessionCommandTest {
         CommandResult result = command.execute(model);
 
         String feedback = result.getFeedbackToUser();
+        assertTrue(feedback.contains("2 session(s)"));
         assertTrue(feedback.contains("Math101"));
-        assertTrue(feedback.contains("Session1"));
-        assertTrue(feedback.contains("Session2"));
-        assertTrue(feedback.contains("Room 101"));
-        assertTrue(feedback.contains("Room 102"));
+
+        // Verify that the sessions were added to the model's session list
+        assertEquals(2, model.getFilteredSessionList().size());
     }
 
     @Test
@@ -97,9 +97,11 @@ public class ListSessionCommandTest {
         CommandResult result = command.execute(model);
 
         String feedback = result.getFeedbackToUser();
+        assertTrue(feedback.contains("1 session(s)"));
         assertTrue(feedback.contains("Science101"));
-        assertTrue(feedback.contains("Lab1"));
-        assertTrue(feedback.contains("Lab A"));
+
+        // Verify that the session was added to the model's session list
+        assertEquals(1, model.getFilteredSessionList().size());
     }
 
     @Test
@@ -109,8 +111,10 @@ public class ListSessionCommandTest {
         CommandResult result = command.execute(model);
 
         String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("EmptyClass"));
         assertTrue(feedback.contains("[No sessions]"));
+
+        // Verify that the session list is empty
+        assertEquals(0, model.getFilteredSessionList().size());
     }
 
     @Test
@@ -120,8 +124,11 @@ public class ListSessionCommandTest {
         CommandResult result = command.execute(model);
 
         String feedback = result.getFeedbackToUser();
+        assertTrue(feedback.contains("2 session(s)"));
         assertTrue(feedback.contains("math101"));
-        assertTrue(feedback.contains("Session1"));
+
+        // Verify that the sessions were added to the model's session list
+        assertEquals(2, model.getFilteredSessionList().size());
     }
 
     @Test
@@ -131,8 +138,11 @@ public class ListSessionCommandTest {
         CommandResult result = command.execute(model);
 
         String feedback = result.getFeedbackToUser();
+        assertTrue(feedback.contains("2 session(s)"));
         assertTrue(feedback.contains("MATH101"));
-        assertTrue(feedback.contains("Session1"));
+
+        // Verify that the sessions were added to the model's session list
+        assertEquals(2, model.getFilteredSessionList().size());
     }
 
     @Test
@@ -218,15 +228,22 @@ public class ListSessionCommandTest {
     }
 
     @Test
-    @DisplayName("Execute formats date and time correctly")
-    void execute_formatsDateTimeCorrectly() throws CommandException {
+    @DisplayName("Execute populates session list correctly")
+    void execute_populatesSessionListCorrectly() throws CommandException {
         ListSessionCommand command = new ListSessionCommand("Math101");
         CommandResult result = command.execute(model);
 
-        String feedback = result.getFeedbackToUser();
-        // Check date formatting
-        assertTrue(feedback.contains("Oct 2025") || feedback.contains("25 Oct 2025"));
-        // Check time formatting
-        assertTrue(feedback.contains("PM") || feedback.contains("pm") || feedback.contains("02:00"));
+        // Verify that the sessions are in the observable list
+        assertEquals(2, model.getFilteredSessionList().size());
+
+        // Verify the sessions are sorted in descending order (most recent first)
+        // Session2 (Nov 1) should be first, Session1 (Oct 25) should be second
+        var session1 = model.getFilteredSessionList().get(0);
+        assertEquals("Session2", session1.getSessionName());
+        assertEquals("Room 102", session1.getLocation());
+
+        var session2 = model.getFilteredSessionList().get(1);
+        assertEquals("Session1", session2.getSessionName());
+        assertEquals("Room 101", session2.getLocation());
     }
 }

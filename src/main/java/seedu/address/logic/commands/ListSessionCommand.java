@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -17,7 +16,7 @@ import seedu.address.model.classroom.TuitionClass;
  */
 public class ListSessionCommand extends Command {
 
-    public static final String COMMAND_WORD = "sessions";
+    public static final String COMMAND_WORD = "listsessions";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all sessions for a specific class.\n"
             + "Parameters: " + PREFIX_CLASS + "CLASS_NAME\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_CLASS + "Math101";
@@ -65,16 +64,17 @@ public class ListSessionCommand extends Command {
 
         List<ClassSession> sessions = tuitionClass.getAllSessions();
 
+        // Update the observable session list in the model (sorted by datetime descending)
+        model.updateSessionListForClass(tuitionClass);
+
         String output;
         if (sessions.isEmpty()) {
             output = "[No sessions]";
         } else {
-            output = sessions.stream()
-                    .map(this::formatSession)
-                    .collect(Collectors.joining("\n"));
+            output = String.format("Displaying %d session(s) for class: %s", sessions.size(), className);
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, className) + "\n" + output);
+        return new CommandResult(output, CommandResult.DisplayType.SESSIONS);
     }
 
     /**
@@ -84,10 +84,11 @@ public class ListSessionCommand extends Command {
      * @return a formatted string representation of the session
      */
     private String formatSession(ClassSession session) {
+        String location = session.getLocation() != null ? session.getLocation() : "No location";
         return String.format("- %s | %s | %s",
                 session.getSessionName(),
                 session.getDateTime().format(DATE_TIME_FORMATTER),
-                session.getLocation());
+                location);
     }
 
     /**

@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.classroom.ClassSession;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
@@ -149,4 +150,29 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredClassList(Predicate<TuitionClass> predicate);
+
+    /** Returns an unmodifiable view of the filtered session list */
+    ObservableList<ClassSession> getFilteredSessionList();
+
+    /**
+     * Updates the filter of the filtered session list to filter by the given
+     * {@code predicate}.
+     *
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredSessionList(Predicate<ClassSession> predicate);
+
+    /**
+     * Sets the session list to display in the UI.
+     *
+     * @param sessions the list of sessions to display
+     */
+    void setSessionList(java.util.List<ClassSession> sessions);
+
+    /**
+     * Updates the UI session list for the given class, sorted by datetime in descending order.
+     *
+     * @param tuitionClass the class whose sessions should be displayed
+     */
+    void updateSessionListForClass(TuitionClass tuitionClass);
 }

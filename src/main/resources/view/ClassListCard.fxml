@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" styleClass="modern-card" spacing="20">
+  <padding>
+    <Insets top="16" right="20" bottom="16" left="20" />
+  </padding>
+
+  <!-- Left: Class icon -->
+  <VBox alignment="CENTER" spacing="8">
+    <ImageView fx:id="classIcon" styleClass="role-icon" fitWidth="32" fitHeight="32" preserveRatio="true" />
+  </VBox>
+
+  <!-- Center: Main info -->
+  <VBox alignment="CENTER_LEFT" spacing="3" HBox.hgrow="ALWAYS">
+    <HBox spacing="8" alignment="CENTER_LEFT">
+      <Label fx:id="id" styleClass="card-id" />
+      <Label fx:id="className" text="\$className" styleClass="card-name" />
+    </HBox>
+    <Label fx:id="tutorName" styleClass="card-email" text="\$tutorName" />
+  </VBox>
+
+  <!-- Right: Stats -->
+  <VBox alignment="CENTER_RIGHT" spacing="2">
+    <Label fx:id="studentCount" styleClass="card-phone" text="\$studentCount" />
+    <Label fx:id="sessionCount" styleClass="card-address" text="\$sessionCount" />
+  </VBox>
+</HBox>
