@@ -1,0 +1,52 @@
+{
+  "persons": [
+    {
+      "name": "Alice Student",
+      "phone": "91234567",
+      "email": "alice@example.com",
+      "address": "123 Street",
+      "role": "STUDENT",
+      "tags": []
+    },
+    {
+      "name": "Bob Student",
+      "phone": "81234567",
+      "email": "bob@example.com",
+      "address": "456 Street",
+      "role": "STUDENT",
+      "tags": []
+    }
+  ],
+  "classes": [
+    {
+      "name": "Math101",
+      "students": [
+        {
+          "name": "Alice Student",
+          "phone": "91234567",
+          "email": "alice@example.com",
+          "address": "123 Street",
+          "role": "STUDENT",
+          "tags": []
+        },
+        {
+          "name": "Bob Student",
+          "phone": "81234567",
+          "email": "bob@example.com",
+          "address": "456 Street",
+          "role": "STUDENT",
+          "tags": []
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1",
+          "dateTime": "2024-10-28T14:00:00",
+          "location": "Room 101",
+          "presentStudents": ["Alice Student"],
+          "absentStudents": ["Bob Student"]
+        }
+      ]
+    }
+  ]
+}
