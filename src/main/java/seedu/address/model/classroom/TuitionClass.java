@@ -163,7 +163,7 @@ public class TuitionClass {
      * Returns the internal mutable roster.
      */
     public ArrayList<Student> getStudents() {
-        return students;
+        return new ArrayList<>(students);
     }
 
     /**
