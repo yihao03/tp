@@ -23,15 +23,15 @@ public class ListClassCommand extends Command {
 
         List<TuitionClass> classList = model.getFilteredClassList();
 
+        String output;
         if (classList.isEmpty()) {
-            return new CommandResult(MESSAGE_SUCCESS + "\n[No classes]");
+            output = MESSAGE_SUCCESS + "\n[No classes]";
+        } else {
+            output = String.format("Displaying %d class(es)", classList.size());
         }
 
-        String output = classList.stream()
-                .map(this::formatClassWithStudents)
-                .collect(Collectors.joining("\n\n"));
-
-        return new CommandResult(MESSAGE_SUCCESS + "\n" + output);
+        // The filtered class list is already being displayed, so no need to set it again
+        return new CommandResult(output, CommandResult.DisplayType.CLASSES);
     }
 
     /**

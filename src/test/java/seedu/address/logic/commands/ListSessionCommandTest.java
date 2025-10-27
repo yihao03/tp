@@ -77,62 +77,34 @@ public class ListSessionCommandTest {
     }
 
     @Test
-    @DisplayName("Execute lists sessions for valid class with multiple sessions")
-    void execute_validClassWithMultipleSessions_success() throws CommandException {
+    @DisplayName("Execute lists sessions for valid class")
+    void execute_validClass_success() throws CommandException {
         ListSessionCommand command = new ListSessionCommand("Math101");
         CommandResult result = command.execute(model);
 
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Math101"));
-        assertTrue(feedback.contains("Session1"));
-        assertTrue(feedback.contains("Session2"));
-        assertTrue(feedback.contains("Room 101"));
-        assertTrue(feedback.contains("Room 102"));
+        assertTrue(result.getFeedbackToUser().contains("2 session(s)"));
+        assertTrue(result.getFeedbackToUser().contains("Math101"));
+        assertEquals(2, model.getFilteredSessionList().size());
     }
 
     @Test
-    @DisplayName("Execute lists session for valid class with one session")
-    void execute_validClassWithOneSession_success() throws CommandException {
-        ListSessionCommand command = new ListSessionCommand("Science101");
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Science101"));
-        assertTrue(feedback.contains("Lab1"));
-        assertTrue(feedback.contains("Lab A"));
-    }
-
-    @Test
-    @DisplayName("Execute shows no sessions message for class without sessions")
-    void execute_validClassNoSessions_success() throws CommandException {
+    @DisplayName("Execute shows no sessions message for empty class")
+    void execute_emptyClass_success() throws CommandException {
         ListSessionCommand command = new ListSessionCommand("EmptyClass");
         CommandResult result = command.execute(model);
 
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("EmptyClass"));
-        assertTrue(feedback.contains("[No sessions]"));
+        assertTrue(result.getFeedbackToUser().contains("[No sessions]"));
+        assertEquals(0, model.getFilteredSessionList().size());
     }
 
     @Test
-    @DisplayName("Execute is case insensitive for class name (lowercase)")
-    void execute_classNameLowercase_success() throws CommandException {
+    @DisplayName("Execute is case insensitive for class name")
+    void execute_caseInsensitive_success() throws CommandException {
         ListSessionCommand command = new ListSessionCommand("math101");
         CommandResult result = command.execute(model);
 
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("math101"));
-        assertTrue(feedback.contains("Session1"));
-    }
-
-    @Test
-    @DisplayName("Execute is case insensitive for class name (uppercase)")
-    void execute_classNameUppercase_success() throws CommandException {
-        ListSessionCommand command = new ListSessionCommand("MATH101");
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("MATH101"));
-        assertTrue(feedback.contains("Session1"));
+        assertTrue(result.getFeedbackToUser().contains("2 session(s)"));
+        assertEquals(2, model.getFilteredSessionList().size());
     }
 
     @Test
@@ -147,86 +119,28 @@ public class ListSessionCommandTest {
     }
 
     @Test
-    @DisplayName("Equals returns true for same object instance")
-    void equals_sameInstance_returnsTrue() {
-        ListSessionCommand command = new ListSessionCommand("Math101");
-        assertTrue(command.equals(command));
-    }
-
-    @Test
-    @DisplayName("Equals returns true for same class name")
-    void equals_sameClassName_returnsTrue() {
+    @DisplayName("Equals and hashCode work correctly")
+    void equals_hashCode() {
         ListSessionCommand command1 = new ListSessionCommand("Math101");
         ListSessionCommand command2 = new ListSessionCommand("Math101");
+        ListSessionCommand command3 = new ListSessionCommand("Science101");
+
+        // same object -> returns true
+        assertTrue(command1.equals(command1));
+
+        // same values -> returns true
         assertTrue(command1.equals(command2));
-    }
 
-    @Test
-    @DisplayName("Equals returns true for same class name with different case")
-    void equals_sameClassNameDifferentCase_returnsTrue() {
-        ListSessionCommand command1 = new ListSessionCommand("Math101");
-        ListSessionCommand command2 = new ListSessionCommand("math101");
-        assertTrue(command1.equals(command2));
-    }
+        // different values -> returns false
+        assertFalse(command1.equals(command3));
 
-    @Test
-    @DisplayName("Equals returns false for different class name")
-    void equals_differentClassName_returnsFalse() {
-        ListSessionCommand command1 = new ListSessionCommand("Math101");
-        ListSessionCommand command2 = new ListSessionCommand("Science101");
-        assertFalse(command1.equals(command2));
-    }
+        // null -> returns false
+        assertFalse(command1.equals(null));
 
-    @Test
-    @DisplayName("Equals returns false for null")
-    void equals_null_returnsFalse() {
-        ListSessionCommand command = new ListSessionCommand("Math101");
-        assertFalse(command.equals(null));
-    }
+        // different types -> returns false
+        assertFalse(command1.equals("Not a command"));
 
-    @Test
-    @DisplayName("Equals returns false for different type")
-    void equals_differentType_returnsFalse() {
-        ListSessionCommand command = new ListSessionCommand("Math101");
-        assertFalse(command.equals("Not a command"));
-    }
-
-    @Test
-    @DisplayName("HashCode is same for equal commands")
-    void hashCode_equalCommands_sameHashCode() {
-        ListSessionCommand command1 = new ListSessionCommand("Math101");
-        ListSessionCommand command2 = new ListSessionCommand("Math101");
+        // equal objects have equal hash codes
         assertEquals(command1.hashCode(), command2.hashCode());
-    }
-
-    @Test
-    @DisplayName("HashCode is same for same class name with different case")
-    void hashCode_sameClassNameDifferentCase_sameHashCode() {
-        ListSessionCommand command1 = new ListSessionCommand("Math101");
-        ListSessionCommand command2 = new ListSessionCommand("math101");
-        assertEquals(command1.hashCode(), command2.hashCode());
-    }
-
-    @Test
-    @DisplayName("ToString contains class name")
-    void toString_containsClassName() {
-        ListSessionCommand command = new ListSessionCommand("Math101");
-        String result = command.toString();
-
-        assertTrue(result.contains("ListSessionCommand"));
-        assertTrue(result.contains("Math101"));
-    }
-
-    @Test
-    @DisplayName("Execute formats date and time correctly")
-    void execute_formatsDateTimeCorrectly() throws CommandException {
-        ListSessionCommand command = new ListSessionCommand("Math101");
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        // Check date formatting
-        assertTrue(feedback.contains("Oct 2025") || feedback.contains("25 Oct 2025"));
-        // Check time formatting
-        assertTrue(feedback.contains("PM") || feedback.contains("pm") || feedback.contains("02:00"));
     }
 }

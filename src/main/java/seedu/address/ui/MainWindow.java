@@ -32,6 +32,8 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
+    private SessionListPanel sessionListPanel;
+    private ClassListPanel classListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -43,6 +45,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane personListPanelPlaceholder;
+
+    @FXML
+    private StackPane rightPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -113,6 +118,12 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        sessionListPanel = new SessionListPanel(logic.getFilteredSessionList());
+        classListPanel = new ClassListPanel(logic.getFilteredClassList());
+
+        // Initially show classes panel
+        showClassesPanel();
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
@@ -121,6 +132,22 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    /**
+     * Shows the sessions panel on the right side.
+     */
+    public void showSessionsPanel() {
+        rightPanelPlaceholder.getChildren().clear();
+        rightPanelPlaceholder.getChildren().add(sessionListPanel.getRoot());
+    }
+
+    /**
+     * Shows the classes panel on the right side.
+     */
+    public void showClassesPanel() {
+        rightPanelPlaceholder.getChildren().clear();
+        rightPanelPlaceholder.getChildren().add(classListPanel.getRoot());
     }
 
     /**
@@ -184,6 +211,20 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            // Handle panel switching based on display type
+            switch (commandResult.getDisplayType()) {
+            case SESSIONS:
+                showSessionsPanel();
+                break;
+            case CLASSES:
+                showClassesPanel();
+                break;
+            case NONE:
+            default:
+                // Don't switch panels
+                break;
             }
 
             return commandResult;
