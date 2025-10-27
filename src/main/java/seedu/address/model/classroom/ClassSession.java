@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.util.Pair;
 import seedu.address.model.person.Student;
 
 /**
@@ -28,8 +29,13 @@ public class ClassSession {
     /** Optional remarks about the session. */
     private String remarks;
 
-    /** Attendance record: true = present, false = absent. */
-    private Map<Student, Boolean> attendanceRecord;
+    /**
+     * Records attendance and time stamp of attendance marking for each student.
+     * Key: Student
+     * Value: Pair<Boolean, LocalDateTime> where Boolean indicates presence (true = present, false = absent)
+     * and LocalDateTime indicates the time attendance was marked.
+     */
+    private Map<Student, Pair<Boolean, LocalDateTime>> attendanceRecord;
 
     /**
      * Constructs a {@code ClassSession}. Attendance is initialized for all current students in the parent class.
@@ -86,31 +92,34 @@ public class ClassSession {
 
     // Attendance
 
-    /** Initializes attendance records for all students (default: absent). */
+    /** Initializes attendance records for all students (default: absent, timestamp = now). */
     public void initializeAttendance() {
+        LocalDateTime now = LocalDateTime.now();
         for (Student s : parentClass.getStudents()) {
-            attendanceRecord.putIfAbsent(s, false);
+            attendanceRecord.putIfAbsent(s, new Pair<>(false, now));
         }
     }
 
     public void markPresent(Student student) {
-        attendanceRecord.put(student, true);
+        attendanceRecord.put(student, new Pair<>(true, LocalDateTime.now()));
     }
 
     public void markAbsent(Student student) {
-        attendanceRecord.put(student, false);
+        attendanceRecord.put(student, new Pair<>(false, LocalDateTime.now()));
     }
 
     public boolean hasAttended(Student student) {
-        return attendanceRecord.getOrDefault(student, false);
+        Pair<Boolean, LocalDateTime> record = attendanceRecord.getOrDefault(student,
+                new Pair<>(false, LocalDateTime.now()));
+        return record.getKey();
     }
 
-    public Map<Student, Boolean> getAttendanceRecord() {
+    public Map<Student, Pair<Boolean, LocalDateTime>> getAttendanceRecord() {
         return attendanceRecord;
     }
 
     public long getAttendanceCount() {
-        return attendanceRecord.values().stream().filter(Boolean::booleanValue).count();
+        return attendanceRecord.values().stream().filter(p -> p.getKey()).count();
     }
 
     /**
@@ -134,11 +143,15 @@ public class ClassSession {
         // Split attendance into Present and Absent sections
         StringBuilder presentSb = new StringBuilder();
         StringBuilder absentSb = new StringBuilder();
-        for (Map.Entry<Student, Boolean> entry : attendanceRecord.entrySet()) {
+        for (Map.Entry<Student, Pair<Boolean, LocalDateTime>> entry : attendanceRecord.entrySet()) {
             Student student = entry.getKey();
-            Boolean present = entry.getValue();
-            String line = "- " + (student == null ? "Unknown student" : student.getName()) + System.lineSeparator();
-            if (present != null && present) {
+            Pair<Boolean, LocalDateTime> pair = entry.getValue();
+            Boolean present = pair == null ? false : pair.getKey();
+            LocalDateTime ts = pair == null ? null : pair.getValue();
+            String timeStr = (ts == null) ? "" : " (marked: " + ts.format(fmt) + ")";
+            String line = "- " + (student == null ? "Unknown student" : student.getName()) + timeStr
+                    + System.lineSeparator();
+            if (Boolean.TRUE.equals(present)) {
                 presentSb.append(line);
             } else {
                 absentSb.append(line);
