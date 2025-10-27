@@ -121,8 +121,8 @@ public class MainWindow extends UiPart<Stage> {
         sessionListPanel = new SessionListPanel(logic.getFilteredSessionList());
         classListPanel = new ClassListPanel(logic.getFilteredClassList());
 
-        // Initially show sessions panel
-        showSessionsPanel();
+        // Initially show classes panel
+        showClassesPanel();
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());

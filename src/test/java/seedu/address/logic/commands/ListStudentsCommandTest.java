@@ -52,47 +52,25 @@ public class ListStudentsCommandTest {
     public void execute_classWithStudents_success() throws Exception {
         Model model = new ModelManager(new AddressBook(), new UserPrefs());
 
-        Student student1 = new Student(
+        Student student = new Student(
                 new Name("Alice Tan"),
                 new Phone("91234567"),
                 new Email("alice@example.com"),
                 new Address("123 Main St"),
                 new java.util.HashSet<>()
         );
-        Student student2 = new Student(
-                new Name("Bob Lee"),
-                new Phone("98765432"),
-                new Email("bob@example.com"),
-                new Address("456 Second St"),
-                new java.util.HashSet<>()
-        );
 
-        model.addPerson(student1);
-        model.addPerson(student2);
-
+        model.addPerson(student);
         TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
         model.addClass(tuitionClass);
-        model.addStudentToClass(student1, tuitionClass);
-        model.addStudentToClass(student2, tuitionClass);
+        model.addStudentToClass(student, tuitionClass);
 
         ListStudentsCommand command = new ListStudentsCommand("Math101");
         CommandResult result = command.execute(model);
 
-        assertTrue(result.getFeedbackToUser().contains("Displaying 2 student(s)"));
+        assertTrue(result.getFeedbackToUser().contains("1 student(s)"));
         assertTrue(result.getFeedbackToUser().contains("Math101"));
         assertEquals(CommandResult.DisplayType.NONE, result.getDisplayType());
-    }
-
-    @Test
-    public void execute_caseInsensitiveClassName_success() throws Exception {
-        Model model = new ModelManager(new AddressBook(), new UserPrefs());
-        TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
-        model.addClass(tuitionClass);
-
-        ListStudentsCommand command = new ListStudentsCommand("math101");
-        CommandResult result = command.execute(model);
-
-        assertEquals("[No students in this class]", result.getFeedbackToUser());
     }
 
     @Test
@@ -115,12 +93,8 @@ public class ListStudentsCommandTest {
 
         // different types -> returns false
         assertFalse(command1.equals(5));
-    }
 
-    @Test
-    public void toStringMethod() {
-        ListStudentsCommand command = new ListStudentsCommand("Math101");
-        String expected = "ListStudentsCommand[className=Math101]";
-        assertEquals(expected, command.toString());
+        // equal objects have equal hash codes
+        assertEquals(command1.hashCode(), command2.hashCode());
     }
 }

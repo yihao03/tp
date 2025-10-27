@@ -23,20 +23,17 @@ public class ListStudentsCommandParserTest {
     }
 
     @Test
-    public void parse_missingPrefix_throwsParseException() {
+    public void parse_invalidArgs_throwsParseException() {
+        // missing prefix
         assertParseFailure(parser, "Math101",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListStudentsCommand.MESSAGE_USAGE));
-    }
 
-    @Test
-    public void parse_emptyClassName_throwsParseException() {
-        assertParseFailure(parser, " c/",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListStudentsCommand.MESSAGE_USAGE));
-    }
-
-    @Test
-    public void parse_missingArgs_throwsParseException() {
+        // empty args
         assertParseFailure(parser, "",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListStudentsCommand.MESSAGE_USAGE));
+
+        // empty class name
+        assertParseFailure(parser, " c/",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListStudentsCommand.MESSAGE_USAGE));
     }
 }
