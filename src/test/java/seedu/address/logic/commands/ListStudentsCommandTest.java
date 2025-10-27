@@ -97,4 +97,12 @@ public class ListStudentsCommandTest {
         // equal objects have equal hash codes
         assertEquals(command1.hashCode(), command2.hashCode());
     }
+
+    @Test
+    public void toStringMethod() {
+        ListStudentsCommand command = new ListStudentsCommand("Math101");
+        String result = command.toString();
+        assertTrue(result.contains("ListStudentsCommand"));
+        assertTrue(result.contains("Math101"));
+    }
 }

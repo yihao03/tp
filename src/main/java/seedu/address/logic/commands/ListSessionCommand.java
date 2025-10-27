@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -23,9 +22,6 @@ public class ListSessionCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all sessions for class: %s";
     public static final String MESSAGE_CLASS_NOT_FOUND = "Class not found: %s";
-
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a");
 
     private final String className;
 
@@ -75,20 +71,6 @@ public class ListSessionCommand extends Command {
         }
 
         return new CommandResult(output, CommandResult.DisplayType.SESSIONS);
-    }
-
-    /**
-     * Formats a session for display.
-     *
-     * @param session the session to format
-     * @return a formatted string representation of the session
-     */
-    private String formatSession(ClassSession session) {
-        String location = session.getLocation() != null ? session.getLocation() : "No location";
-        return String.format("- %s | %s | %s",
-                session.getSessionName(),
-                session.getDateTime().format(DATE_TIME_FORMATTER),
-                location);
     }
 
     /**
