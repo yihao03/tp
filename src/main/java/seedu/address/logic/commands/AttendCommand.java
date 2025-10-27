@@ -18,7 +18,8 @@ import seedu.address.model.person.Student;
 
 /**
  * Marks attendance for a student in a specific class session.
- * The command updates the attendance record by marking the student as either present or absent.
+ * The command updates the attendance record by marking the student as either
+ * present or absent.
  */
 public class AttendCommand extends Command {
 
@@ -38,7 +39,7 @@ public class AttendCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Attendance marked: %1$s";
     public static final String MESSAGE_SESSION_NOT_FOUND = "Session '%s' not found in class '%s'";
-    public static final String MESSAGE_STUDENT_NOT_FOUND = "Student '%s' not found";
+    public static final String MESSAGE_STUDENT_NOT_FOUND = "Student is not found or not enrolled in the class: %s";
 
     private final Name name;
     private final String className;
@@ -48,10 +49,11 @@ public class AttendCommand extends Command {
     /**
      * Creates an AttendCommand to mark attendance for the specified student.
      *
-     * @param name the name of the student whose attendance is being marked
-     * @param className the name of the class containing the session
+     * @param name        the name of the student whose attendance is being marked
+     * @param className   the name of the class containing the session
      * @param sessionName the name of the session within the class
-     * @param present {@code true} if marking present, {@code false} if marking absent
+     * @param present     {@code true} if marking present, {@code false} if marking
+     *                    absent
      * @throws NullPointerException if any parameter is null
      */
     public AttendCommand(Name name, String className, String sessionName, Boolean present) {
@@ -62,11 +64,12 @@ public class AttendCommand extends Command {
     }
 
     /**
-     * Executes the attend command to mark a student's attendance in a specific session.
+     * Executes the attend command to mark a student's attendance in a specific
+     * session.
      *
      * @param model the model containing the class list and person list
      * @return the command result with success message
-     * @throws CommandException if the session or student cannot be found
+     * @throws CommandException     if the session or student cannot be found
      * @throws NullPointerException if model is null
      */
     @Override
@@ -87,9 +90,7 @@ public class AttendCommand extends Command {
         }
 
         // Find the student by name
-        Student student = model.getFilteredPersonList().stream()
-                .filter(Student.class::isInstance)
-                .map(Student.class::cast)
+        Student student = session.getParentClass().getStudents().stream()
                 .filter(s -> s.getName().equals(this.name))
                 .findFirst()
                 .orElse(null);
@@ -115,7 +116,8 @@ public class AttendCommand extends Command {
      * Checks if this AttendCommand is equal to another object.
      *
      * @param other the object to compare with
-     * @return {@code true} if both objects are AttendCommand instances with identical parameters
+     * @return {@code true} if both objects are AttendCommand instances with
+     *         identical parameters
      */
     @Override
     public boolean equals(Object other) {
