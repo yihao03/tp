@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TutBook is a **desktop app for managing tuition centre contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). This release represents a significant enhancement over AB3, transforming it into a comprehensive tuition centre management system.
+TutBook is a **desktop app for tuition centre admins to manage contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). This release represents a significant enhancement over AB3, transforming it into a comprehensive tuition centre management system.
 
 * Table of Contents
 {:toc}
