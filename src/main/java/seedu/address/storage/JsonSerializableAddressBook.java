@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.classroom.ClassSession;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
@@ -105,6 +106,40 @@ class JsonSerializableAddressBook {
                 }
             }
 
+            // Link sessions
+            for (JsonAdaptedSession jsonSession : jsonClass.getSessions()) {
+                jsonSession.validate();
+                tuitionClass.addSession(
+                        jsonSession.getSessionName(),
+                        jsonSession.toModelDateTime(),
+                        jsonSession.getLocation()
+                );
+
+                // Restore attendance data
+                ClassSession session = tuitionClass.getAllSessions().stream()
+                        .filter(s -> s.getSessionName().equals(jsonSession.getSessionName()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (session != null) {
+                    // Mark students as present based on saved data
+                    for (String studentName : jsonSession.getPresentStudents()) {
+                        Person student = personMap.get(studentName);
+                        if (student instanceof Student) {
+                            session.markPresent((Student) student);
+                        }
+                    }
+
+                    // Mark students as absent based on saved data
+                    for (String studentName : jsonSession.getAbsentStudents()) {
+                        Person student = personMap.get(studentName);
+                        if (student instanceof Student) {
+                            session.markAbsent((Student) student);
+                        }
+                    }
+                }
+            }
+
             // Link students
             for (JsonAdaptedPerson jsonStudent : jsonClass.getStudents()) {
                 Person studentPerson = jsonStudent.toModelType();
@@ -116,42 +151,7 @@ class JsonSerializableAddressBook {
                             "Student " + studentPerson.getName().fullName + " not found or not a Student");
                 }
             }
-
-            // Link sessions
-            for (JsonAdaptedSession jsonSession : jsonClass.getSessions()) {
-                jsonSession.validate();
-                tuitionClass.addSession(
-                        jsonSession.getSessionName(),
-                        jsonSession.toModelDateTime(),
-                        jsonSession.getLocation()
-                );
-
-                // Restore attendance data
-                seedu.address.model.classroom.ClassSession session = tuitionClass.getAllSessions().stream()
-                        .filter(s -> s.getSessionName().equals(jsonSession.getSessionName()))
-                        .findFirst()
-                        .orElse(null);
-
-                if (session != null) {
-                    // Mark students as present based on saved data
-                    for (String studentName : jsonSession.getPresentStudents()) {
-                        Person student = personMap.get(studentName);
-                        if (student instanceof seedu.address.model.person.Student) {
-                            session.markPresent((seedu.address.model.person.Student) student);
-                        }
-                    }
-
-                    // Mark students as absent based on saved data
-                    for (String studentName : jsonSession.getAbsentStudents()) {
-                        Person student = personMap.get(studentName);
-                        if (student instanceof seedu.address.model.person.Student) {
-                            session.markAbsent((seedu.address.model.person.Student) student);
-                        }
-                    }
-                }
-            }
         }
-
         return addressBook;
     }
 }
