@@ -126,7 +126,7 @@ public class ModelManager implements Model {
     @Override
     public void deleteClass(TuitionClass target) {
         requireNonNull(target);
-        ArrayList<Student> studentsToRemove = new ArrayList<>(target.getStudents());
+        ArrayList<Student> studentsToRemove = target.getStudents();
         for (Student s : studentsToRemove) {
             s.removeClassSafely(target);
             target.removeStudent(s);
