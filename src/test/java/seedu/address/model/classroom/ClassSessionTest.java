@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -103,11 +103,13 @@ public class ClassSessionTest {
                 "COM1-B103"
         );
 
-        Map<Student, Boolean> attendance = session.getAttendanceRecord();
+        Map<Student, Pair<Boolean, LocalDateTime>> attendance = session.getAttendanceRecord();
 
         assertEquals(2, attendance.size());
-        assertFalse(attendance.get(alice));
-        assertFalse(attendance.get(bob));
+        assertFalse(attendance.get(alice).getKey());
+        assertNotEquals(null, attendance.get(alice).getValue());
+        assertFalse(attendance.get(bob).getKey());
+        assertNotEquals(null, attendance.get(bob).getValue());
     }
 
     @Test
@@ -152,14 +154,15 @@ public class ClassSessionTest {
         parentClass.addStudent(charlie);
         session.initializeAttendance();
 
-        Map<Student, Boolean> attendance = session.getAttendanceRecord();
+        Map<Student, Pair<Boolean, LocalDateTime>> attendance = session.getAttendanceRecord();
 
         assertTrue(attendance.containsKey(charlie));
-        assertFalse(attendance.get(charlie)); // default false
-        assertTrue(attendance.get(alice));
+        assertFalse(attendance.get(charlie).getKey()); // default false
+        assertNotEquals(null, attendance.get(charlie).getValue());
+        assertTrue(attendance.get(alice).getKey());
+        assertNotEquals(null, attendance.get(alice).getValue());
     }
 
-    @Test
     @DisplayName("Sessions with same class, name, and time are equal")
     void equals_sameData_returnsTrue() {
         LocalDateTime time = LocalDateTime.of(2025, 10, 13, 10, 0);
@@ -199,8 +202,7 @@ public class ClassSessionTest {
     @Test
     @DisplayName("Throws exception when constructed with null parent class")
     void constructor_nullParent_throwsException() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new ClassSession(null, "Week 1", LocalDateTime.now(), "COM1")
+        assertThrows(IllegalArgumentException.class, () -> new ClassSession(null, "Week 1", LocalDateTime.now(), "COM1")
         );
     }
 
@@ -273,8 +275,8 @@ public class ClassSessionTest {
         parentClass.addSession("Week 1 Tutorial", LocalDateTime.now(), "COM1");
 
         // Try to add session with same name
-        assertThrows(IllegalArgumentException.class, () ->
-                parentClass.addSession("Week 1 Tutorial", LocalDateTime.now().plusDays(1), "COM1")
+        assertThrows(IllegalArgumentException.class,
+                () -> parentClass.addSession("Week 1 Tutorial", LocalDateTime.now().plusDays(1), "COM1")
         );
     }
 
@@ -285,8 +287,8 @@ public class ClassSessionTest {
         parentClass.addSession("Week 1 Tutorial", LocalDateTime.now(), "COM1");
 
         // Try to add session with same name but extra whitespace
-        assertThrows(IllegalArgumentException.class, () ->
-                parentClass.addSession("  Week 1 Tutorial  ", LocalDateTime.now().plusDays(1), "COM1")
+        assertThrows(IllegalArgumentException.class,
+                () -> parentClass.addSession("  Week 1 Tutorial  ", LocalDateTime.now().plusDays(1), "COM1")
         );
     }
 
@@ -305,11 +307,11 @@ public class ClassSessionTest {
     void addSession_caseInsensitiveNames_rejectsDuplicates() {
         parentClass.addSession("Tutorial", LocalDateTime.now(), "COM1");
         // Should reject different case as they are treated as the same name
-        assertThrows(IllegalArgumentException.class, () ->
-                parentClass.addSession("tutorial", LocalDateTime.now().plusDays(1), "COM1")
+        assertThrows(IllegalArgumentException.class,
+                () -> parentClass.addSession("tutorial", LocalDateTime.now().plusDays(1), "COM1")
         );
-        assertThrows(IllegalArgumentException.class, () ->
-                parentClass.addSession("TUTORIAL", LocalDateTime.now().plusDays(1), "COM1")
+        assertThrows(IllegalArgumentException.class,
+                () -> parentClass.addSession("TUTORIAL", LocalDateTime.now().plusDays(1), "COM1")
         );
     }
 
@@ -412,7 +414,7 @@ public class ClassSessionTest {
         );
 
         // Manually add a null entry to simulate edge case
-        session.getAttendanceRecord().put(null, true);
+        session.getAttendanceRecord().put(null, new Pair<>(true, LocalDateTime.now()));
 
         String details = session.getSessionDetails();
 
