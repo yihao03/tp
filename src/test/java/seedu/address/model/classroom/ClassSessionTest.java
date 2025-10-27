@@ -44,24 +44,21 @@ public class ClassSessionTest {
                 new Phone("91234567"),
                 new Email("smith@example.com"),
                 new Address("1 Tutor Lane"),
-                emptyTags
-        );
+                emptyTags);
 
         alice = new Student(
                 new Name("Alice Tan"),
                 new Phone("98765432"),
                 new Email("alice@example.com"),
                 new Address("10 Kent Ridge Road"),
-                emptyTags
-        );
+                emptyTags);
 
         bob = new Student(
                 new Name("Bob Lim"),
                 new Phone("92345678"),
                 new Email("bob@example.com"),
                 new Address("20 Clementi Ave"),
-                emptyTags
-        );
+                emptyTags);
 
         parentClass = new TuitionClass(new ClassName("CS2103T T12"), tutor);
         parentClass.addStudent(alice);
@@ -101,8 +98,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 3 Tutorial",
                 LocalDateTime.of(2025, 10, 13, 10, 0),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         Map<Student, Pair<Boolean, LocalDateTime>> attendance = session.getAttendanceRecord();
 
@@ -120,8 +116,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 3 Tutorial",
                 LocalDateTime.now(),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         session.markPresent(alice);
         session.markAbsent(bob);
@@ -138,8 +133,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 3 Tutorial",
                 LocalDateTime.now(),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         session.markPresent(alice);
 
@@ -149,8 +143,7 @@ public class ClassSessionTest {
                 new Phone("99887766"),
                 new Email("charlie@example.com"),
                 new Address("30 Science Drive"),
-                new HashSet<>()
-        );
+                new HashSet<>());
 
         parentClass.addStudent(charlie);
         session.initializeAttendance();
@@ -190,8 +183,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 3 Tutorial",
                 LocalDateTime.of(2025, 10, 13, 10, 0),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         String summary = session.toString();
 
@@ -203,8 +195,8 @@ public class ClassSessionTest {
     @Test
     @DisplayName("Throws exception when constructed with null parent class")
     void constructor_nullParent_throwsException() {
-        assertThrows(IllegalArgumentException.class, () -> new ClassSession(null, "Week 1", LocalDateTime.now(), "COM1")
-        );
+        assertThrows(IllegalArgumentException.class, () ->
+            new ClassSession(null, "Week 1", LocalDateTime.now(), "COM1"));
     }
 
     @Test
@@ -276,9 +268,8 @@ public class ClassSessionTest {
         parentClass.addSession("Week 1 Tutorial", LocalDateTime.now(), "COM1");
 
         // Try to add session with same name
-        assertThrows(IllegalArgumentException.class,
-                () -> parentClass.addSession("Week 1 Tutorial", LocalDateTime.now().plusDays(1), "COM1")
-        );
+        assertThrows(IllegalArgumentException.class, () ->
+            parentClass.addSession("Week 1 Tutorial", LocalDateTime.now().plusDays(1), "COM1"));
     }
 
     @Test
@@ -288,9 +279,8 @@ public class ClassSessionTest {
         parentClass.addSession("Week 1 Tutorial", LocalDateTime.now(), "COM1");
 
         // Try to add session with same name but extra whitespace
-        assertThrows(IllegalArgumentException.class,
-                () -> parentClass.addSession("  Week 1 Tutorial  ", LocalDateTime.now().plusDays(1), "COM1")
-        );
+        assertThrows(IllegalArgumentException.class, () ->
+            parentClass.addSession("  Week 1 Tutorial  ", LocalDateTime.now().plusDays(1), "COM1"));
     }
 
     @Test
@@ -308,12 +298,10 @@ public class ClassSessionTest {
     void addSession_caseInsensitiveNames_rejectsDuplicates() {
         parentClass.addSession("Tutorial", LocalDateTime.now(), "COM1");
         // Should reject different case as they are treated as the same name
-        assertThrows(IllegalArgumentException.class,
-                () -> parentClass.addSession("tutorial", LocalDateTime.now().plusDays(1), "COM1")
-        );
-        assertThrows(IllegalArgumentException.class,
-                () -> parentClass.addSession("TUTORIAL", LocalDateTime.now().plusDays(1), "COM1")
-        );
+        assertThrows(IllegalArgumentException.class, () ->
+            parentClass.addSession("tutorial", LocalDateTime.now().plusDays(1), "COM1"));
+        assertThrows(IllegalArgumentException.class, () ->
+            parentClass.addSession("TUTORIAL", LocalDateTime.now().plusDays(1), "COM1"));
     }
 
     @Test
@@ -323,8 +311,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         String details = session.getSessionDetails();
 
@@ -343,8 +330,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                null
-        );
+                null);
 
         String details = session.getSessionDetails();
 
@@ -360,8 +346,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         session.markPresent(alice);
         session.markAbsent(bob);
@@ -378,8 +363,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         String details = session.getSessionDetails();
 
@@ -393,8 +377,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         session.markPresent(alice);
         session.markPresent(bob);
@@ -411,8 +394,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         // Manually add a null entry to simulate edge case
         session.getAttendanceRecord().put(null, new Pair<>(true, LocalDateTime.now()));
@@ -429,8 +411,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         String result = session.toString();
 
@@ -445,8 +426,7 @@ public class ClassSessionTest {
                 parentClass,
                 "Week 1 Tutorial",
                 LocalDateTime.of(2024, 3, 15, 14, 30),
-                "COM1-B103"
-        );
+                "COM1-B103");
 
         assertEquals(0, session.getAttendanceCount());
 

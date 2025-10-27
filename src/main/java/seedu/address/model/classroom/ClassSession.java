@@ -32,7 +32,7 @@ public class ClassSession {
     /**
      * Records attendance and time stamp of attendance marking for each student.
      * Key: Student
-     * Value: Pair<Boolean, LocalDateTime> where Boolean indicates presence (true = present, false = absent)
+     * Value: {@code Pair<Boolean, LocalDateTime>} where Boolean indicates presence (true = present, false = absent)
      * and LocalDateTime indicates the time attendance was marked.
      */
     private Map<Student, Pair<Boolean, LocalDateTime>> attendanceRecord;
@@ -108,10 +108,12 @@ public class ClassSession {
         attendanceRecord.put(student, new Pair<>(false, LocalDateTime.now()));
     }
 
+    /**
+     * returns true if the student has attended (marked present) this session.
+     */
     public boolean hasAttended(Student student) {
-        Pair<Boolean, LocalDateTime> record = attendanceRecord.getOrDefault(student,
-                new Pair<>(false, LocalDateTime.now()));
-        return record.getKey();
+        return attendanceRecord.getOrDefault(student,
+                new Pair<>(false, LocalDateTime.now())).getKey();
     }
 
     public Map<Student, Pair<Boolean, LocalDateTime>> getAttendanceRecord() {

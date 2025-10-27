@@ -61,20 +61,20 @@ public class AttendCommandTest {
 
     @Test
     public void constructor_nullClassName_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> new AttendCommand(new Name("Alice Pauline"), null, "Session1", true));
+        assertThrows(NullPointerException.class, () ->
+            new AttendCommand(new Name("Alice Pauline"), null, "Session1", true));
     }
 
     @Test
     public void constructor_nullSessionName_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> new AttendCommand(new Name("Alice Pauline"), "Math101", null, true));
+        assertThrows(NullPointerException.class, () ->
+            new AttendCommand(new Name("Alice Pauline"), "Math101", null, true));
     }
 
     @Test
     public void constructor_nullPresent_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> new AttendCommand(new Name("Alice Pauline"), "Math101", "Session1", null));
+        assertThrows(NullPointerException.class, () ->
+            new AttendCommand(new Name("Alice Pauline"), "Math101", "Session1", null));
     }
 
     @Test
