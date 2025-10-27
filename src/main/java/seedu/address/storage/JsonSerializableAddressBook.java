@@ -125,6 +125,30 @@ class JsonSerializableAddressBook {
                         jsonSession.toModelDateTime(),
                         jsonSession.getLocation()
                 );
+
+                // Restore attendance data
+                seedu.address.model.classroom.ClassSession session = tuitionClass.getAllSessions().stream()
+                        .filter(s -> s.getSessionName().equals(jsonSession.getSessionName()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (session != null) {
+                    // Mark students as present based on saved data
+                    for (String studentName : jsonSession.getPresentStudents()) {
+                        Person student = personMap.get(studentName);
+                        if (student instanceof seedu.address.model.person.Student) {
+                            session.markPresent((seedu.address.model.person.Student) student);
+                        }
+                    }
+
+                    // Mark students as absent based on saved data
+                    for (String studentName : jsonSession.getAbsentStudents()) {
+                        Person student = personMap.get(studentName);
+                        if (student instanceof seedu.address.model.person.Student) {
+                            session.markAbsent((seedu.address.model.person.Student) student);
+                        }
+                    }
+                }
             }
         }
 

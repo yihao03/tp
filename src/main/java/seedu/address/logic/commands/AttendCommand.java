@@ -73,11 +73,18 @@ public class AttendCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model, "model cannot be null");
 
-        // Find the session in the specified class
+        // Find the class and session
         List<TuitionClass> classList = model.getFilteredClassList();
-        ClassSession session = classList.stream()
+        TuitionClass tuitionClass = classList.stream()
                 .filter(c -> c.getClassName().equals(this.className))
-                .flatMap(c -> c.getAllSessions().stream())
+                .findFirst()
+                .orElse(null);
+
+        if (tuitionClass == null) {
+            throw new CommandException(String.format(MESSAGE_SESSION_NOT_FOUND, sessionName, className));
+        }
+
+        ClassSession session = tuitionClass.getAllSessions().stream()
                 .filter(s -> s.getSessionName().equals(this.sessionName))
                 .findFirst()
                 .orElse(null);
@@ -104,6 +111,10 @@ public class AttendCommand extends Command {
         } else {
             session.markAbsent(student);
         }
+
+        // Update just this session in the observable session list for UI refresh
+        // The attendance data is automatically saved to JSON since session is part of tuitionClass
+        model.setSession(session, session);
 
         String result = String.format("Name: %s, Class: %s, Session: %s, Status: %s",
                 name, className, sessionName, present ? "PRESENT" : "ABSENT");

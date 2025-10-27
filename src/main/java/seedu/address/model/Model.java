@@ -163,6 +163,15 @@ public interface Model {
     void updateFilteredSessionList(Predicate<ClassSession> predicate);
 
     /**
+     * Replaces the target session with editedSession in the session list.
+     * Used to update a single session in the observable list (e.g., when attendance changes).
+     *
+     * @param target the session to replace
+     * @param editedSession the session with updated data
+     */
+    void setSession(ClassSession target, ClassSession editedSession);
+
+    /**
      * Sets the session list to display in the UI.
      *
      * @param sessions the list of sessions to display

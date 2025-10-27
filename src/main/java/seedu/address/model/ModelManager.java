@@ -230,6 +230,15 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void setSession(ClassSession target, ClassSession editedSession) {
+        requireAllNonNull(target, editedSession);
+        int index = sessionList.indexOf(target);
+        if (index != -1) {
+            sessionList.set(index, editedSession);
+        }
+    }
+
+    @Override
     public void setSessionList(java.util.List<ClassSession> sessions) {
         requireNonNull(sessions);
         sessionList.setAll(sessions);
