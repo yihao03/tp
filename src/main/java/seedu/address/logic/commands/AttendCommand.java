@@ -88,8 +88,6 @@ public class AttendCommand extends Command {
 
         // Find the student by name
         Student student = session.getParentClass().getStudents().stream()
-                .filter(Student.class::isInstance)
-                .map(Student.class::cast)
                 .filter(s -> s.getName().equals(this.name))
                 .findFirst()
                 .orElse(null);
