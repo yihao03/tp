@@ -19,7 +19,8 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 /**
  * Represents a tuition class in the address book.
  * <p>
- * Identity is determined solely by {@link ClassName}. Additional properties such as tutor,
+ * Identity is determined solely by {@link ClassName}. Additional properties
+ * such as tutor,
  * roster, and sessions do not affect identity/equality.
  */
 public class TuitionClass {
@@ -87,6 +88,29 @@ public class TuitionClass {
      */
     public boolean isSameClass(TuitionClass other) {
         return other != null && name.equals(other.name);
+    }
+
+    /**
+     * Transfers all details from another class
+     * Used in EditClassCommand
+     */
+    public void transferDetailsFromClass(TuitionClass oldClass) {
+
+        // Transfer student roster
+        for (Student student : new ArrayList<>(oldClass.getStudents())) {
+            student.unjoinSafely(oldClass);
+            this.addStudent(student);
+        }
+
+        // Transfer assigned tutor
+        if (oldClass.isAssignedToTutor()) {
+            Tutor tutor = oldClass.getTutor();
+            tutor.unjoinSafely(oldClass);
+            this.setTutor(tutor);
+        }
+
+        // Copy over sessions
+        this.copySessions(oldClass);
     }
 
     /**
@@ -255,6 +279,14 @@ public class TuitionClass {
      */
     public List<ClassSession> getAllSessions() {
         return new ArrayList<>(sessions);
+    }
+
+    /**
+     * Copies sessions from another class
+     */
+    public void copySessions(TuitionClass target) {
+        List<ClassSession> sessionsToCopy = target.getAllSessions();
+        this.sessions.addAll(sessionsToCopy);
     }
 
     /**
