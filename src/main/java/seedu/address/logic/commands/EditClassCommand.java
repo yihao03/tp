@@ -3,6 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_CLASSES;
 
+import java.util.logging.Logger;
+
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.classroom.ClassName;
@@ -27,6 +30,8 @@ public class EditClassCommand extends Command {
     public static final String MESSAGE_CLASS_NOT_FOUND = "Class %1$s does not exist";
     public static final String MESSAGE_DUPLICATE_CLASS = "Class %1$s already exists";
 
+    private static final Logger LOGGER = LogsCenter.getLogger(EditClassCommand.class);
+
     private final String oldClassName;
     private final String newClassName;
 
@@ -45,6 +50,7 @@ public class EditClassCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        LOGGER.info("Executing EditClassCommand from: " + oldClassName + " to: " + newClassName);
 
         TuitionClass oldClass = model.getFilteredClassList().stream()
                 .filter(c -> c.getName().value.equals(oldClassName))
@@ -52,12 +58,14 @@ public class EditClassCommand extends Command {
                 .orElse(null);
 
         if (oldClass == null) {
+            LOGGER.warning("Class not found: " + oldClassName);
             throw new CommandException(String.format(MESSAGE_CLASS_NOT_FOUND, oldClassName));
         }
 
         TuitionClass newClass = new TuitionClass(new ClassName(newClassName));
 
         if (!oldClass.isSameClass(newClass) && model.hasClass(newClass)) {
+            LOGGER.warning("Duplicate class name: " + newClassName);
             throw new CommandException(String.format(MESSAGE_DUPLICATE_CLASS, newClassName));
         }
 
@@ -65,6 +73,7 @@ public class EditClassCommand extends Command {
 
         model.setClass(oldClass, newClass);
         model.updateFilteredClassList(PREDICATE_SHOW_ALL_CLASSES);
+        LOGGER.info("Successfully edited class from: " + oldClassName + " to: " + newClassName);
 
         return new CommandResult(String.format(MESSAGE_EDIT_CLASS_SUCCESS, oldClassName, newClassName),
                 CommandResult.DisplayType.CLASSES);
