@@ -10,6 +10,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javafx.util.Pair;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.classroom.ClassSession;
 import seedu.address.model.person.Student;
@@ -32,10 +33,10 @@ public class JsonAdaptedSession {
      */
     @JsonCreator
     public JsonAdaptedSession(@JsonProperty("sessionName") String sessionName,
-                              @JsonProperty("dateTime") String dateTime,
-                              @JsonProperty("location") String location,
-                              @JsonProperty("presentStudents") List<String> presentStudents,
-                              @JsonProperty("absentStudents") List<String> absentStudents) {
+            @JsonProperty("dateTime") String dateTime,
+            @JsonProperty("location") String location,
+            @JsonProperty("presentStudents") List<String> presentStudents,
+            @JsonProperty("absentStudents") List<String> absentStudents) {
         this.sessionName = sessionName;
         this.dateTime = dateTime;
         this.location = location;
@@ -55,10 +56,10 @@ public class JsonAdaptedSession {
         absentStudents = new ArrayList<>();
 
         // Convert attendance record to present/absent lists
-        Map<Student, Boolean> attendanceRecord = source.getAttendanceRecord();
-        for (Map.Entry<Student, Boolean> entry : attendanceRecord.entrySet()) {
+        Map<Student, Pair<Boolean, LocalDateTime>> attendanceRecord = source.getAttendanceRecord();
+        for (Map.Entry<Student, Pair<Boolean, LocalDateTime>> entry : attendanceRecord.entrySet()) {
             Student student = entry.getKey();
-            Boolean isPresent = entry.getValue();
+            Boolean isPresent = entry.getValue().getKey();
             String studentName = student.getName().fullName;
 
             if (isPresent != null && isPresent) {
