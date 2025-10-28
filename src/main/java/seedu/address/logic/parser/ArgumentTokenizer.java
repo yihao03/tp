@@ -50,7 +50,6 @@ public class ArgumentTokenizer {
         int prefixPosition = findPrefixPosition(argsString, prefix.getPrefix(), 0);
         while (prefixPosition != -1) {
             positions.add(new PrefixPosition(prefix, prefixPosition));
-            // Search AFTER this prefix, not from the same position
             prefixPosition = findPrefixPosition(argsString, prefix.getPrefix(),
                     prefixPosition + prefix.getPrefix().length());
         }
@@ -60,26 +59,29 @@ public class ArgumentTokenizer {
 
     /**
      * Returns the index of the first occurrence of {@code prefix} in
-     * {@code argsString} starting from index {@code fromIndex}, where the prefix
-     * is either at the start of the string or preceded by whitespace.
-     * Returns -1 if no such occurrence can be found.
+     * {@code argsString} starting from index {@code fromIndex}. Returns -1 if no
+     * such occurrence can be found.
      *
-     * E.g. if {@code argsString} = "e/hip e/ho", {@code prefix} = "e/" and
-     * {@code fromIndex} = 0, this method returns 0.
-     * But if {@code argsString} = "google e/hip", {@code prefix} = "e/" and
-     * {@code fromIndex} = 0, this method returns 7 (not 4, because "e/" in "google"
-     * is not preceded by whitespace).
+     * <p>A prefix is considered to be part of the arguments string if it is:
+     * - at the start of the string, OR
+     * - preceded by a whitespace character, OR
+     * - preceded by '/' (to handle consecutive prefixes like "a/b/c/")
      */
     private static int findPrefixPosition(String argsString, String prefix, int fromIndex) {
-        int prefixIndex = argsString.indexOf(prefix, fromIndex);
+        int prefixIndex = fromIndex;
 
-        while (prefixIndex != -1) {
-            // Check if prefix is at the start or preceded by whitespace
-            if (prefixIndex == 0 || Character.isWhitespace(argsString.charAt(prefixIndex - 1))) {
+        while (prefixIndex < argsString.length()) {
+            prefixIndex = argsString.indexOf(prefix, prefixIndex);
+            if (prefixIndex == -1) {
+                return -1;
+            }
+            // Check if this is a valid prefix position
+            if (prefixIndex == 0
+                    || Character.isWhitespace(argsString.charAt(prefixIndex - 1))
+                    || argsString.charAt(prefixIndex - 1) == '/') {
                 return prefixIndex;
             }
-            // Not a valid prefix position, search for next occurrence
-            prefixIndex = argsString.indexOf(prefix, prefixIndex + 1);
+            prefixIndex++;
         }
 
         return -1;
@@ -110,7 +112,6 @@ public class ArgumentTokenizer {
         // Map prefixes to their argument values (if any)
         ArgumentMultimap argMultimap = new ArgumentMultimap();
         for (int i = 0; i < prefixPositions.size() - 1; i++) {
-            // Extract and store prefixes and their arguments
             Prefix argPrefix = prefixPositions.get(i).getPrefix();
             String argValue = extractArgumentValue(argsString, prefixPositions.get(i), prefixPositions.get(i + 1));
             argMultimap.put(argPrefix, argValue);
@@ -124,8 +125,8 @@ public class ArgumentTokenizer {
      * The end position of the value is determined by {@code nextPrefixPosition}.
      */
     private static String extractArgumentValue(String argsString,
-                                        PrefixPosition currentPrefixPosition,
-                                        PrefixPosition nextPrefixPosition) {
+                                               PrefixPosition currentPrefixPosition,
+                                               PrefixPosition nextPrefixPosition) {
         Prefix prefix = currentPrefixPosition.getPrefix();
 
         int valueStartPos = currentPrefixPosition.getStartPosition() + prefix.getPrefix().length();

@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 
 import java.util.stream.Stream;
 
+import seedu.address.logic.commands.AddClassCommand;
 import seedu.address.logic.commands.AttendCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Name;
@@ -41,7 +42,15 @@ public class AttendCommandParser implements Parser<AttendCommand> {
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         String className = argMultimap.getValue(PREFIX_CLASS).get().trim();
+        if (className.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AttendCommand.MESSAGE_USAGE));
+        }
+
         String sessionName = argMultimap.getValue(PREFIX_SESSION).get().trim();
+        if (sessionName.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AttendCommand.MESSAGE_USAGE));
+        }
+
         Boolean present = ParserUtil.parseAttendanceStatus(argMultimap.getValue(PREFIX_STATUS).get());
 
         return new AttendCommand(name, className, sessionName, present);
