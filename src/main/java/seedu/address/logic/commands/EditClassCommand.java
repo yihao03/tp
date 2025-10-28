@@ -3,14 +3,10 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_CLASSES;
 
-import java.util.ArrayList;
-
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.classroom.ClassName;
 import seedu.address.model.classroom.TuitionClass;
-import seedu.address.model.person.Student;
-import seedu.address.model.person.Tutor;
 
 /**
  * Edits the name of an existing class in TutBook.
@@ -65,16 +61,7 @@ public class EditClassCommand extends Command {
             throw new CommandException(String.format(MESSAGE_DUPLICATE_CLASS, newClassName));
         }
 
-        for (Student student : new ArrayList<>(oldClass.getStudents())) {
-            student.removeClass(oldClass);
-            newClass.addStudent(student);
-        }
-
-        if (oldClass.isAssignedToTutor()) {
-            Tutor tutor = oldClass.getTutor();
-            tutor.removeClass(oldClass);
-            newClass.setTutor(tutor);
-        }
+        newClass.transferDetailsFromClass(oldClass);
 
         model.setClass(oldClass, newClass);
         model.updateFilteredClassList(PREDICATE_SHOW_ALL_CLASSES);
