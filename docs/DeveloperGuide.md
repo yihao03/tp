@@ -1327,16 +1327,16 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: Class "Math-101" exists.
 
-   1. Test case: `addsession c/Math-101 session/Week 1 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`<br>
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`<br>
       Expected: Session "Week 1 Tutorial" is added to Math-101 with the specified date/time and location. Success message displayed.
 
-   1. Test case: `addsession c/Math-101 session/Week 2 Tutorial dt/2024-03-22 14:30`<br>
+   1. Test case: `addsession c/Math-101 s/Week 2 Tutorial dt/2024-03-22 14:30`<br>
       Expected: Session "Week 2 Tutorial" is added without location. Success message displayed.
 
-   1. Test case: `addsession c/NonExistent session/Session dt/2024-03-15 14:30`<br>
+   1. Test case: `addsession c/NonExistent s/Session dt/2024-03-15 14:30`<br>
       Expected: No session created. Error message states class not found.
 
-   1. Test case: `addsession c/Math-101 session/Week 1 Tutorial dt/2024-03-15 14:30` (duplicate session name)<br>
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30` (duplicate session name)<br>
       Expected: No session created. Error message states session already exists.
 
 1. Viewing session details
@@ -1346,10 +1346,10 @@ testers are expected to do more *exploratory* testing.
       - Students are enrolled in Math-101
       - Some attendance records exist
 
-   1. Test case: `viewsession c/Math-101 session/Week 1 Tutorial`<br>
+   1. Test case: `viewsession c/Math-101 s/Week 1 Tutorial`<br>
       Expected: Displays session details including date/time, location, and attendance status for all enrolled students.
 
-   1. Test case: `viewsession c/Math-101 session/NonExistent Session`<br>
+   1. Test case: `viewsession c/Math-101 s/NonExistent Session`<br>
       Expected: Error message states session not found.
 
 1. Listing all sessions
@@ -1368,23 +1368,23 @@ testers are expected to do more *exploratory* testing.
       - Class "Math-101" exists with session "Week 1 Tutorial"
       - Student "Alice Doe" is enrolled in Math-101
 
-   1. Test case: `attend n/Alice Doe c/Math-101 session/Week 1 Tutorial status/PRESENT`<br>
+   1. Test case: `attend n/Alice Doe c/Math-101 s/Week 1 Tutorial status/PRESENT`<br>
       Expected: Alice Doe marked as present for the session. Success message displayed.
 
-   1. Test case: `attend n/Alice Doe c/Math-101 session/Week 1 Tutorial status/ABSENT`<br>
+   1. Test case: `attend n/Alice Doe c/Math-101 s/Week 1 Tutorial status/ABSENT`<br>
       Expected: Alice Doe's attendance updated to absent. Success message displayed.
 
-   1. Test case: `attend n/NonEnrolled Student c/Math-101 session/Week 1 Tutorial status/PRESENT`<br>
+   1. Test case: `attend n/NonEnrolled Student c/Math-101 s/Week 1 Tutorial status/PRESENT`<br>
       Expected: Error message states student not enrolled in class.
 
 1. Deleting a session
 
    1. Prerequisites: Class "Math-101" exists with session "Week 1 Tutorial".
 
-   1. Test case: `deletesession c/Math-101 session/Week 1 Tutorial`<br>
+   1. Test case: `deletesession c/Math-101 s/Week 1 Tutorial`<br>
       Expected: Session is deleted along with all attendance records. Success message displayed.
 
-   1. Test case: `deletesession c/Math-101 session/NonExistent`<br>
+   1. Test case: `deletesession c/Math-101 s/NonExistent`<br>
       Expected: Error message states session not found.
 
 ### Parent Listing
