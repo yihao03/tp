@@ -25,7 +25,7 @@ public class AddSessionCommandParser implements Parser<AddSessionCommand> {
      */
     public AddSessionCommand parse(String args) throws ParseException {
         String trimmed = args.trim();
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_CLASS, PREFIX_SESSION,
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(trimmed, PREFIX_CLASS, PREFIX_SESSION,
                 PREFIX_DATETIME, PREFIX_LOCATION);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_CLASS, PREFIX_SESSION, PREFIX_DATETIME)

@@ -28,7 +28,7 @@ public class ListChildrenCommandParser implements Parser<ListChildrenCommand> {
             return new ListChildrenCommand();
         }
 
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_NAME);
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(trimmed, PREFIX_NAME);
 
         // Check if the input contains the n/ prefix
         if (map.getValue(PREFIX_NAME).isPresent()) {
