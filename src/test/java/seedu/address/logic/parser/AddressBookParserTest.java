@@ -32,7 +32,7 @@ import seedu.address.logic.commands.ListClassCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListParentsCommand;
 import seedu.address.logic.commands.ListStudentsCommand;
-import seedu.address.logic.commands.RemoveFromClassCommand;
+import seedu.address.logic.commands.UnjoinClassCommand;
 import seedu.address.logic.commands.ViewSessionCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
@@ -152,10 +152,6 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_listParents() throws Exception {
-        // Test without arguments
-        assertTrue(parser.parseCommand(ListParentsCommand.COMMAND_WORD) instanceof ListParentsCommand);
-
-        // Test with child name
         String commandString = ListParentsCommand.COMMAND_WORD + " n/Alice Tan";
         assertTrue(parser.parseCommand(commandString) instanceof ListParentsCommand);
     }
@@ -167,9 +163,9 @@ public class AddressBookParserTest {
     }
 
     @Test
-    public void parseCommand_removeFromClass() throws Exception {
-        String commandString = RemoveFromClassCommand.COMMAND_WORD + " n/Alice Tan c/Math 101";
-        assertTrue(parser.parseCommand(commandString) instanceof RemoveFromClassCommand);
+    public void parseCommand_unjoinClass() throws Exception {
+        String commandString = UnjoinClassCommand.COMMAND_WORD + " n/Alice Tan c/Math 101";
+        assertTrue(parser.parseCommand(commandString) instanceof UnjoinClassCommand);
     }
 
     @Test

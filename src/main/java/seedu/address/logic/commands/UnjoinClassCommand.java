@@ -21,9 +21,9 @@ import seedu.address.model.person.Tutor;
 /**
  * Removes a student or tutor from a tuition class.
  */
-public class RemoveFromClassCommand extends Command {
+public class UnjoinClassCommand extends Command {
 
-    public static final String COMMAND_WORD = "removeClass";
+    public static final String COMMAND_WORD = "unjoin";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes a student or tutor from a class.\n"
             + "Parameters: "
@@ -39,15 +39,15 @@ public class RemoveFromClassCommand extends Command {
     public static final String MESSAGE_NOT_IN_CLASS = "%s is not in class %s";
     public static final String MESSAGE_PARENT_CANNOT_BE_IN_CLASS = "Parent cannot be removed from class";
 
-    private static final Logger logger = LogsCenter.getLogger(RemoveFromClassCommand.class);
+    private static final Logger logger = LogsCenter.getLogger(UnjoinClassCommand.class);
 
     private final String personName;
     private final ClassName className;
 
     /**
-     * Creates a RemoveFromClassCommand to remove the specified person from the specified class.
+     * Creates a UnjoinClassCommand to remove the specified person from the specified class.
      */
-    public RemoveFromClassCommand(String personName, ClassName className) {
+    public UnjoinClassCommand(String personName, ClassName className) {
         requireAllNonNull(personName, className);
         this.personName = personName;
         this.className = className;
@@ -56,7 +56,7 @@ public class RemoveFromClassCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        logger.info("Executing RemoveFromClassCommand for person: " + personName + " and class: " + className);
+        logger.info("Executing UnjoinClassCommand for person: " + personName + " and class: " + className);
 
         List<Person> personList = model.getFilteredPersonList();
         List<TuitionClass> classList = model.getFilteredClassList();
@@ -93,7 +93,7 @@ public class RemoveFromClassCommand extends Command {
                 throw new CommandException(String.format(MESSAGE_NOT_IN_CLASS, personName, className.value));
             }
             tuitionClass.removeStudent(student);
-            student.removeClass(tuitionClass);
+            student.unjoin(tuitionClass);
             logger.info("Successfully removed student " + personName + " from class " + className);
         } else if (person.getPersonType() == PersonType.TUTOR) {
             Tutor tutor = (Tutor) person;
@@ -102,7 +102,7 @@ public class RemoveFromClassCommand extends Command {
                 throw new CommandException(String.format(MESSAGE_NOT_IN_CLASS, personName, className.value));
             }
             tuitionClass.removeTutor(tutor);
-            tutor.removeClass(tuitionClass);
+            tutor.unjoin(tuitionClass);
             logger.info("Successfully removed tutor " + personName + " from class " + className);
         }
 
@@ -120,11 +120,11 @@ public class RemoveFromClassCommand extends Command {
             return true;
         }
 
-        if (!(other instanceof RemoveFromClassCommand)) {
+        if (!(other instanceof UnjoinClassCommand)) {
             return false;
         }
 
-        RemoveFromClassCommand otherCommand = (RemoveFromClassCommand) other;
+        UnjoinClassCommand otherCommand = (UnjoinClassCommand) other;
         return personName.equals(otherCommand.personName)
                 && className.equals(otherCommand.className);
     }

@@ -17,7 +17,7 @@ import seedu.address.model.classroom.TuitionClass;
  */
 public class DeleteSessionCommand extends Command {
 
-    public static final String COMMAND_WORD = "delsession";
+    public static final String COMMAND_WORD = "deletesession";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes a session from a class. "
             + "Parameters: "

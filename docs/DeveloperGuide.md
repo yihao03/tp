@@ -26,7 +26,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams are in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams are in this `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
 </div>
 
 ### Architecture
@@ -39,7 +39,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -71,13 +71,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -88,7 +88,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -113,12 +113,19 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 
 <img src="images/ParserClasses.png" width="600"/>
 
+Additional concrete commands and parsers:
+
+- `ListSessionCommand`, `ListSessionCommandParser`  (command word: `listsessions`)
+- `ViewSessionCommand`, `ViewSessionCommandParser`  (command word: `viewsession`)
+- `ListStudentsCommand`, `ListStudentsCommandParser` (command word: `liststudents`)
+- `UnjoinClassCommand`, `UnjoinClassCommandParser` (command word: `unjoin`)
+
 How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
@@ -130,7 +137,7 @@ The `Model` component,
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `TutBook`, which `Person` references. This allows `TutBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
 
@@ -139,7 +146,7 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -282,6 +289,20 @@ TuitionClass -> Model: update
 Model -> Storage: save
 ```
 
+**List sessions for a class**
+
+- Command: `listsessions c/CLASS_NAME`
+- Behavior: Resolves class (case-insensitive), calls `model.updateSessionListForClass(tuitionClass)` to refresh the observable session list; message shows count or `[No sessions]` if empty.
+- Errors: Class not found → `CommandException` with `Class not found: CLASS_NAME`.
+- Result: `CommandResult.DisplayType.SESSIONS`.
+
+**List students in a class**
+
+- Command: `liststudents c/CLASS_NAME`
+- Behavior: Builds a `List<Person>` from the class's enrolled `Student`s and filters the left panel via `model.updateFilteredPersonList(person -> studentPersons.contains(person))`.
+- Errors: Class not found → error message.
+- Result: Display message with count or `[No students in this class]`.
+
 #### Design Considerations
 
 **Aspect: Session Storage Structure**
@@ -308,8 +329,8 @@ The parent management feature enhances the parent-child relationship system with
 2. **List Child's Parents**: Given a child's name, finds all linked parents through the relationship system
 
 The command supports two modes:
-- `listparents` - Shows all parents in the system
-- `listparents n/ChildName` - Shows only parents linked to the specified child
+- `parents` - Shows all parents in the system
+- `parents n/ChildName` - Shows only parents linked to the specified child
 
 ### Remove From Class Feature
 
@@ -318,7 +339,7 @@ The command supports two modes:
 The remove from class feature provides the inverse operation of the join command, allowing removal of students and tutors from classes.
 
 **Key Components:**
-* `RemoveFromClassCommand` - Handles removal logic
+* `UnjoinClassCommand` - Handles removal logic
 * Enhanced `TuitionClass` with removal methods for students and tutors
 
 **Operations:**
@@ -983,6 +1004,27 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
+**Use case: UC20 - List sessions for a class**
+
+**MSS**
+1. Admin enters `listsessions c/CLASS_NAME`
+2. TutBook retrieves all sessions for the class
+3. TutBook updates the sessions panel and shows a summary
+
+**Extensions**
+* 2a. Class not found → Error “Class [name] not found.”
+
+**Use case: UC21 - List students in a class**
+
+**MSS**
+1. Admin enters `liststudents c/CLASS_NAME`
+2. TutBook filters the Person list to the class roster
+3. TutBook shows the number of students displayed
+
+**Extensions**
+* 2a. Class not found → Error “Class [name] not found.”
+* 2b. Class has no students → Message “[No students in this class]”.
+
 ### Non-Functional Requirements
 
 #### Performance Requirements
@@ -1098,24 +1140,24 @@ testers are expected to do more *exploratory* testing.
 
 1. Adding a person with all required fields
 
-   1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2 pt/student`<br>
+   1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2 ro/student`<br>
       Expected: New student contact is added to the list. Success message shows the added contact details with role displayed as a colored chip.
 
-   1. Test case: `add n/Jane Smith p/87654321 e/janes@example.com a/123 Main St pt/tutor`<br>
+   1. Test case: `add n/Jane Smith p/87654321 e/janes@example.com a/123 Main St ro/tutor`<br>
       Expected: New tutor contact is added. Success message displayed.
 
-   1. Test case: `add n/Bob Lee p/91234567 e/bobl@example.com a/456 Park Ave pt/parent`<br>
+   1. Test case: `add n/Bob Lee p/91234567 e/bobl@example.com a/456 Park Ave ro/parent`<br>
       Expected: New parent contact is added. Success message displayed.
 
 1. Adding a person with invalid or missing fields
 
-   1. Test case: `add n/John p/invalid e/johnd@example.com a/311, Clementi Ave 2 pt/student`<br>
+   1. Test case: `add n/John p/invalid e/johnd@example.com a/311, Clementi Ave 2 ro/student`<br>
       Expected: No person is added. Error message about invalid phone number format is shown.
 
-   1. Test case: `add n/John p/98765432 e/invalid-email a/311, Clementi Ave 2 pt/student`<br>
+   1. Test case: `add n/John p/98765432 e/invalid-email a/311, Clementi Ave 2 ro/student`<br>
       Expected: No person is added. Error message about invalid email format is shown.
 
-   1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2 pt/invalid`<br>
+   1. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2 ro/invalid`<br>
       Expected: No person is added. Error message about invalid person type is shown.
 
    1. Test case: `add n/John Doe p/98765432`<br>
@@ -1125,7 +1167,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: A contact with name "John Doe" and phone "98765432" already exists.
 
-   1. Test case: `add n/John Doe p/98765432 e/different@example.com a/Different Address pt/student`<br>
+   1. Test case: `add n/John Doe p/98765432 e/different@example.com a/Different Address ro/student`<br>
       Expected: No person is added. Error message states "Contact already exists. Cannot add duplicate."
 
 ### Filtering contacts by role
@@ -1165,28 +1207,28 @@ testers are expected to do more *exploratory* testing.
       - A student contact "Alice Doe" exists
       - They are not already linked
 
-   1. Test case: `link p/Mary Doe c/Alice Doe`<br>
+   1. Test case: `link parent/Mary Doe child/Alice Doe`<br>
       Expected: Parent and child are linked. Success message shows "Linked parent Mary Doe to child Alice Doe."
 
 1. Invalid link operations
 
-   1. Test case: `link p/NonExistent Parent c/Alice Doe`<br>
+   1. Test case: `link parent/NonExistent Parent child/Alice Doe`<br>
       Expected: No link created. Error message states parent not found.
 
-   1. Test case: `link p/Mary Doe c/NonExistent Child`<br>
+   1. Test case: `link parent/Mary Doe child/NonExistent Child`<br>
       Expected: No link created. Error message states child not found.
 
-   1. Test case: `link p/John Tutor c/Alice Doe` (where John Tutor is not a parent)<br>
+   1. Test case: `link parent/John Tutor child/Alice Doe` (where John Tutor is not a parent)<br>
       Expected: No link created. Error message states the contact is not a parent.
 
-   1. Test case: `link p/Mary Doe c/Bob Tutor` (where Bob Tutor is not a student)<br>
+   1. Test case: `link parent/Mary Doe child/Bob Tutor` (where Bob Tutor is not a student)<br>
       Expected: No link created. Error message states the contact is not a student.
 
 1. Linking already linked contacts
 
    1. Prerequisites: Mary Doe is already linked to Alice Doe.
 
-   1. Test case: `link p/Mary Doe c/Alice Doe`<br>
+   1. Test case: `link parent/Mary Doe child/Alice Doe`<br>
       Expected: No new link created. Message states they are already linked.
 
 ### Viewing children
@@ -1270,22 +1312,31 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `deleteclass NonExistent`<br>
       Expected: No class deleted. Error message states class not found.
 
+### Listing students in a class
+
+1. Prerequisites: Class "Math-101" exists (may be empty).
+1. Test case: `liststudents c/Math-101`<br>
+   Expected: Left panel shows only enrolled students; message “Displaying X student(s) for class: Math-101” or “[No students in this class]”.
+1. Test case: `liststudents c/NoSuchClass`<br>
+   Expected: Error “Class not found: NoSuchClass”.
+
+
 ### Session Management
 
 1. Adding a session to a class
 
    1. Prerequisites: Class "Math-101" exists.
 
-   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30 l/COM1-B103`<br>
+   1. Test case: `addsession c/Math-101 session/Week 1 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`<br>
       Expected: Session "Week 1 Tutorial" is added to Math-101 with the specified date/time and location. Success message displayed.
 
-   1. Test case: `addsession c/Math-101 s/Week 2 Tutorial dt/2024-03-22 14:30`<br>
+   1. Test case: `addsession c/Math-101 session/Week 2 Tutorial dt/2024-03-22 14:30`<br>
       Expected: Session "Week 2 Tutorial" is added without location. Success message displayed.
 
-   1. Test case: `addsession c/NonExistent s/Session dt/2024-03-15 14:30`<br>
+   1. Test case: `addsession c/NonExistent session/Session dt/2024-03-15 14:30`<br>
       Expected: No session created. Error message states class not found.
 
-   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30` (duplicate session name)<br>
+   1. Test case: `addsession c/Math-101 session/Week 1 Tutorial dt/2024-03-15 14:30` (duplicate session name)<br>
       Expected: No session created. Error message states session already exists.
 
 1. Viewing session details
@@ -1295,20 +1346,20 @@ testers are expected to do more *exploratory* testing.
       - Students are enrolled in Math-101
       - Some attendance records exist
 
-   1. Test case: `viewsession c/Math-101 s/Week 1 Tutorial`<br>
+   1. Test case: `viewsession c/Math-101 session/Week 1 Tutorial`<br>
       Expected: Displays session details including date/time, location, and attendance status for all enrolled students.
 
-   1. Test case: `viewsession c/Math-101 s/NonExistent Session`<br>
+   1. Test case: `viewsession c/Math-101 session/NonExistent Session`<br>
       Expected: Error message states session not found.
 
 1. Listing all sessions
 
    1. Prerequisites: Class "Math-101" exists with multiple sessions.
 
-   1. Test case: `listsession c/Math-101`<br>
+   1. Test case: `listsessions c/Math-101`<br>
       Expected: All sessions for Math-101 are displayed chronologically with their details.
 
-   1. Test case: `listsession c/NonExistent`<br>
+   1. Test case: `listsessions c/NonExistent`<br>
       Expected: Error message states class not found.
 
 1. Marking attendance
@@ -1317,23 +1368,23 @@ testers are expected to do more *exploratory* testing.
       - Class "Math-101" exists with session "Week 1 Tutorial"
       - Student "Alice Doe" is enrolled in Math-101
 
-   1. Test case: `attend n/Alice Doe c/Math-101 s/Week 1 Tutorial st/PRESENT`<br>
+   1. Test case: `attend n/Alice Doe c/Math-101 session/Week 1 Tutorial status/PRESENT`<br>
       Expected: Alice Doe marked as present for the session. Success message displayed.
 
-   1. Test case: `attend n/Alice Doe c/Math-101 s/Week 1 Tutorial st/ABSENT`<br>
+   1. Test case: `attend n/Alice Doe c/Math-101 session/Week 1 Tutorial status/ABSENT`<br>
       Expected: Alice Doe's attendance updated to absent. Success message displayed.
 
-   1. Test case: `attend n/NonEnrolled Student c/Math-101 s/Week 1 Tutorial st/PRESENT`<br>
+   1. Test case: `attend n/NonEnrolled Student c/Math-101 session/Week 1 Tutorial status/PRESENT`<br>
       Expected: Error message states student not enrolled in class.
 
 1. Deleting a session
 
    1. Prerequisites: Class "Math-101" exists with session "Week 1 Tutorial".
 
-   1. Test case: `deletesession c/Math-101 s/Week 1 Tutorial`<br>
+   1. Test case: `deletesession c/Math-101 session/Week 1 Tutorial`<br>
       Expected: Session is deleted along with all attendance records. Success message displayed.
 
-   1. Test case: `deletesession c/Math-101 s/NonExistent`<br>
+   1. Test case: `deletesession c/Math-101 session/NonExistent`<br>
       Expected: Error message states session not found.
 
 ### Parent Listing
@@ -1342,7 +1393,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: Multiple parents exist in the system.
 
-   1. Test case: `listparents`<br>
+   1. Test case: `parents`<br>
       Expected: All persons with parent role are displayed.
 
 1. Listing parents of a specific child
@@ -1351,13 +1402,13 @@ testers are expected to do more *exploratory* testing.
       - Student "Alice Doe" exists
       - Parents "John Doe" and "Mary Doe" are linked to Alice
 
-   1. Test case: `listparents n/Alice Doe`<br>
+   1. Test case: `parents n/Alice Doe`<br>
       Expected: John Doe and Mary Doe are displayed as Alice's parents.
 
-   1. Test case: `listparents n/NonExistent Child`<br>
+   1. Test case: `parents n/NonExistent Child`<br>
       Expected: Error message states child not found.
 
-   1. Test case: `listparents n/Bob Smith` (student with no parents)<br>
+   1. Test case: `parents n/Bob Smith` (student with no parents)<br>
       Expected: Message indicates no parents found for Bob Smith.
 
 ### Removing from Class
@@ -1368,10 +1419,10 @@ testers are expected to do more *exploratory* testing.
       - Class "Math-101" exists
       - Student "Alice Doe" is enrolled in Math-101
 
-   1. Test case: `removefrom n/Alice Doe c/Math-101`<br>
+   1. Test case: `unjoin n/Alice Doe c/Math-101`<br>
       Expected: Alice Doe is removed from Math-101. Success message displayed.
 
-   1. Test case: `removefrom n/Alice Doe c/Math-101` (already removed)<br>
+   1. Test case: `unjoin n/Alice Doe c/Math-101` (already removed)<br>
       Expected: Error message states student not enrolled in class.
 
 1. Removing a tutor from a class
@@ -1380,10 +1431,10 @@ testers are expected to do more *exploratory* testing.
       - Class "Math-101" exists
       - Tutor "Mr. Smith" is assigned to Math-101
 
-   1. Test case: `removefrom n/Mr. Smith c/Math-101`<br>
+   1. Test case: `unjoin n/Mr. Smith c/Math-101`<br>
       Expected: Mr. Smith is unassigned from Math-101. Success message displayed.
 
-   1. Test case: `removefrom n/NonExistent Person c/Math-101`<br>
+   1. Test case: `unjoin n/NonExistent Person c/Math-101`<br>
       Expected: Error message states person not found.
 
 ### Deleting a person

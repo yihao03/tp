@@ -95,6 +95,7 @@ public class ModelManager implements Model {
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
+        this.setSessionList(new ArrayList<>());
         this.addressBook.resetData(addressBook);
     }
 
@@ -137,7 +138,7 @@ public class ModelManager implements Model {
         requireNonNull(target);
         ArrayList<Student> studentsToRemove = target.getStudents();
         for (Student s : studentsToRemove) {
-            s.removeClassSafely(target);
+            s.unjoinSafely(target);
             target.removeStudent(s);
         }
 
@@ -145,7 +146,7 @@ public class ModelManager implements Model {
             target.setTutor(null);
         }
 
-        addressBook.removeClass(target);
+        addressBook.unjoin(target);
     }
 
     @Override
@@ -252,6 +253,11 @@ public class ModelManager implements Model {
                 .sorted(Comparator.comparing(ClassSession::getDateTime).reversed())
                 .collect(Collectors.toList());
         setSessionList(sortedSessions);
+    }
+
+    @Override
+    public void clearSessions() {
+        setSessionList(new ArrayList<>());
     }
 
     @Override
