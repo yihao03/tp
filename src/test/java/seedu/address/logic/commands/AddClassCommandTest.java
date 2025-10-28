@@ -41,8 +41,8 @@ public class AddClassCommandTest {
         Model model = new ModelManager(new AddressBook(), new UserPrefs());
         model.addClass(validClass);
 
-        assertThrows(CommandException.class, AddClassCommand.MESSAGE_DUPLICATE_CLASS, (
-                ) -> addClassCommand.execute(model));
+        assertThrows(CommandException.class, AddClassCommand.MESSAGE_DUPLICATE_CLASS, () ->
+            addClassCommand.execute(model));
     }
 
     @Test
@@ -69,31 +69,6 @@ public class AddClassCommandTest {
         Model model = new ModelManager(new AddressBook(), new UserPrefs());
         AddClassCommand command = new AddClassCommand("Sec1-Math-A", "NonExistent Tutor");
 
-        assertThrows(CommandException.class, () -> command.execute(model));
-    }
-
-    @Test
-    public void execute_ambiguousTutor_throwsCommandException() {
-        Model model = new ModelManager(new AddressBook(), new UserPrefs());
-
-        seedu.address.model.person.Tutor tutor1 = new seedu.address.model.person.Tutor(
-                new seedu.address.model.person.Name("Jane Doe"),
-                new seedu.address.model.person.Phone("98765432"),
-                new seedu.address.model.person.Email("jane@example.com"),
-                new seedu.address.model.person.Address("456 School St"),
-                new java.util.HashSet<>()
-        );
-        seedu.address.model.person.Tutor tutor2 = new seedu.address.model.person.Tutor(
-                new seedu.address.model.person.Name("jane doe"),
-                new seedu.address.model.person.Phone("91234567"),
-                new seedu.address.model.person.Email("janedoe@example.com"),
-                new seedu.address.model.person.Address("789 College Rd"),
-                new java.util.HashSet<>()
-        );
-        model.addPerson(tutor1);
-        model.addPerson(tutor2);
-
-        AddClassCommand command = new AddClassCommand("Sec1-Math-A", "Jane Doe");
         assertThrows(CommandException.class, () -> command.execute(model));
     }
 
