@@ -35,7 +35,7 @@ public class ParserUtil {
      * Leading and trailing whitespaces will be trimmed.
      *
      * @throws ParseException if the specified index is invalid (not non-zero
-     *             unsigned integer).
+     *                        unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
@@ -124,7 +124,7 @@ public class ParserUtil {
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
      */
     public static Set<Tag> parseTags(Collection<String> tags)
-                    throws ParseException {
+            throws ParseException {
         requireNonNull(tags);
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
@@ -140,7 +140,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code role} is invalid.
      */
     public static PersonType parsePersonType(String role)
-                    throws ParseException {
+            throws ParseException {
         requireNonNull(role);
         String trimmedType = role.trim();
         if (!Role.isValidRole(trimmedType)) {
@@ -222,6 +222,7 @@ public class ParserUtil {
         String trimmed = location.trim();
         return trimmed.isEmpty() ? null : trimmed;
     }
+
     /**
      * Parses a string representation of attendance status and converts it to a Boolean value.
      *
@@ -234,11 +235,11 @@ public class ParserUtil {
             return null;
         }
 
-        String normalizedStatus = status.trim();
+        String normalizedStatus = status.trim().toLowerCase();
 
         return switch (normalizedStatus) {
-        case "PRESENT" -> true;
-        case "ABSENT" -> false;
+        case "present" -> true;
+        case "absent" -> false;
         default -> throw new ParseException(MESSAGE_INVALID_ATTENDANCE_STATUS);
         };
     }

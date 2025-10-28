@@ -369,5 +369,45 @@ public class TuitionClassTest {
         assertEquals(tutor, newClass.getTutor());
         assertEquals(1, newClass.getAllSessions().size());
         assertTrue(newClass.hasSessionName("Session 1"));
+    @DisplayName("Tutor name property updates correctly")
+    void tutorNamePropertyUpdates() {
+        // Assign tutor
+        tuitionClass.setTutor(tutor);
+        assertEquals("Mr Smith", tuitionClass.getTutorProperty().get());
+
+        // Unassign tutor
+        tuitionClass.setTutor(null);
+        assertEquals("Unassigned", tuitionClass.getTutorProperty().get());
+    }
+
+    @Test
+    @DisplayName("Student count property updates correctly")
+    void studentCountPropertyUpdates() {
+        assertEquals(0, tuitionClass.getStudentCountProperty().get());
+
+        tuitionClass.addStudent(alice);
+        assertEquals(1, tuitionClass.getStudentCountProperty().get());
+
+        tuitionClass.addStudent(bob);
+        assertEquals(2, tuitionClass.getStudentCountProperty().get());
+
+        tuitionClass.removeStudent(alice);
+        assertEquals(1, tuitionClass.getStudentCountProperty().get());
+    }
+
+    @Test
+    @DisplayName("Session count property updates correctly")
+    void sessionCountPropertyUpdates() {
+        assertEquals(0, tuitionClass.getSessionCountProperty().get());
+
+        LocalDateTime time = LocalDateTime.now();
+        ClassSession session1 = tuitionClass.addSession("Session 1", time, "Location 1");
+        assertEquals(1, tuitionClass.getSessionCountProperty().get());
+
+        ClassSession session2 = tuitionClass.addSession("Session 2", time.plusDays(1), "Location 2");
+        assertEquals(2, tuitionClass.getSessionCountProperty().get());
+
+        tuitionClass.removeSession(session1);
+        assertEquals(1, tuitionClass.getSessionCountProperty().get());
     }
 }

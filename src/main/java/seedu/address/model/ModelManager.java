@@ -135,7 +135,7 @@ public class ModelManager implements Model {
     @Override
     public void deleteClass(TuitionClass target) {
         requireNonNull(target);
-        ArrayList<Student> studentsToRemove = new ArrayList<>(target.getStudents());
+        ArrayList<Student> studentsToRemove = target.getStudents();
         for (Student s : studentsToRemove) {
             s.removeClassSafely(target);
             target.removeStudent(s);
@@ -227,6 +227,15 @@ public class ModelManager implements Model {
     public void updateFilteredSessionList(Predicate<ClassSession> predicate) {
         requireNonNull(predicate);
         filteredSessions.setPredicate(predicate);
+    }
+
+    @Override
+    public void setSession(ClassSession target, ClassSession editedSession) {
+        requireAllNonNull(target, editedSession);
+        int index = sessionList.indexOf(target);
+        if (index != -1) {
+            sessionList.set(index, editedSession);
+        }
     }
 
     @Override
