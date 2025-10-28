@@ -88,9 +88,6 @@ public class JsonAdaptedSession {
         if (sessionName == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "sessionName"));
         }
-        if (location == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "location"));
-        }
         toModelDateTime(); // Validates dateTime
     }
 }
