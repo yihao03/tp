@@ -19,7 +19,7 @@ public class FilterCommandParser implements Parser<FilterCommand> {
     public FilterCommand parse(String args) throws ParseException {
         requireNonNull(args);
 
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + args, PREFIX_PERSON_TYPE);
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(args, PREFIX_PERSON_TYPE);
 
         // No preamble allowed, and ro/ is mandatory
         if (!arePrefixesPresent(map, PREFIX_PERSON_TYPE) || !map.getPreamble().isEmpty()) {

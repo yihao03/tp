@@ -42,16 +42,17 @@ public class ArgumentTokenizer {
     }
 
     /**
-     * {@see findAllPrefixPositions}
+     * Finds all positions of {@code prefix} in {@code argsString}.
      */
     private static List<PrefixPosition> findPrefixPositions(String argsString, Prefix prefix) {
         List<PrefixPosition> positions = new ArrayList<>();
 
         int prefixPosition = findPrefixPosition(argsString, prefix.getPrefix(), 0);
         while (prefixPosition != -1) {
-            PrefixPosition extendedPrefix = new PrefixPosition(prefix, prefixPosition);
-            positions.add(extendedPrefix);
-            prefixPosition = findPrefixPosition(argsString, prefix.getPrefix(), prefixPosition);
+            positions.add(new PrefixPosition(prefix, prefixPosition));
+            // Search AFTER this prefix, not from the same position
+            prefixPosition = findPrefixPosition(argsString, prefix.getPrefix(),
+                    prefixPosition + prefix.getPrefix().length());
         }
 
         return positions;
@@ -59,20 +60,29 @@ public class ArgumentTokenizer {
 
     /**
      * Returns the index of the first occurrence of {@code prefix} in
-     * {@code argsString} starting from index {@code fromIndex}. An occurrence
-     * is valid if there is a whitespace before {@code prefix}. Returns -1 if no
-     * such occurrence can be found.
+     * {@code argsString} starting from index {@code fromIndex}, where the prefix
+     * is either at the start of the string or preceded by whitespace.
+     * Returns -1 if no such occurrence can be found.
      *
-     * E.g if {@code argsString} = "e/hip/900", {@code prefix} = "p/" and
-     * {@code fromIndex} = 0, this method returns -1 as there are no valid
-     * occurrences of "p/" with whitespace before it. However, if
-     * {@code argsString} = "e/hi p/900", {@code prefix} = "p/" and
-     * {@code fromIndex} = 0, this method returns 5.
+     * E.g. if {@code argsString} = "e/hip e/ho", {@code prefix} = "e/" and
+     * {@code fromIndex} = 0, this method returns 0.
+     * But if {@code argsString} = "google e/hip", {@code prefix} = "e/" and
+     * {@code fromIndex} = 0, this method returns 7 (not 4, because "e/" in "google"
+     * is not preceded by whitespace).
      */
     private static int findPrefixPosition(String argsString, String prefix, int fromIndex) {
-        int prefixIndex = argsString.indexOf(" " + prefix, fromIndex);
-        return prefixIndex == -1 ? -1
-                : prefixIndex + 1; // +1 as offset for whitespace
+        int prefixIndex = argsString.indexOf(prefix, fromIndex);
+
+        while (prefixIndex != -1) {
+            // Check if prefix is at the start or preceded by whitespace
+            if (prefixIndex == 0 || Character.isWhitespace(argsString.charAt(prefixIndex - 1))) {
+                return prefixIndex;
+            }
+            // Not a valid prefix position, search for next occurrence
+            prefixIndex = argsString.indexOf(prefix, prefixIndex + 1);
+        }
+
+        return -1;
     }
 
     /**

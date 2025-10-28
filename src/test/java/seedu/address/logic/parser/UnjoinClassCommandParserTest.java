@@ -165,14 +165,6 @@ public class UnjoinClassCommandParserTest {
                 + "Example: unjoin n/John Doe c/Math 101", () ->
                 parser.parse("extra text n/John Doe c/Math 101"));
     }
-
-    @Test
-    public void parse_noSpaceBeforePrefix_throwsParseException() {
-        // Without leading space, preamble won't be empty
-        assertThrows(ParseException.class, () ->
-                parser.parse("n/John Doe c/Math 101"));
-    }
-
     // ========== Edge cases and boundary tests ==========
 
     @Test
