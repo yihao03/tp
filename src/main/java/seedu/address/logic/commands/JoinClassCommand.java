@@ -74,7 +74,7 @@ public class JoinClassCommand extends Command {
             throw new CommandException(MESSAGE_PERSON_NOT_EXIST);
         }
 
-        // Find or create the class
+        // Find the class
         List<TuitionClass> classList = model.getFilteredClassList();
         TuitionClass tuitionClass = classList.stream()
                 .filter(c -> c.getName().value.equals(className))
@@ -91,14 +91,18 @@ public class JoinClassCommand extends Command {
                 throw new CommandException(MESSAGE_STUDENT_ALREADY_IN_CLASS);
             }
             model.addStudentToClass(studentToJoin, tuitionClass);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", className, personName));
+            model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", className, personName),
+                    CommandResult.DisplayType.CLASSES);
         } else if (toJoin instanceof Tutor) {
             Tutor tutorToJoin = (Tutor) toJoin;
             if (tuitionClass.hasTutor(tutorToJoin)) {
                 throw new CommandException(MESSAGE_TUTOR_ALREADY_ASSIGNED);
             }
             model.assignTutorToClass(tutorToJoin, tuitionClass);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", className, personName));
+            model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", className, personName),
+                    CommandResult.DisplayType.CLASSES);
         } else {
             throw new CommandException("Only students and tutors can join classes.");
         }

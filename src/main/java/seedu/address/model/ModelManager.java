@@ -5,13 +5,18 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.classroom.ClassSession;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
@@ -27,6 +32,8 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<TuitionClass> filteredClasses;
+    private final ObservableList<ClassSession> sessionList;
+    private final FilteredList<ClassSession> filteredSessions;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -40,6 +47,8 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredClasses = new FilteredList<>(this.addressBook.getClassList());
+        sessionList = FXCollections.observableArrayList();
+        filteredSessions = new FilteredList<>(sessionList);
 
     }
 
@@ -86,6 +95,7 @@ public class ModelManager implements Model {
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
+        this.setSessionList(new ArrayList<>());
         this.addressBook.resetData(addressBook);
     }
 
@@ -126,9 +136,9 @@ public class ModelManager implements Model {
     @Override
     public void deleteClass(TuitionClass target) {
         requireNonNull(target);
-        ArrayList<Student> studentsToRemove = new ArrayList<>(target.getStudents());
+        ArrayList<Student> studentsToRemove = target.getStudents();
         for (Student s : studentsToRemove) {
-            s.removeClassSafely(target);
+            s.unjoinSafely(target);
             target.removeStudent(s);
         }
 
@@ -136,7 +146,7 @@ public class ModelManager implements Model {
             target.setTutor(null);
         }
 
-        addressBook.removeClass(target);
+        addressBook.unjoin(target);
     }
 
     @Override
@@ -155,12 +165,13 @@ public class ModelManager implements Model {
     @Override
     public void addStudentToClass(Student student, TuitionClass c) {
         c.addStudent(student);
-
+        addressBook.setClass(c, c);
     }
 
     @Override
     public void assignTutorToClass(Tutor tutor, TuitionClass c) {
         c.setTutor(tutor);
+        addressBook.setClass(c, c);
     }
 
     // =========== Filtered Person List Accessors =============================================================
@@ -206,6 +217,47 @@ public class ModelManager implements Model {
     public void updateFilteredClassList(Predicate<TuitionClass> predicate) {
         requireNonNull(predicate);
         filteredClasses.setPredicate(predicate);
+    }
+
+    @Override
+    public ObservableList<ClassSession> getFilteredSessionList() {
+        return filteredSessions;
+    }
+
+    @Override
+    public void updateFilteredSessionList(Predicate<ClassSession> predicate) {
+        requireNonNull(predicate);
+        filteredSessions.setPredicate(predicate);
+    }
+
+    @Override
+    public void setSession(ClassSession target, ClassSession editedSession) {
+        requireAllNonNull(target, editedSession);
+        int index = sessionList.indexOf(target);
+        if (index != -1) {
+            sessionList.set(index, editedSession);
+        }
+    }
+
+    @Override
+    public void setSessionList(java.util.List<ClassSession> sessions) {
+        requireNonNull(sessions);
+        sessionList.setAll(sessions);
+    }
+
+    @Override
+    public void updateSessionListForClass(TuitionClass tuitionClass) {
+        requireNonNull(tuitionClass);
+        List<ClassSession> sessions = tuitionClass.getAllSessions();
+        List<ClassSession> sortedSessions = sessions.stream()
+                .sorted(Comparator.comparing(ClassSession::getDateTime).reversed())
+                .collect(Collectors.toList());
+        setSessionList(sortedSessions);
+    }
+
+    @Override
+    public void clearSessions() {
+        setSessionList(new ArrayList<>());
     }
 
     @Override

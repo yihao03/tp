@@ -19,7 +19,7 @@ import seedu.address.model.classroom.TuitionClass;
  */
 public class ViewSessionCommand extends Command {
 
-    public static final String COMMAND_WORD = "view";
+    public static final String COMMAND_WORD = "viewsession";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": View a session's details. "
             + "Parameters: "

@@ -17,7 +17,7 @@ import seedu.address.model.classroom.TuitionClass;
  */
 public class DeleteSessionCommand extends Command {
 
-    public static final String COMMAND_WORD = "delsession";
+    public static final String COMMAND_WORD = "deletesession";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes a session from a class. "
             + "Parameters: "
@@ -90,7 +90,12 @@ public class DeleteSessionCommand extends Command {
         // Remove the session
         tuitionClass.removeSession(sessionToDelete);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, className, sessionToDelete.getSessionName()));
+        // Update the UI by refreshing the session list
+        model.setClass(tuitionClass, tuitionClass);
+        model.updateSessionListForClass(tuitionClass);
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, className, sessionToDelete.getSessionName()),
+                CommandResult.DisplayType.SESSIONS);
     }
 
     /**

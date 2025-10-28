@@ -210,6 +210,37 @@ public class AddCommandTest {
         public TuitionClass getClassByName(String className) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public ObservableList<seedu.address.model.classroom.ClassSession> getFilteredSessionList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredSessionList(Predicate<seedu.address.model.classroom.ClassSession> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setSession(seedu.address.model.classroom.ClassSession target,
+                seedu.address.model.classroom.ClassSession editedSession) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setSessionList(java.util.List<seedu.address.model.classroom.ClassSession> sessions) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateSessionListForClass(TuitionClass tuitionClass) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void clearSessions() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

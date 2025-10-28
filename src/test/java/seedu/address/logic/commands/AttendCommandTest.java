@@ -15,7 +15,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.classroom.ClassName;
-import seedu.address.model.classroom.ClassSession;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -31,7 +30,6 @@ public class AttendCommandTest {
     private Model model;
     private Student testStudent;
     private TuitionClass testClass;
-    private ClassSession testSession;
 
     @BeforeEach
     public void setUp() {
@@ -46,6 +44,7 @@ public class AttendCommandTest {
                 new java.util.HashSet<>()
         );
         testClass = new TuitionClass(new ClassName("Math101"));
+        testClass.addStudent(testStudent);
         testClass.addSession(
                 "Session1",
                 LocalDateTime.of(2025, 10, 25, 14, 0),
@@ -57,26 +56,25 @@ public class AttendCommandTest {
 
     @Test
     public void constructor_nullName_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () ->
-                new AttendCommand(null, "Math101", "Session1", true));
+        assertThrows(NullPointerException.class, () -> new AttendCommand(null, "Math101", "Session1", true));
     }
 
     @Test
     public void constructor_nullClassName_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
-                new AttendCommand(new Name("Alice Pauline"), null, "Session1", true));
+            new AttendCommand(new Name("Alice Pauline"), null, "Session1", true));
     }
 
     @Test
     public void constructor_nullSessionName_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
-                new AttendCommand(new Name("Alice Pauline"), "Math101", null, true));
+            new AttendCommand(new Name("Alice Pauline"), "Math101", null, true));
     }
 
     @Test
     public void constructor_nullPresent_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
-                new AttendCommand(new Name("Alice Pauline"), "Math101", "Session1", null));
+            new AttendCommand(new Name("Alice Pauline"), "Math101", "Session1", null));
     }
 
     @Test

@@ -91,7 +91,12 @@ public class AddSessionCommand extends Command {
         // Add session to the class
         ClassSession session = tuitionClass.addSession(sessionName, dateTime, location);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, className, session.toString()));
+        // Update the UI by refreshing the session list
+        model.setClass(tuitionClass, tuitionClass);
+        model.updateSessionListForClass(tuitionClass);
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, className, session.toString()),
+                CommandResult.DisplayType.SESSIONS);
     }
 
     /**

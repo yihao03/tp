@@ -83,7 +83,7 @@ public class Student extends Person {
      * Removes this student from a tuition class.
      * @throws PersonNotFoundException if not enrolled in this class
      */
-    public void removeClass(TuitionClass tuitionClass) {
+    public void unjoin(TuitionClass tuitionClass) {
         if (!tuitionClasses.remove(tuitionClass)) {
             throw new PersonNotFoundException();
         }
@@ -93,14 +93,14 @@ public class Student extends Person {
      * Safely removes this student from a tuition class without throwing exception.
      * @return true if the class was removed, false if not enrolled
      */
-    public boolean removeClassSafely(TuitionClass tuitionClass) {
+    public boolean unjoinSafely(TuitionClass tuitionClass) {
         return tuitionClasses.remove(tuitionClass);
     }
 
     /**
      * Removes this student from all tuition classes.
      */
-    public void removeFromAllClasses() {
+    public void unjoinAllClasses() {
         tuitionClasses.forEach(tuitionClass -> tuitionClass.removeStudent(this));
     }
 
@@ -169,7 +169,7 @@ public class Student extends Person {
         // Remove instance of this student from related parents
         this.removeChildFromParents();
         // Remove instance of student from related TuitionClass-es
-        this.removeFromAllClasses();
+        this.unjoinAllClasses();
     }
 
     /**
@@ -180,7 +180,7 @@ public class Student extends Person {
         if (isTypeEdited) {
             // Type changed, remove this student from all parents and classes
             this.removeChildFromParents();
-            this.removeFromAllClasses();
+            this.unjoinAllClasses();
         } else {
             // Type unchanged, update bidirectional relationships
             Student editedStudent = (Student) editedPerson;

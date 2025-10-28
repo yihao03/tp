@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -25,12 +29,15 @@ public class TuitionClass {
 
     /** Tutor responsible for this class (nullable until assigned). */
     private Tutor tutor;
+    private StringProperty tutorName = new SimpleStringProperty("Unassigned");
 
     /** Mutable roster of enrolled students. */
     private final ArrayList<Student> students = new ArrayList<>();
+    private final IntegerProperty studentCount = new SimpleIntegerProperty(0);
 
     /** Mutable list of sessions conducted under this class. */
     private final ArrayList<ClassSession> sessions = new ArrayList<>();
+    private final IntegerProperty sessionCount = new SimpleIntegerProperty(0);
 
     /**
      * Constructs a {@code TuitionClass} with the given name.
@@ -51,6 +58,9 @@ public class TuitionClass {
         requireNonNull(name);
         this.name = name;
         this.tutor = tutor;
+        this.tutorName = tutor != null && tutor.getName().fullName != null
+                ? new SimpleStringProperty(tutor.getName().fullName)
+                : new SimpleStringProperty("Unassigned");
         // Register this class with the tutor if not null
         if (tutor != null) {
             tutor.addClass(this);
@@ -77,6 +87,29 @@ public class TuitionClass {
      */
     public boolean isSameClass(TuitionClass other) {
         return other != null && name.equals(other.name);
+    }
+
+    /**
+     * Transfers all details from another class
+     * Used in EditClassCommand
+     */
+    public void transferDetailsFromClass(TuitionClass oldClass) {
+
+        // Transfer student roster
+        for (Student student : new ArrayList<>(oldClass.getStudents())) {
+            student.unjoinSafely(oldClass);
+            this.addStudent(student);
+        }
+
+        // Transfer assigned tutor
+        if (oldClass.isAssignedToTutor()) {
+            Tutor tutor = oldClass.getTutor();
+            tutor.unjoinSafely(oldClass);
+            this.setTutor(tutor);
+        }
+
+        // Copy over sessions
+        this.copySessions(oldClass);
     }
 
     /**
@@ -125,13 +158,15 @@ public class TuitionClass {
     public void setTutor(Tutor tutor) {
         // Remove from old tutor's class list if exists
         if (this.tutor != null) {
-            this.tutor.removeClass(this);
+            this.tutor.unjoin(this);
+            this.tutorName.set("Unassigned");
         }
         // Assign new tutor
         this.tutor = tutor;
         // Add to new tutor's class list if not null
         if (tutor != null) {
             tutor.addClass(this);
+            this.tutorName.set(tutor.getName().fullName);
         }
     }
 
@@ -145,6 +180,7 @@ public class TuitionClass {
             throw new PersonNotFoundException();
         }
         this.tutor = null;
+        this.tutorName.set("Unassigned");
     }
 
     /**
@@ -163,7 +199,7 @@ public class TuitionClass {
      * Returns the internal mutable roster.
      */
     public ArrayList<Student> getStudents() {
-        return students;
+        return new ArrayList<>(students);
     }
 
     /**
@@ -173,6 +209,7 @@ public class TuitionClass {
         if (!students.contains(student)) {
             students.add(student);
             student.addClass(this);
+            this.studentCount.set(students.size());
         }
     }
 
@@ -194,6 +231,7 @@ public class TuitionClass {
         if (!students.remove(student)) {
             throw new PersonNotFoundException();
         }
+        this.studentCount.set(students.size());
     }
 
     /**
@@ -223,6 +261,7 @@ public class TuitionClass {
     public ClassSession addSession(String sessionName, LocalDateTime dateTime, String location) {
         ClassSession session = new ClassSession(this, sessionName, dateTime, location);
         sessions.add(session);
+        this.sessionCount.set(sessions.size());
         return session;
     }
 
@@ -231,6 +270,7 @@ public class TuitionClass {
      */
     public void removeSession(ClassSession session) {
         sessions.remove(session);
+        this.sessionCount.set(sessions.size());
     }
 
     /**
@@ -239,6 +279,15 @@ public class TuitionClass {
     public List<ClassSession> getAllSessions() {
         return new ArrayList<>(sessions);
     }
+
+    /**
+     * Copies sessions from another class
+     */
+    public void copySessions(TuitionClass target) {
+        List<ClassSession> sessionsToCopy = target.getAllSessions();
+        this.sessions.addAll(sessionsToCopy);
+    }
+
 
     /**
      * Returns filtered session list that includes future sessions
@@ -279,5 +328,17 @@ public class TuitionClass {
         return sessions.stream()
                 .filter(s -> s.getSessionName().trim().equalsIgnoreCase(sessionName.trim()))
                 .findFirst();
+    }
+
+    public IntegerProperty getStudentCountProperty() {
+        return this.studentCount;
+    }
+
+    public IntegerProperty getSessionCountProperty() {
+        return this.sessionCount;
+    }
+
+    public StringProperty getTutorProperty() {
+        return tutorName;
     }
 }
