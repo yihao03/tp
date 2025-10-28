@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javafx.util.Pair;
+import seedu.address.model.Attendance;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -100,13 +100,13 @@ public class ClassSessionTest {
                 LocalDateTime.of(2025, 10, 13, 10, 0),
                 "COM1-B103");
 
-        Map<Student, Pair<Boolean, LocalDateTime>> attendance = session.getAttendanceRecord();
+        Map<Student, Attendance> attendance = session.getAttendanceRecord();
 
         assertEquals(2, attendance.size());
-        assertFalse(attendance.get(alice).getKey());
-        assertNotEquals(null, attendance.get(alice).getValue());
-        assertFalse(attendance.get(bob).getKey());
-        assertNotEquals(null, attendance.get(bob).getValue());
+        assertFalse(attendance.get(alice).isPresent());
+        assertEquals(null, attendance.get(alice).getTimestamp());
+        assertFalse(attendance.get(bob).isPresent());
+        assertEquals(null, attendance.get(bob).getTimestamp());
     }
 
     @Test
@@ -148,13 +148,13 @@ public class ClassSessionTest {
         parentClass.addStudent(charlie);
         session.initializeAttendance();
 
-        Map<Student, Pair<Boolean, LocalDateTime>> attendance = session.getAttendanceRecord();
+        Map<Student, Attendance> attendance = session.getAttendanceRecord();
 
         assertTrue(attendance.containsKey(charlie));
-        assertFalse(attendance.get(charlie).getKey()); // default false
-        assertNotEquals(null, attendance.get(charlie).getValue());
-        assertTrue(attendance.get(alice).getKey());
-        assertNotEquals(null, attendance.get(alice).getValue());
+        assertFalse(attendance.get(charlie).isPresent()); // default false
+        assertEquals(null, attendance.get(charlie).getTimestamp());
+        assertTrue(attendance.get(alice).isPresent());
+        assertNotEquals(null, attendance.get(alice).getTimestamp());
     }
 
     @DisplayName("Sessions with same class, name, and time are equal")
@@ -397,7 +397,7 @@ public class ClassSessionTest {
                 "COM1-B103");
 
         // Manually add a null entry to simulate edge case
-        session.getAttendanceRecord().put(null, new Pair<>(true, LocalDateTime.now()));
+        session.getAttendanceRecord().put(null, new Attendance(true, LocalDateTime.now()));
 
         String details = session.getSessionDetails();
 
