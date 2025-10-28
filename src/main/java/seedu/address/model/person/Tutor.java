@@ -47,7 +47,7 @@ public class Tutor extends Person {
      * Removes this tutor from a tuition class.
      * @throws PersonNotFoundException if not teaching this class
      */
-    public void removeClass(TuitionClass tuitionClass) {
+    public void unjoin(TuitionClass tuitionClass) {
         if (!tuitionClasses.remove(tuitionClass)) {
             throw new PersonNotFoundException();
         }
@@ -57,14 +57,14 @@ public class Tutor extends Person {
      * Safely removes a tuition class from this tutor's list without throwing exception.
      * @return true if the class was removed, false if not teaching
      */
-    public boolean removeClassSafely(TuitionClass tuitionClass) {
+    public boolean unjoinSafely(TuitionClass tuitionClass) {
         return tuitionClasses.remove(tuitionClass);
     }
 
     /**
      * Removes this tutor from all tuition classes.
      */
-    public void removeFromAllClasses() {
+    public void unjoinAllClasses() {
         tuitionClasses.forEach(tuitionClass -> tuitionClass.removeTutor(this));
     }
 
@@ -94,7 +94,7 @@ public class Tutor extends Person {
     @Override
     public void delete() {
         // Remove tutor from associated classes
-        this.removeFromAllClasses();
+        this.unjoinAllClasses();
     }
 
     /**
@@ -104,7 +104,7 @@ public class Tutor extends Person {
     public void handleEdit(Person editedPerson, boolean isTypeEdited) {
         if (isTypeEdited) {
             // Type changed, remove this tutor from all classes
-            this.removeFromAllClasses();
+            this.unjoinAllClasses();
         } else {
             // Type unchanged, update bidirectional relationships
             Tutor editedTutor = (Tutor) editedPerson;

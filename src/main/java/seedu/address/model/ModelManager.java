@@ -137,7 +137,7 @@ public class ModelManager implements Model {
         requireNonNull(target);
         ArrayList<Student> studentsToRemove = target.getStudents();
         for (Student s : studentsToRemove) {
-            s.removeClassSafely(target);
+            s.unjoinSafely(target);
             target.removeStudent(s);
         }
 
@@ -145,7 +145,7 @@ public class ModelManager implements Model {
             target.setTutor(null);
         }
 
-        addressBook.removeClass(target);
+        addressBook.unjoin(target);
     }
 
     @Override

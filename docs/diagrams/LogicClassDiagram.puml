@@ -1,7 +1,7 @@
 @startuml
 ' TutBook Logic Component Class Diagram
 ' Handles command parsing and execution for tuition centre operations
-' Commands include: add, edit, delete (persons), addClass, join (enrollment), link (parent-child), attend (sessions), addsession, delsession
+' Commands include: add, edit, delete (persons), addClass, join (enrollment), link (parent-child), attend (sessions), addsession, deletesession
 !include style.puml
 skinparam arrowThickness 1.1
 skinparam arrowColor LOGIC_COLOR_T4

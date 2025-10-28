@@ -26,7 +26,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
 
-public class RemoveFromClassCommandTest {
+public class UnjoinClassCommandTest {
 
     private Model model;
     private Student student1;
@@ -97,7 +97,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.addStudent(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         CommandResult result = command.execute(model);
 
         assertEquals("Removed Alice Tan from class: Math 101", result.getFeedbackToUser());
@@ -114,7 +114,7 @@ public class RemoveFromClassCommandTest {
         scienceClass.addStudent(student1);
 
         // Remove from first class
-        RemoveFromClassCommand command1 = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command1 = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         command1.execute(model);
 
         assertFalse(mathClass.hasStudent(student1));
@@ -123,7 +123,7 @@ public class RemoveFromClassCommandTest {
         assertTrue(student1.getTuitionClasses().contains(scienceClass));
 
         // Remove from second class
-        RemoveFromClassCommand command2 = new RemoveFromClassCommand("Alice Tan", new ClassName("Science 201"));
+        UnjoinClassCommand command2 = new UnjoinClassCommand("Alice Tan", new ClassName("Science 201"));
         command2.execute(model);
 
         assertFalse(scienceClass.hasStudent(student1));
@@ -137,7 +137,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.setTutor(tutor1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("John Smith", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("John Smith", new ClassName("Math 101"));
         CommandResult result = command.execute(model);
 
         assertEquals("Removed John Smith from class: Math 101", result.getFeedbackToUser());
@@ -154,7 +154,7 @@ public class RemoveFromClassCommandTest {
         mathClass.setTutor(tutor1);
         scienceClass.setTutor(tutor1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("John Smith", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("John Smith", new ClassName("Math 101"));
         command.execute(model);
 
         assertFalse(mathClass.hasTutor(tutor1));
@@ -171,7 +171,7 @@ public class RemoveFromClassCommandTest {
         mathClass.addStudent(student1);
         mathClass.addStudent(student2);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         command.execute(model);
 
         assertFalse(mathClass.hasStudent(student1));
@@ -185,7 +185,7 @@ public class RemoveFromClassCommandTest {
         mathClass.addStudent(student1);
 
         // Test with different case
-        RemoveFromClassCommand command = new RemoveFromClassCommand("ALICE TAN", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("ALICE TAN", new ClassName("Math 101"));
         command.execute(model);
 
         assertFalse(mathClass.hasStudent(student1));
@@ -197,7 +197,7 @@ public class RemoveFromClassCommandTest {
     public void execute_personNotFound_throwsCommandException() {
         model.addClass(mathClass);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Non Existent", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Non Existent", new ClassName("Math 101"));
 
         assertThrows(CommandException.class, "Person not found: Non Existent", () ->
                 command.execute(model));
@@ -207,7 +207,7 @@ public class RemoveFromClassCommandTest {
     public void execute_emptyAddressBook_throwsCommandException() {
         model.addClass(mathClass);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
 
         assertThrows(CommandException.class, "Person not found: Alice Tan", () ->
                 command.execute(model));
@@ -219,7 +219,7 @@ public class RemoveFromClassCommandTest {
     public void execute_classNotFound_throwsCommandException() {
         model.addPerson(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Non Existent Class"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Non Existent Class"));
 
         assertThrows(CommandException.class, "Class not found: Non Existent Class", () ->
                 command.execute(model));
@@ -229,7 +229,7 @@ public class RemoveFromClassCommandTest {
     public void execute_noClassesInSystem_throwsCommandException() {
         model.addPerson(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
 
         assertThrows(CommandException.class, "Class not found: Math 101", () ->
                 command.execute(model));
@@ -243,7 +243,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         // Student not added to class
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
 
         assertThrows(CommandException.class, "Alice Tan is not in class Math 101", () ->
                 command.execute(model));
@@ -255,7 +255,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         // Tutor not assigned to class
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("John Smith", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("John Smith", new ClassName("Math 101"));
 
         assertThrows(CommandException.class, "John Smith is not in class Math 101", () ->
                 command.execute(model));
@@ -268,7 +268,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.setTutor(tutor2); // Different tutor assigned
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("John Smith", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("John Smith", new ClassName("Math 101"));
 
         assertThrows(CommandException.class, "John Smith is not in class Math 101", () ->
                 command.execute(model));
@@ -281,7 +281,7 @@ public class RemoveFromClassCommandTest {
         model.addPerson(parent);
         model.addClass(mathClass);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Peter Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Peter Tan", new ClassName("Math 101"));
 
         assertThrows(CommandException.class, "Parent cannot be removed from class", () ->
                 command.execute(model));
@@ -305,7 +305,7 @@ public class RemoveFromClassCommandTest {
         mathClass.addStudent(student1);
         mathClass.addStudent(similarStudent);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         command.execute(model);
 
         assertFalse(mathClass.hasStudent(student1));
@@ -322,7 +322,7 @@ public class RemoveFromClassCommandTest {
         mathClass.addStudent(student1);
         mathAdvanced.addStudent(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         command.execute(model);
 
         assertFalse(mathClass.hasStudent(student1));
@@ -343,7 +343,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.addStudent(numberStudent);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("John Smith 3rd", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("John Smith 3rd", new ClassName("Math 101"));
         command.execute(model);
 
         assertFalse(mathClass.hasStudent(numberStudent));
@@ -364,7 +364,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.addStudent(longNameStudent);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand(longName, new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand(longName, new ClassName("Math 101"));
         command.execute(model);
 
         assertFalse(mathClass.hasStudent(longNameStudent));
@@ -382,7 +382,7 @@ public class RemoveFromClassCommandTest {
         assertTrue(mathClass.hasStudent(student1));
         assertTrue(student1.getTuitionClasses().contains(mathClass));
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         command.execute(model);
 
         // Verify bidirectional relationship is properly removed
@@ -401,7 +401,7 @@ public class RemoveFromClassCommandTest {
         mathClass.addStudent(student2);
         scienceClass.addStudent(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         command.execute(model);
 
         // Verify other relationships remain intact
@@ -417,7 +417,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.addStudent(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
         CommandResult result = command.execute(model);
 
         // Verify command executed successfully
@@ -429,34 +429,34 @@ public class RemoveFromClassCommandTest {
 
     @Test
     public void equals_sameObject_returnsTrue() {
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
         assertTrue(command.equals(command));
     }
 
     @Test
     public void equals_sameValues_returnsTrue() {
-        RemoveFromClassCommand command1 = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
-        RemoveFromClassCommand command2 = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command1 = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command2 = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
         assertTrue(command1.equals(command2));
     }
 
     @Test
     public void equals_differentPerson_returnsFalse() {
-        RemoveFromClassCommand command1 = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
-        RemoveFromClassCommand command2 = new RemoveFromClassCommand("Bob", new ClassName("Math 101"));
+        UnjoinClassCommand command1 = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command2 = new UnjoinClassCommand("Bob", new ClassName("Math 101"));
         assertFalse(command1.equals(command2));
     }
 
     @Test
     public void equals_differentClass_returnsFalse() {
-        RemoveFromClassCommand command1 = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
-        RemoveFromClassCommand command2 = new RemoveFromClassCommand("Alice", new ClassName("Science 201"));
+        UnjoinClassCommand command1 = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command2 = new UnjoinClassCommand("Alice", new ClassName("Science 201"));
         assertFalse(command1.equals(command2));
     }
 
     @Test
     public void equals_differentType_returnsFalse() {
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
         assertFalse(command.equals(1));
         assertFalse(command.equals("string"));
         assertFalse(command.equals(new ListCommand()));
@@ -464,7 +464,7 @@ public class RemoveFromClassCommandTest {
 
     @Test
     public void equals_null_returnsFalse() {
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
         assertFalse(command.equals(null));
     }
 
@@ -477,7 +477,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.addStudent(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
 
         // Add another student during execution (simulated)
         mathClass.addStudent(student2);
@@ -496,8 +496,8 @@ public class RemoveFromClassCommandTest {
         mathClass.addStudent(student1);
         mathClass.addStudent(student2);
 
-        RemoveFromClassCommand command1 = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
-        RemoveFromClassCommand command2 = new RemoveFromClassCommand("Bob Lee", new ClassName("Math 101"));
+        UnjoinClassCommand command1 = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command2 = new UnjoinClassCommand("Bob Lee", new ClassName("Math 101"));
 
         command1.execute(model);
         command2.execute(model);
@@ -512,18 +512,18 @@ public class RemoveFromClassCommandTest {
     @Test
     public void constructor_nullPersonName_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
-            new RemoveFromClassCommand(null, new ClassName("Math 101")));
+            new UnjoinClassCommand(null, new ClassName("Math 101")));
     }
 
     @Test
     public void constructor_nullClassName_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
-            new RemoveFromClassCommand("Alice", null));
+            new UnjoinClassCommand("Alice", null));
     }
 
     @Test
     public void execute_nullModel_throwsNullPointerException() {
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice", new ClassName("Math 101"));
         assertThrows(NullPointerException.class, () -> command.execute(null));
     }
 
@@ -535,7 +535,7 @@ public class RemoveFromClassCommandTest {
         model.addClass(mathClass);
         mathClass.addStudent(student1);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Alice Tan", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Alice Tan", new ClassName("Math 101"));
 
         // This test ensures logging code is executed
         CommandResult result = command.execute(model);
@@ -549,7 +549,7 @@ public class RemoveFromClassCommandTest {
     public void execute_logsWarningForNotFound() {
         model.addClass(mathClass);
 
-        RemoveFromClassCommand command = new RemoveFromClassCommand("Non Existent", new ClassName("Math 101"));
+        UnjoinClassCommand command = new UnjoinClassCommand("Non Existent", new ClassName("Math 101"));
 
         // This ensures warning logging path is covered
         assertThrows(CommandException.class, () -> command.execute(model));

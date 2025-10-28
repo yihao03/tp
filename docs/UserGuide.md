@@ -264,18 +264,18 @@ Examples:
 
 ![join command](images/joinCommand.png)
 
-### Removing from a class : `removefrom`
+### Removing from a class : `unjoin`
 
 Removes a student or tutor from a class.
 
-Format: `removefrom n/NAME c/CLASS`
+Format: `unjoin n/NAME c/CLASS`
 
 * The person must be enrolled or assigned to the class
 * Works for both students and tutors
 
 Examples:
-* `removefrom n/Damian c/Sec4 Math` removes student Damian from Sec4 Math
-* `removefrom n/Ms Lim c/Sec2-Math-A` removes tutor Ms Lim from Sec2-Math-A
+* `unjoin n/Damian c/Sec4 Math` removes student Damian from Sec4 Math
+* `unjoin n/Ms Lim c/Sec2-Math-A` removes tutor Ms Lim from Sec2-Math-A
 
 ### Adding a session : `addsession`
 
@@ -322,14 +322,14 @@ Examples:
 
 Lists all sessions for a specific class.
 
-Format: `listsession c/CLASS_NAME`
+Format: `listsessions c/CLASS_NAME`
 
 * Shows all sessions chronologically
 * Displays date, time, and location for each session
 
 Examples:
-* `listsession c/Math101`
-* `listsession c/Physics`
+* `listsessions c/Math101`
+* `listsessions c/Physics`
 
 ### Listing parents : `listparents`
 
@@ -435,5 +435,5 @@ Action | Format, Examples
 **List Class** | `listclass`
 **List Parents** | `listparents [n/CHILD_NAME]` <br> e.g., `listparents n/Damian`
 **List Session** | `listsession c/CLASS_NAME` <br> e.g., `listsession c/Math101`
-**Remove From** | `removefrom n/NAME c/CLASS` <br> e.g., `removefrom n/Damian c/Sec4 Math`
+**Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math`
 **View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial`

@@ -135,7 +135,7 @@ public class TuitionClass {
     public void setTutor(Tutor tutor) {
         // Remove from old tutor's class list if exists
         if (this.tutor != null) {
-            this.tutor.removeClass(this);
+            this.tutor.unjoin(this);
             this.tutorName.set("Unassigned");
         }
         // Assign new tutor

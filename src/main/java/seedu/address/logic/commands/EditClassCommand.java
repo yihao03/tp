@@ -66,13 +66,13 @@ public class EditClassCommand extends Command {
         }
 
         for (Student student : new ArrayList<>(oldClass.getStudents())) {
-            student.removeClass(oldClass);
+            student.unjoin(oldClass);
             newClass.addStudent(student);
         }
 
         if (oldClass.isAssignedToTutor()) {
             Tutor tutor = oldClass.getTutor();
-            tutor.removeClass(oldClass);
+            tutor.unjoin(oldClass);
             newClass.setTutor(tutor);
         }
 

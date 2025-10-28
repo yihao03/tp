@@ -178,7 +178,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      *
      * @param tuitionClass Class to remove.
      */
-    public void removeClass(TuitionClass tuitionClass) {
+    public void unjoin(TuitionClass tuitionClass) {
         classes.remove(tuitionClass);
     }
 
