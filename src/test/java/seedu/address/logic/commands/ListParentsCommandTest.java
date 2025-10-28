@@ -1,8 +1,6 @@
 package seedu.address.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -97,71 +95,7 @@ public class ListParentsCommandTest {
         );
     }
 
-    // ========== Success Cases - List All Parents ==========
-
-    @Test
-    public void execute_listAllParents_success() throws Exception {
-        model.addPerson(parent1);
-        model.addPerson(parent2);
-
-        ListParentsCommand command = new ListParentsCommand();
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all parents"));
-        assertTrue(feedback.contains("John Doe"));
-        assertTrue(feedback.contains("Jane Smith"));
-        assertNotNull(result);
-    }
-
-    @Test
-    public void execute_noParents_success() throws Exception {
-        // Add only students and tutors
-        model.addPerson(child1);
-        model.addPerson(tutor);
-
-        ListParentsCommand command = new ListParentsCommand();
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all parents"));
-        assertTrue(feedback.contains("[No parents]"));
-    }
-
-    @Test
-    public void execute_emptyAddressBook_success() throws Exception {
-        ListParentsCommand command = new ListParentsCommand();
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all parents"));
-        assertTrue(feedback.contains("[No parents]"));
-    }
-
-    @Test
-    public void execute_manyParents_success() throws Exception {
-        // Add many parents to test scalability
-        for (int i = 0; i < 20; i++) {
-            Parent parent = new Parent(
-                    new Name("Parent " + i),
-                    new Phone("9000000" + String.format("%02d", i)),
-                    new Email("parent" + i + "@example.com"),
-                    new Address("Address " + i),
-                    new HashSet<>()
-            );
-            model.addPerson(parent);
-        }
-
-        ListParentsCommand command = new ListParentsCommand();
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all parents"));
-        assertTrue(feedback.contains("Parent 0"));
-        assertTrue(feedback.contains("Parent 19"));
-    }
-
-    // ========== Success Cases - List Parents by Child ==========
+    // ========== Success Cases ==========
 
     @Test
     public void execute_listParentsByChild_singleParent() throws Exception {
@@ -406,30 +340,16 @@ public class ListParentsCommandTest {
 
     @Test
     public void execute_nullModel_throwsNullPointerException() {
-        ListParentsCommand command = new ListParentsCommand();
+        ListParentsCommand command = new ListParentsCommand("Alice Tan");
         assertThrows(NullPointerException.class, () -> command.execute(null));
-    }
-
-    @Test
-    public void constructor_nullChildName_allowed() {
-        // Null child name means list all parents
-        ListParentsCommand command = new ListParentsCommand(null);
-        assertNotNull(command);
     }
 
     // ========== Equals Tests ==========
 
     @Test
     public void equals_sameObject_returnsTrue() {
-        ListParentsCommand command1 = new ListParentsCommand();
+        ListParentsCommand command1 = new ListParentsCommand("Alice");
         assertTrue(command1.equals(command1));
-    }
-
-    @Test
-    public void equals_sameValuesNoChild_returnsTrue() {
-        ListParentsCommand command1 = new ListParentsCommand();
-        ListParentsCommand command2 = new ListParentsCommand();
-        assertTrue(command1.equals(command2));
     }
 
     @Test
@@ -447,15 +367,8 @@ public class ListParentsCommandTest {
     }
 
     @Test
-    public void equals_nullChildVsNonNull_returnsFalse() {
-        ListParentsCommand command1 = new ListParentsCommand();
-        ListParentsCommand command2 = new ListParentsCommand("Alice");
-        assertFalse(command1.equals(command2));
-    }
-
-    @Test
     public void equals_differentTypes_returnsFalse() {
-        ListParentsCommand command1 = new ListParentsCommand();
+        ListParentsCommand command1 = new ListParentsCommand("Alice");
         assertFalse(command1.equals(1));
         assertFalse(command1.equals("string"));
         assertFalse(command1.equals(new ListChildrenCommand()));
@@ -463,46 +376,11 @@ public class ListParentsCommandTest {
 
     @Test
     public void equals_null_returnsFalse() {
-        ListParentsCommand command1 = new ListParentsCommand();
+        ListParentsCommand command1 = new ListParentsCommand("Alice");
         assertFalse(command1.equals(null));
     }
 
-    // ========== Hashcode Tests ==========
-
-    @Test
-    public void hashCode_sameObject_sameHashCode() {
-        ListParentsCommand command = new ListParentsCommand("Alice");
-        assertEquals(command.hashCode(), command.hashCode());
-    }
-
-    @Test
-    public void hashCode_equalObjects_sameHashCode() {
-        ListParentsCommand command1 = new ListParentsCommand("Alice");
-        ListParentsCommand command2 = new ListParentsCommand("Alice");
-        // Equal objects should have equal hashcodes
-        assertEquals(command1, command2);
-        // Note: hashCode may differ due to Object's default implementation if not overridden
-    }
-
-    @Test
-    public void hashCode_differentObjects_differentHashCode() {
-        ListParentsCommand command1 = new ListParentsCommand("Alice");
-        ListParentsCommand command2 = new ListParentsCommand("Bob");
-        assertNotEquals(command1.hashCode(), command2.hashCode());
-    }
-
     // ========== Logging Coverage Tests ==========
-
-    @Test
-    public void execute_logsListAllParents() throws Exception {
-        model.addPerson(parent1);
-
-        ListParentsCommand command = new ListParentsCommand();
-
-        // This ensures the logging path for listing all parents is covered
-        CommandResult result = command.execute(model);
-        assertNotNull(result);
-    }
 
     @Test
     public void execute_logsListParentsByChild() throws Exception {

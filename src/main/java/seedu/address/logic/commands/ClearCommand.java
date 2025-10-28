@@ -23,6 +23,8 @@ public class ClearCommand extends Command {
         requireNonNull(model);
         LOGGER.warning("Executing ClearCommand - clearing entire address book");
 
+        // Clear right panel sessions
+        model.clearSessions();
         model.setAddressBook(new AddressBook());
         LOGGER.info("Address book cleared successfully");
 

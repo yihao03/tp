@@ -16,20 +16,16 @@ import seedu.address.model.person.PersonType;
 import seedu.address.model.person.Student;
 
 /**
- * Lists all parents in the address book to the user.
- * Optionally filters by child name if provided.
+ * Lists parents of a specific child.
  */
 public class ListParentsCommand extends Command {
 
-    public static final String COMMAND_WORD = "parents";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all parents or parents of a specific child.\n"
-            + "Parameters: [" + PREFIX_NAME + "CHILD_NAME]\n"
-            + "Examples:\n"
-            + "  " + COMMAND_WORD + "\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_NAME + "Jane Smith";
+    public static final String COMMAND_WORD = "parentsof";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists parents of a specific child.\n"
+            + "Parameters: " + PREFIX_NAME + "CHILD_NAME\n"
+            + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + "Jane Smith";
 
-    public static final String MESSAGE_SUCCESS = "Listed all parents";
-    public static final String MESSAGE_SUCCESS_FILTERED = "Listed parents for child: %s";
+    public static final String MESSAGE_SUCCESS = "Listed parents for child: %s";
     public static final String MESSAGE_CHILD_NOT_FOUND = "Child not found: %s";
 
     private static final Logger LOGGER = LogsCenter.getLogger(ListParentsCommand.class);
@@ -37,16 +33,12 @@ public class ListParentsCommand extends Command {
     private final String childName;
 
     /**
-     * Creates a ListParentsCommand to list all parents.
-     */
-    public ListParentsCommand() {
-        this.childName = null;
-    }
-
-    /**
      * Creates a ListParentsCommand to list parents of a specific child.
+     *
+     * @param childName Name of the child whose parents to list
      */
     public ListParentsCommand(String childName) {
+        requireNonNull(childName);
         this.childName = childName;
     }
 
@@ -54,35 +46,6 @@ public class ListParentsCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         LOGGER.info("Executing ListParentsCommand" + (childName != null ? " for child: " + childName : ""));
-
-        if (childName == null) {
-            return listAllParents(model);
-        } else {
-            return listParentsByChild(model);
-        }
-    }
-
-    /**
-     * Lists all parents in the address book.
-     */
-    private CommandResult listAllParents(Model model) {
-        String output = model.getFilteredPersonList().stream()
-                .filter(person -> person.getPersonType() == PersonType.PARENT)
-                .map(Person::getName)
-                .map(Object::toString)
-                .collect(Collectors.joining(", "));
-
-        if (output.isEmpty()) {
-            output = "[No parents]";
-        }
-
-        return new CommandResult(MESSAGE_SUCCESS + "\n" + output);
-    }
-
-    /**
-     * Lists parents for a specific child.
-     */
-    private CommandResult listParentsByChild(Model model) throws CommandException {
         List<Person> personList = model.getFilteredPersonList();
 
         Student child = personList.stream()
@@ -108,7 +71,7 @@ public class ListParentsCommand extends Command {
                     .collect(Collectors.joining(", "));
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS_FILTERED, childName) + "\n" + output);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, childName) + "\n" + output);
     }
 
     @Override
@@ -120,7 +83,6 @@ public class ListParentsCommand extends Command {
             return false;
         }
         ListParentsCommand o = (ListParentsCommand) other;
-        return (childName == null && o.childName == null)
-                || (childName != null && childName.equals(o.childName));
+        return childName.equals(o.childName);
     }
 }
