@@ -236,6 +236,11 @@ public class AddCommandTest {
         public void updateSessionListForClass(TuitionClass tuitionClass) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void clearSessions() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

@@ -95,6 +95,7 @@ public class ModelManager implements Model {
 
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
+        this.setSessionList(new ArrayList<>());
         this.addressBook.resetData(addressBook);
     }
 
@@ -252,6 +253,11 @@ public class ModelManager implements Model {
                 .sorted(Comparator.comparing(ClassSession::getDateTime).reversed())
                 .collect(Collectors.toList());
         setSessionList(sortedSessions);
+    }
+
+    @Override
+    public void clearSessions() {
+        setSessionList(new ArrayList<>());
     }
 
     @Override
