@@ -32,7 +32,7 @@ public class ListParentsCommand extends Command {
     public static final String MESSAGE_SUCCESS_FILTERED = "Listed parents for child: %s";
     public static final String MESSAGE_CHILD_NOT_FOUND = "Child not found: %s";
 
-    private static final Logger logger = LogsCenter.getLogger(ListParentsCommand.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(ListParentsCommand.class);
 
     private final String childName;
 
@@ -53,7 +53,7 @@ public class ListParentsCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        logger.info("Executing ListParentsCommand" + (childName != null ? " for child: " + childName : ""));
+        LOGGER.info("Executing ListParentsCommand" + (childName != null ? " for child: " + childName : ""));
 
         if (childName == null) {
             return listAllParents(model);
@@ -93,7 +93,7 @@ public class ListParentsCommand extends Command {
                 .orElse(null);
 
         if (child == null) {
-            logger.warning("Child not found: " + childName);
+            LOGGER.warning("Child not found: " + childName);
             throw new CommandException(String.format(MESSAGE_CHILD_NOT_FOUND, childName));
         }
 
