@@ -369,6 +369,9 @@ public class TuitionClassTest {
         assertEquals(tutor, newClass.getTutor());
         assertEquals(1, newClass.getAllSessions().size());
         assertTrue(newClass.hasSessionName("Session 1"));
+    }
+
+    @Test
     @DisplayName("Tutor name property updates correctly")
     void tutorNamePropertyUpdates() {
         // Assign tutor
