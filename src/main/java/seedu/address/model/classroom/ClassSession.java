@@ -49,7 +49,7 @@ public class ClassSession {
         if (parentClass == null) {
             throw new IllegalArgumentException("Parent class cannot be null for session: " + sessionName);
         }
-        if (sessionName == null || sessionName.isEmpty()) {
+        if (sessionName == null || sessionName.isBlank()) {
             throw new IllegalArgumentException("Session name cannot be null or empty");
         }
         if (dateTime == null) {
