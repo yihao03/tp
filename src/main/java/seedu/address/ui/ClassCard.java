@@ -42,29 +42,27 @@ public class ClassCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         className.setText(tuitionClass.getClassName());
 
-        tutorName.textProperty().bind(Bindings.createStringBinding(
-                () -> tuitionClass.isAssignedToTutor()
+        tutorName.textProperty().bind(Bindings.createStringBinding(() ->
+                tuitionClass.isAssignedToTutor()
                         ? tuitionClass.getTutor().getName().fullName
                         : "Unassigned",
                 tuitionClass.getTutorProperty()
         ));
 
         // Display student count
-        studentCount.textProperty().bind(Bindings.createStringBinding(
-                () -> {
-                    int students = tuitionClass.getStudents().size();
-                    return String.format("%d student%s", students, students == 1 ? "" : "s");
-                },
-                tuitionClass.getStudentCountProperty()
+        studentCount.textProperty().bind(Bindings.createStringBinding(() -> {
+                int students = tuitionClass.getStudents().size();
+                return String.format("%d student%s", students, students == 1 ? "" : "s");
+            },
+            tuitionClass.getStudentCountProperty()
         ));
 
         // Display session count
-        sessionCount.textProperty().bind(Bindings.createStringBinding(
-                () -> {
-                    int sessions = tuitionClass.getAllSessions().size();
-                    return String.format("%d session%s", sessions, sessions == 1 ? "" : "s");
-                },
-                tuitionClass.getSessionCountProperty()
+        sessionCount.textProperty().bind(Bindings.createStringBinding(() -> {
+                int sessions = tuitionClass.getAllSessions().size();
+                return String.format("%d session%s", sessions, sessions == 1 ? "" : "s");
+            },
+            tuitionClass.getSessionCountProperty()
         ));
 
         // Set class icon
