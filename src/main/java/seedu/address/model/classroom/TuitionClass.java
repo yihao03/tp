@@ -90,6 +90,29 @@ public class TuitionClass {
     }
 
     /**
+     * Transfers all details from another class
+     * Used in EditClassCommand
+     */
+    public void transferDetailsFromClass(TuitionClass oldClass) {
+
+        // Transfer student roster
+        for (Student student : new ArrayList<>(oldClass.getStudents())) {
+            student.removeClass(oldClass);
+            this.addStudent(student);
+        }
+
+        // Transfer assigned tutor
+        if (oldClass.isAssignedToTutor()) {
+            Tutor tutor = oldClass.getTutor();
+            tutor.removeClass(oldClass);
+            this.setTutor(tutor);
+        }
+
+        // Copy over sessions
+        this.copySessions(oldClass);
+    }
+
+    /**
      * Returns true if both classes have the same identity fields.
      */
     @Override
@@ -256,6 +279,15 @@ public class TuitionClass {
     public List<ClassSession> getAllSessions() {
         return new ArrayList<>(sessions);
     }
+
+    /**
+     * Copies sessions from another class
+     */
+    public void copySessions(TuitionClass target) {
+        List<ClassSession> sessionsToCopy = target.getAllSessions();
+        this.sessions.addAll(sessionsToCopy);
+    }
+
 
     /**
      * Returns filtered session list that includes future sessions
