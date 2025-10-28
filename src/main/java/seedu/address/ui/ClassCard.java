@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -41,19 +42,30 @@ public class ClassCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         className.setText(tuitionClass.getClassName());
 
-        // Display tutor name or "Unassigned"
-        String tutor = tuitionClass.isAssignedToTutor()
-                ? tuitionClass.getTutor().getName().fullName
-                : "Unassigned";
-        tutorName.setText("Tutor: " + tutor);
+        tutorName.textProperty().bind(Bindings.createStringBinding(
+                () -> tuitionClass.isAssignedToTutor()
+                        ? tuitionClass.getTutor().getName().fullName
+                        : "Unassigned",
+                tuitionClass.getTutorProperty()
+        ));
 
         // Display student count
-        int students = tuitionClass.getStudents().size();
-        studentCount.setText(String.format("%d student%s", students, students == 1 ? "" : "s"));
+        studentCount.textProperty().bind(Bindings.createStringBinding(
+                () -> {
+                    int students = tuitionClass.getStudents().size();
+                    return String.format("%d student%s", students, students == 1 ? "" : "s");
+                },
+                tuitionClass.getStudentCountProperty()
+        ));
 
         // Display session count
-        int sessions = tuitionClass.getAllSessions().size();
-        sessionCount.setText(String.format("%d session%s", sessions, sessions == 1 ? "" : "s"));
+        sessionCount.textProperty().bind(Bindings.createStringBinding(
+                () -> {
+                    int sessions = tuitionClass.getAllSessions().size();
+                    return String.format("%d session%s", sessions, sessions == 1 ? "" : "s");
+                },
+                tuitionClass.getSessionCountProperty()
+        ));
 
         // Set class icon
         try {
