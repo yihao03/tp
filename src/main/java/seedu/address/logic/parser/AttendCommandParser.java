@@ -42,7 +42,11 @@ public class AttendCommandParser implements Parser<AttendCommand> {
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         String className = argMultimap.getValue(PREFIX_CLASS).get().trim();
         String sessionName = argMultimap.getValue(PREFIX_SESSION).get().trim();
-        Boolean present = ParserUtil.parseAttendanceStatus(argMultimap.getValue(PREFIX_STATUS).get());
+        String status = argMultimap.getValue(PREFIX_STATUS).get().trim();
+        if (status.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AttendCommand.MESSAGE_USAGE));
+        }
+        Boolean present = ParserUtil.parseAttendanceStatus(status);
 
         return new AttendCommand(name, className, sessionName, present);
     }
