@@ -8,7 +8,7 @@ title: TutBook
 
 ![Ui](images/Ui.png)
 
-**TutBook is a desktop app for managing tuition-centre contacts, classes, and sessions.**  
+**TutBook is a desktop app for managing tuition-centre contacts, classes, and sessions.**
 It’s optimised for fast keyboard-driven workflows via a CLI, with a supportive JavaFX GUI.
 
 ---
@@ -38,7 +38,7 @@ It’s optimised for fast keyboard-driven workflows via a CLI, with a supportive
   - **List sessions:** `listsessions c/CLASS`
   - **View a session:** `viewsession c/CLASS s/SESSION`
   - Mark attendance per session for enrolled students
-- **Focused views:** 
+- **Focused views:**
   - **List class students:** `liststudents c/CLASS`
   - **List parents** globally or for a child
 
