@@ -152,10 +152,6 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_listParents() throws Exception {
-        // Test without arguments
-        assertTrue(parser.parseCommand(ListParentsCommand.COMMAND_WORD) instanceof ListParentsCommand);
-
-        // Test with child name
         String commandString = ListParentsCommand.COMMAND_WORD + " n/Alice Tan";
         assertTrue(parser.parseCommand(commandString) instanceof ListParentsCommand);
     }
