@@ -97,14 +97,14 @@ public class TuitionClass {
 
         // Transfer student roster
         for (Student student : new ArrayList<>(oldClass.getStudents())) {
-            student.removeClass(oldClass);
+            student.unjoinSafely(oldClass);
             this.addStudent(student);
         }
 
         // Transfer assigned tutor
         if (oldClass.isAssignedToTutor()) {
             Tutor tutor = oldClass.getTutor();
-            tutor.removeClass(oldClass);
+            tutor.unjoinSafely(oldClass);
             this.setTutor(tutor);
         }
 
@@ -158,7 +158,7 @@ public class TuitionClass {
     public void setTutor(Tutor tutor) {
         // Remove from old tutor's class list if exists
         if (this.tutor != null) {
-            this.tutor.removeClass(this);
+            this.tutor.unjoin(this);
             this.tutorName.set("Unassigned");
         }
         // Assign new tutor

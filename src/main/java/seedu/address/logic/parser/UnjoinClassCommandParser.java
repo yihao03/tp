@@ -8,35 +8,35 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.commands.RemoveFromClassCommand;
+import seedu.address.logic.commands.UnjoinClassCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.classroom.ClassName;
 
 /**
- * Parses input arguments and creates a new RemoveFromClassCommand object
+ * Parses input arguments and creates a new UnjoinClassCommand object
  */
-public class RemoveFromClassCommandParser implements Parser<RemoveFromClassCommand> {
+public class UnjoinClassCommandParser implements Parser<UnjoinClassCommand> {
 
-    private static final Logger logger = LogsCenter.getLogger(RemoveFromClassCommandParser.class);
+    private static final Logger logger = LogsCenter.getLogger(UnjoinClassCommandParser.class);
 
     /**
-     * Parses the given {@code String} of arguments in the context of the RemoveFromClassCommand
-     * and returns a RemoveFromClassCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the UnjoinClassCommand
+     * and returns a UnjoinClassCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     @Override
-    public RemoveFromClassCommand parse(String args) throws ParseException {
+    public UnjoinClassCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        logger.fine("Parsing RemoveFromClassCommand with args: " + args);
+        logger.fine("Parsing UnjoinClassCommand with args: " + args);
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_CLASS);
 
         if (!argMultimap.getValue(PREFIX_NAME).isPresent()
                 || !argMultimap.getValue(PREFIX_CLASS).isPresent()
                 || !argMultimap.getPreamble().isEmpty()) {
-            logger.warning("Invalid command format for RemoveFromClassCommand");
+            logger.warning("Invalid command format for UnjoinClassCommand");
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemoveFromClassCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnjoinClassCommand.MESSAGE_USAGE));
         }
 
         String personName = argMultimap.getValue(PREFIX_NAME).get().trim();
@@ -45,19 +45,19 @@ public class RemoveFromClassCommandParser implements Parser<RemoveFromClassComma
         if (personName.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        "Person name cannot be empty. " + RemoveFromClassCommand.MESSAGE_USAGE));
+                        "Person name cannot be empty. " + UnjoinClassCommand.MESSAGE_USAGE));
         }
 
         if (classNameValue.isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        "Class name cannot be empty. " + RemoveFromClassCommand.MESSAGE_USAGE));
+                        "Class name cannot be empty. " + UnjoinClassCommand.MESSAGE_USAGE));
         }
 
         String parsedClassName = ParserUtil.parseClassName(classNameValue);
         ClassName className = new ClassName(parsedClassName);
-        logger.info("Parsed RemoveFromClassCommand for person: " + personName + " and class: " + className);
+        logger.info("Parsed UnjoinClassCommand for person: " + personName + " and class: " + className);
 
-        return new RemoveFromClassCommand(personName, className);
+        return new UnjoinClassCommand(personName, className);
     }
 }
