@@ -198,6 +198,6 @@ public class AttendCommandParserTest {
                 + PREFIX_STATUS;
 
         assertParseFailure(parser, userInput,
-                String.format(MESSAGE_INVALID_ATTENDANCE_STATUS, AttendCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AttendCommand.MESSAGE_USAGE));
     }
 }
