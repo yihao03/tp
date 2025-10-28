@@ -222,6 +222,12 @@ public class AddCommandTest {
         }
 
         @Override
+        public void setSession(seedu.address.model.classroom.ClassSession target,
+                seedu.address.model.classroom.ClassSession editedSession) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setSessionList(java.util.List<seedu.address.model.classroom.ClassSession> sessions) {
             throw new AssertionError("This method should not be called.");
         }
