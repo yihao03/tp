@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -167,7 +168,7 @@ public interface Model {
      *
      * @param sessions the list of sessions to display
      */
-    void setSessionList(java.util.List<ClassSession> sessions);
+    void setSessionList(List<ClassSession> sessions);
 
     /**
      * Updates the UI session list for the given class, sorted by datetime in descending order.
@@ -175,4 +176,9 @@ public interface Model {
      * @param tuitionClass the class whose sessions should be displayed
      */
     void updateSessionListForClass(TuitionClass tuitionClass);
+
+    /**
+     * Clears the session list display in the UI
+     */
+    void clearSessions();
 }
