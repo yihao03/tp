@@ -1,6 +1,10 @@
 package seedu.address.model.classroom;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -157,7 +161,7 @@ public class ClassSessionTest {
 
     @Test
     @DisplayName("setDateTime allows null but causes NPE in toString")
-    void setDateTime_nullValue_causesNPEInToString() {
+    void setDateTime_nullValue_causesNpeInToString() {
         ClassSession session = new ClassSession(
                 parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
         session.setDateTime(null);
