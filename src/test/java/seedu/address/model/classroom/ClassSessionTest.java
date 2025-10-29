@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javafx.util.Pair;
+import seedu.address.model.Attendance;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -177,10 +177,13 @@ public class ClassSessionTest {
                 parentClass, "Week 3 Tutorial",
                 LocalDateTime.of(2025, 10, 13, 10, 0), "COM1-B103");
 
-        Map<Student, Pair<Boolean, LocalDateTime>> attendance = session.getAttendanceRecord();
+        Map<Student, Attendance> attendance = session.getAttendanceRecord();
+
         assertEquals(2, attendance.size());
-        assertFalse(attendance.get(alice).getKey());
-        assertFalse(attendance.get(bob).getKey());
+        assertFalse(attendance.get(alice).isPresent());
+        assertEquals(null, attendance.get(alice).getTimestamp());
+        assertFalse(attendance.get(bob).isPresent());
+        assertEquals(null, attendance.get(bob).getTimestamp());
     }
 
     @Test
@@ -210,11 +213,13 @@ public class ClassSessionTest {
         parentClass.addStudent(charlie);
 
         session.initializeAttendance();
-        Map<Student, Pair<Boolean, LocalDateTime>> record = session.getAttendanceRecord();
 
-        assertTrue(record.containsKey(charlie));
-        assertFalse(record.get(charlie).getKey());
-        assertTrue(record.get(alice).getKey());
+        Map<Student, Attendance> attendance = session.getAttendanceRecord();
+
+        assertTrue(attendance.containsKey(charlie));
+        assertFalse(attendance.get(charlie).isPresent()); // default false
+        assertEquals(null, attendance.get(charlie).getTimestamp());
+        assertTrue(attendance.get(alice).isPresent());
     }
 
     @Test
@@ -354,9 +359,14 @@ public class ClassSessionTest {
     @DisplayName("getSessionDetails handles null student entries gracefully")
     void getSessionDetails_handlesNullStudent() {
         ClassSession session = new ClassSession(
-                parentClass, "Week 1 Tutorial",
-                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1-B103");
-        session.getAttendanceRecord().put(null, new Pair<>(true, LocalDateTime.now()));
+                parentClass,
+                "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30),
+                "COM1-B103");
+
+        // Manually add a null entry to simulate edge case
+        session.getAttendanceRecord().put(null, new Attendance(true, LocalDateTime.now()));
+
         String details = session.getSessionDetails();
         assertTrue(details.contains("Unknown student"));
     }
