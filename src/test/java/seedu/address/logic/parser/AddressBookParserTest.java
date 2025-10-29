@@ -79,7 +79,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_deleteClass() throws Exception {
-        DeleteClassCommand command = (DeleteClassCommand) parser.parseCommand("deleteclass Class1");
+        DeleteClassCommand command = (DeleteClassCommand) parser.parseCommand("deleteclass c/Class1");
         assertEquals(new DeleteClassCommand("Class1"), command);
     }
 
