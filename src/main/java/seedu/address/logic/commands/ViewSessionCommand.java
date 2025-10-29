@@ -27,13 +27,13 @@ public class ViewSessionCommand extends Command {
             + PREFIX_SESSION + "Session "
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_CLASS + "Maths "
-            + PREFIX_SESSION + "1 ";
+            + PREFIX_SESSION + "1";
 
-    public static final String MESSAGE_SUCCESS = "Session details: %s\n";
+    public static final String MESSAGE_SUCCESS = "Session details: %s";
     public static final String MESSAGE_CLASS_NOT_FOUND = "The specified class does not exist.";
-    public static final String MESSAGE_SESSION_NOT_FOUND = "The specified session cannot be found. ";
+    public static final String MESSAGE_SESSION_NOT_FOUND = "The specified session cannot be found.";
 
-    private static Logger logger = Logger.getLogger(ViewSessionCommand.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ViewSessionCommand.class.getName());
     private final String className;
     private final String sessionName;
 
@@ -54,7 +54,7 @@ public class ViewSessionCommand extends Command {
         TuitionClass classToView = model.getClassByName(this.className);
 
         if (classToView == null) {
-            logger.log(Level.WARNING, "Class not found: " + this.className);
+            LOGGER.log(Level.WARNING, "Class not found: " + this.className);
             throw new CommandException(MESSAGE_CLASS_NOT_FOUND);
         }
 
@@ -63,7 +63,7 @@ public class ViewSessionCommand extends Command {
             throw new CommandException(MESSAGE_SESSION_NOT_FOUND);
         }
 
-        logger.log(Level.INFO, "Viewing session: " + sessionName + " of class: " + className);
+        LOGGER.log(Level.INFO, "Viewing session: " + sessionName + " of class: " + className);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toView.get().getSessionDetails()));
     }
 

@@ -5,7 +5,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SESSION;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -30,6 +32,8 @@ public class DeleteSessionCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Deleted session from class %s: %s";
     public static final String MESSAGE_CLASS_NOT_EXIST = "This class does not exist in the address book";
     public static final String MESSAGE_SESSION_NOT_FOUND = "Session '%s' does not exist in class '%s'";
+
+    private static final Logger LOGGER = LogsCenter.getLogger(DeleteSessionCommand.class);
 
     private final String className;
     private final String sessionName;
@@ -65,6 +69,7 @@ public class DeleteSessionCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model, "Model cannot be null");
+        LOGGER.info("Executing DeleteSessionCommand for session: " + sessionName + " in class: " + className);
 
         // Find the class by name
         List<TuitionClass> classList = model.getFilteredClassList();
@@ -74,6 +79,7 @@ public class DeleteSessionCommand extends Command {
                 .orElse(null);
 
         if (tuitionClass == null) {
+            LOGGER.warning("Class not found: " + className);
             throw new CommandException(MESSAGE_CLASS_NOT_EXIST);
         }
 
@@ -84,11 +90,13 @@ public class DeleteSessionCommand extends Command {
                 .orElse(null);
 
         if (sessionToDelete == null) {
+            LOGGER.warning("Session not found: " + sessionName + " in class: " + className);
             throw new CommandException(String.format(MESSAGE_SESSION_NOT_FOUND, sessionName, className));
         }
 
         // Remove the session
         tuitionClass.removeSession(sessionToDelete);
+        LOGGER.info("Successfully deleted session: " + sessionToDelete.getSessionName() + " from class: " + className);
 
         // Update the UI by refreshing the session list
         model.setClass(tuitionClass, tuitionClass);

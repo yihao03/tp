@@ -3,7 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -25,6 +27,8 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
+    private static final Logger LOGGER = LogsCenter.getLogger(DeleteCommand.class);
+
     private final Index targetIndex;
 
     public DeleteCommand(Index targetIndex) {
@@ -34,14 +38,19 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        LOGGER.info("Executing DeleteCommand for index: " + targetIndex.getOneBased());
         List<Person> lastShownList = model.getFilteredPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            LOGGER.warning("Invalid person index: " + targetIndex.getOneBased()
+                    + ", list size: " + lastShownList.size());
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
         Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
+        LOGGER.info("Deleting person: " + personToDelete.getName());
         model.deletePerson(personToDelete);
+        LOGGER.info("Successfully deleted person: " + personToDelete.getName());
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
     }
 
