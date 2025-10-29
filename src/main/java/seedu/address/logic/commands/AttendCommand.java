@@ -35,7 +35,7 @@ public class AttendCommand extends Command {
             + PREFIX_STATUS + "STATUS (PRESENT or ABSENT)\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
-            + PREFIX_SESSION + "MATH101 "
+            + PREFIX_CLASS + "MATH101 "
             + PREFIX_SESSION + "Session 1 "
             + PREFIX_STATUS + "PRESENT";
 
@@ -85,7 +85,7 @@ public class AttendCommand extends Command {
         // Find the class and session
         List<TuitionClass> classList = model.getFilteredClassList();
         TuitionClass tuitionClass = classList.stream()
-                .filter(c -> c.getClassName().equals(this.className))
+                .filter(c -> c.getClassName().equalsIgnoreCase(this.className))
                 .findFirst()
                 .orElse(null);
 
@@ -95,7 +95,7 @@ public class AttendCommand extends Command {
         }
 
         ClassSession session = tuitionClass.getAllSessions().stream()
-                .filter(s -> s.getSessionName().equals(this.sessionName))
+                .filter(s -> s.getSessionName().equalsIgnoreCase(this.sessionName))
                 .findFirst()
                 .orElse(null);
 

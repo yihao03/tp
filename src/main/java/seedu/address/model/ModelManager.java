@@ -146,6 +146,10 @@ public class ModelManager implements Model {
             target.setTutor(null);
         }
 
+        // Remove all sessions belonging to this class (cascade delete)
+        List<ClassSession> sessionsToRemove = target.getAllSessions();
+        sessionList.removeAll(sessionsToRemove);
+
         addressBook.unjoin(target);
     }
 
@@ -200,7 +204,7 @@ public class ModelManager implements Model {
     public TuitionClass getClassByName(String className) {
         requireNonNull(className);
         for (TuitionClass c : addressBook.getClassList()) {
-            if (c.getName().value.equals(className)) {
+            if (c.getName().value.equalsIgnoreCase(className)) {
                 return c;
             }
         }
