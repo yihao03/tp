@@ -5,7 +5,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -31,6 +33,8 @@ public class JoinClassCommand extends Command {
     public static final String MESSAGE_CLASS_NOT_EXIST = "This class does not exist in the address book";
     public static final String MESSAGE_STUDENT_ALREADY_IN_CLASS = "This student is already in the class.";
     public static final String MESSAGE_TUTOR_ALREADY_ASSIGNED = "This tutor is already assigned to the class.";
+
+    private static final Logger LOGGER = LogsCenter.getLogger(JoinClassCommand.class);
 
     private final String personName;
     private final String className;
@@ -62,6 +66,7 @@ public class JoinClassCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        LOGGER.info("Executing JoinClassCommand for person: " + personName + " to class: " + className);
 
         // Find the person by name
         List<Person> personList = model.getPersonList();
@@ -71,6 +76,7 @@ public class JoinClassCommand extends Command {
                 .orElse(null);
 
         if (toJoin == null) {
+            LOGGER.warning("Person not found: " + personName);
             throw new CommandException(MESSAGE_PERSON_NOT_EXIST);
         }
 
@@ -82,28 +88,34 @@ public class JoinClassCommand extends Command {
                 .orElse(null);
 
         if (tuitionClass == null) {
+            LOGGER.warning("Class not found: " + className);
             throw new CommandException(MESSAGE_CLASS_NOT_EXIST);
         }
 
         if (toJoin instanceof Student) {
             Student studentToJoin = (Student) toJoin;
             if (tuitionClass.hasStudent(studentToJoin)) {
+                LOGGER.warning("Student already in class: " + personName + " in " + className);
                 throw new CommandException(MESSAGE_STUDENT_ALREADY_IN_CLASS);
             }
             model.addStudentToClass(studentToJoin, tuitionClass);
             model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
+            LOGGER.info("Successfully added student " + personName + " to class " + className);
             return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", className, personName),
                     CommandResult.DisplayType.CLASSES);
         } else if (toJoin instanceof Tutor) {
             Tutor tutorToJoin = (Tutor) toJoin;
             if (tuitionClass.hasTutor(tutorToJoin)) {
+                LOGGER.warning("Tutor already assigned to class: " + personName + " in " + className);
                 throw new CommandException(MESSAGE_TUTOR_ALREADY_ASSIGNED);
             }
             model.assignTutorToClass(tutorToJoin, tuitionClass);
             model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
+            LOGGER.info("Successfully assigned tutor " + personName + " to class " + className);
             return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", className, personName),
                     CommandResult.DisplayType.CLASSES);
         } else {
+            LOGGER.warning("Attempted to join non-student/tutor to class: " + personName);
             throw new CommandException("Only students and tutors can join classes.");
         }
     }

@@ -14,11 +14,11 @@ public class DeleteClassCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsDeleteClassCommand() {
-        assertParseSuccess(parser, "Math101", new DeleteClassCommand("Math101"));
+        assertParseSuccess(parser, " c/Math101", new DeleteClassCommand("Math101"));
 
-        assertParseSuccess(parser, "Advanced Math", new DeleteClassCommand("Advanced Math"));
+        assertParseSuccess(parser, " c/Advanced Math", new DeleteClassCommand("Advanced Math"));
 
-        assertParseSuccess(parser, "   Math101   ", new DeleteClassCommand("Math101"));
+        assertParseSuccess(parser, "   c/Math101   ", new DeleteClassCommand("Math101"));
     }
 
     @Test
@@ -28,16 +28,22 @@ public class DeleteClassCommandParserTest {
 
         assertParseFailure(parser, "     ",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteClassCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, "c/",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteClassCommand.MESSAGE_USAGE));
+
+        assertParseFailure(parser, "c/   ",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteClassCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_classNameWithSpecialCharacters_successful() {
-        assertParseSuccess(parser, "Sec2-Math-A", new DeleteClassCommand("Sec2-Math-A"));
+        assertParseSuccess(parser, " c/Sec2-Math-A", new DeleteClassCommand("Sec2-Math-A"));
 
-        assertParseSuccess(parser, "CS_101", new DeleteClassCommand("CS_101"));
+        assertParseSuccess(parser, " c/CS_101", new DeleteClassCommand("CS_101"));
 
-        assertParseSuccess(parser, "Class123", new DeleteClassCommand("Class123"));
+        assertParseSuccess(parser, " c/Class123", new DeleteClassCommand("Class123"));
 
-        assertParseSuccess(parser, "Math-101_Section-A", new DeleteClassCommand("Math-101_Section-A"));
+        assertParseSuccess(parser, " c/Math-101_Section-A", new DeleteClassCommand("Math-101_Section-A"));
     }
 }

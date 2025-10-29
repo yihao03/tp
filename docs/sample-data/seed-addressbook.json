@@ -1,0 +1,501 @@
+{
+  "persons": [
+    {
+      "name": "Emily Tan",
+      "phone": "91234567",
+      "email": "emily.tan@email.com",
+      "address": "Blk 123 Ang Mo Kio Ave 3, #05-11",
+      "role": "STUDENT",
+      "tags": [ "primary6", "scholarship" ]
+    },
+    {
+      "name": "Marcus Wong",
+      "phone": "92345678",
+      "email": "marcus.wong@email.com",
+      "address": "Blk 456 Bedok North Street 1, #08-234",
+      "role": "STUDENT",
+      "tags": [ "sec3", "scienceOlympiad" ]
+    },
+    {
+      "name": "Sarah Lim",
+      "phone": "93456789",
+      "email": "sarah.lim@email.com",
+      "address": "Blk 789 Clementi Ave 2, #12-456",
+      "role": "STUDENT",
+      "tags": [ "sec2", "mathsClub" ]
+    },
+    {
+      "name": "Daniel Chen",
+      "phone": "94567890",
+      "email": "daniel.chen@email.com",
+      "address": "Blk 234 Hougang Street 21, #03-567",
+      "role": "STUDENT",
+      "tags": [ "primary5" ]
+    },
+    {
+      "name": "Amelia Koh",
+      "phone": "95678901",
+      "email": "amelia.koh@email.com",
+      "address": "Blk 567 Jurong West Street 52, #10-789",
+      "role": "STUDENT",
+      "tags": [ "sec4", "artElective" ]
+    },
+    {
+      "name": "Ryan Ng",
+      "phone": "96789012",
+      "email": "ryan.ng@email.com",
+      "address": "Blk 890 Pasir Ris Drive 6, #15-234",
+      "role": "STUDENT",
+      "tags": [ "primary4" ]
+    },
+    {
+      "name": "Isabella Lee",
+      "phone": "97890123",
+      "email": "isabella.lee@email.com",
+      "address": "Blk 345 Punggol Way, #07-456",
+      "role": "STUDENT",
+      "tags": [ "sec1", "debate" ]
+    },
+    {
+      "name": "Ethan Tan",
+      "phone": "98901234",
+      "email": "ethan.tan@email.com",
+      "address": "Blk 678 Sengkang East Ave, #04-678",
+      "role": "STUDENT",
+      "tags": [ "sec3", "basketball" ]
+    },
+    {
+      "name": "Sophia Ong",
+      "phone": "90123456",
+      "email": "sophia.ong@email.com",
+      "address": "Blk 901 Tampines Street 86, #11-890",
+      "role": "STUDENT",
+      "tags": [ "primary6", "prefect" ]
+    },
+    {
+      "name": "Lucas Goh",
+      "phone": "81234567",
+      "email": "lucas.goh@email.com",
+      "address": "Blk 234 Toa Payoh North, #06-123",
+      "role": "STUDENT",
+      "tags": [ "sec2" ]
+    },
+    {
+      "name": "Dr Rachel Lim",
+      "phone": "87654321",
+      "email": "rachel.lim@tutors.com",
+      "address": "Blk 111 Bishan Street 12, #14-22",
+      "role": "TUTOR",
+      "tags": [ "mathematics", "experienced", "MOE-certified" ]
+    },
+    {
+      "name": "Mr James Tan",
+      "phone": "88765432",
+      "email": "james.tan@tutors.com",
+      "address": "Blk 222 Bukit Timah Road, #09-33",
+      "role": "TUTOR",
+      "tags": [ "science", "physics", "NIE-trained" ]
+    },
+    {
+      "name": "Ms Michelle Ng",
+      "phone": "89876543",
+      "email": "michelle.ng@tutors.com",
+      "address": "Blk 333 Commonwealth Ave, #05-44",
+      "role": "TUTOR",
+      "tags": [ "english", "literature", "experienced" ]
+    },
+    {
+      "name": "Mr David Lee",
+      "phone": "80987654",
+      "email": "david.lee@tutors.com",
+      "address": "Blk 444 East Coast Road, #08-55",
+      "role": "TUTOR",
+      "tags": [ "chemistry", "biology", "PhD" ]
+    },
+    {
+      "name": "Mrs Jennifer Wong",
+      "phone": "82109876",
+      "email": "jennifer.wong@tutors.com",
+      "address": "Blk 555 Holland Village, #12-66",
+      "role": "TUTOR",
+      "tags": [ "chinese", "MOE-certified" ]
+    },
+    {
+      "name": "Mr Andrew Tan",
+      "phone": "91112222",
+      "email": "andrew.tan@parent.com",
+      "address": "Blk 123 Ang Mo Kio Ave 3, #05-11",
+      "role": "PARENT",
+      "tags": [ "PTA-member" ]
+    },
+    {
+      "name": "Mrs Grace Wong",
+      "phone": "92223333",
+      "email": "grace.wong@parent.com",
+      "address": "Blk 456 Bedok North Street 1, #08-234",
+      "role": "PARENT",
+      "tags": []
+    },
+    {
+      "name": "Mr Peter Lim",
+      "phone": "93334444",
+      "email": "peter.lim@parent.com",
+      "address": "Blk 789 Clementi Ave 2, #12-456",
+      "role": "PARENT",
+      "tags": [ "volunteer" ]
+    },
+    {
+      "name": "Mrs Catherine Chen",
+      "phone": "94445555",
+      "email": "catherine.chen@parent.com",
+      "address": "Blk 234 Hougang Street 21, #03-567",
+      "role": "PARENT",
+      "tags": []
+    },
+    {
+      "name": "Mr Steven Koh",
+      "phone": "95556666",
+      "email": "steven.koh@parent.com",
+      "address": "Blk 567 Jurong West Street 52, #10-789",
+      "role": "PARENT",
+      "tags": [ "PTA-committee" ]
+    },
+    {
+      "name": "Mrs Alice Ng",
+      "phone": "96667777",
+      "email": "alice.ng@parent.com",
+      "address": "Blk 890 Pasir Ris Drive 6, #15-234",
+      "role": "PARENT",
+      "tags": []
+    },
+    {
+      "name": "Mr Richard Lee",
+      "phone": "97778888",
+      "email": "richard.lee@parent.com",
+      "address": "Blk 345 Punggol Way, #07-456",
+      "role": "PARENT",
+      "tags": [ "volunteer" ]
+    },
+    {
+      "name": "Mrs Helen Tan",
+      "phone": "98889999",
+      "email": "helen.tan@parent.com",
+      "address": "Blk 678 Sengkang East Ave, #04-678",
+      "role": "PARENT",
+      "tags": []
+    },
+    {
+      "name": "Mr William Ong",
+      "phone": "90001111",
+      "email": "william.ong@parent.com",
+      "address": "Blk 901 Tampines Street 86, #11-890",
+      "role": "PARENT",
+      "tags": [ "PTA-treasurer" ]
+    },
+    {
+      "name": "Mrs Susan Goh",
+      "phone": "81112222",
+      "email": "susan.goh@parent.com",
+      "address": "Blk 234 Toa Payoh North, #06-123",
+      "role": "PARENT",
+      "tags": []
+    }
+  ],
+  "classes": [
+    {
+      "name": "Secondary 3 Mathematics",
+      "tutor": {
+        "name": "Dr Rachel Lim",
+        "phone": "87654321",
+        "email": "rachel.lim@tutors.com",
+        "address": "Blk 111 Bishan Street 12, #14-22",
+        "role": "TUTOR",
+        "tags": [ "mathematics", "experienced", "MOE-certified" ]
+      },
+      "students": [
+        {
+          "name": "Marcus Wong",
+          "phone": "92345678",
+          "email": "marcus.wong@email.com",
+          "address": "Blk 456 Bedok North Street 1, #08-234",
+          "role": "STUDENT",
+          "tags": [ "sec3", "scienceOlympiad" ]
+        },
+        {
+          "name": "Ethan Tan",
+          "phone": "98901234",
+          "email": "ethan.tan@email.com",
+          "address": "Blk 678 Sengkang East Ave, #04-678",
+          "role": "STUDENT",
+          "tags": [ "sec3", "basketball" ]
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1 - Quadratic Equations",
+          "dateTime": "2025-11-05T14:00:00",
+          "location": "Room 301, Level 3"
+        },
+        {
+          "sessionName": "Week 2 - Functions and Graphs",
+          "dateTime": "2025-11-12T14:00:00",
+          "location": "Room 301, Level 3"
+        },
+        {
+          "sessionName": "Week 3 - Trigonometry Basics",
+          "dateTime": "2025-11-19T14:00:00",
+          "location": "Room 301, Level 3"
+        },
+        {
+          "sessionName": "Week 4 - Practice Test",
+          "dateTime": "2025-11-26T14:00:00",
+          "location": "Room 301, Level 3"
+        }
+      ]
+    },
+    {
+      "name": "Secondary 2 Science",
+      "tutor": {
+        "name": "Mr James Tan",
+        "phone": "88765432",
+        "email": "james.tan@tutors.com",
+        "address": "Blk 222 Bukit Timah Road, #09-33",
+        "role": "TUTOR",
+        "tags": [ "science", "physics", "NIE-trained" ]
+      },
+      "students": [
+        {
+          "name": "Sarah Lim",
+          "phone": "93456789",
+          "email": "sarah.lim@email.com",
+          "address": "Blk 789 Clementi Ave 2, #12-456",
+          "role": "STUDENT",
+          "tags": [ "sec2", "mathsClub" ]
+        },
+        {
+          "name": "Lucas Goh",
+          "phone": "81234567",
+          "email": "lucas.goh@email.com",
+          "address": "Blk 234 Toa Payoh North, #06-123",
+          "role": "STUDENT",
+          "tags": [ "sec2" ]
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1 - Light and Optics",
+          "dateTime": "2025-11-06T16:00:00",
+          "location": "Science Lab 2"
+        },
+        {
+          "sessionName": "Week 2 - Heat and Temperature",
+          "dateTime": "2025-11-13T16:00:00",
+          "location": "Science Lab 2"
+        },
+        {
+          "sessionName": "Week 3 - Practical Session",
+          "dateTime": "2025-11-20T16:00:00",
+          "location": "Science Lab 2"
+        }
+      ]
+    },
+    {
+      "name": "Primary 6 English",
+      "tutor": {
+        "name": "Ms Michelle Ng",
+        "phone": "89876543",
+        "email": "michelle.ng@tutors.com",
+        "address": "Blk 333 Commonwealth Ave, #05-44",
+        "role": "TUTOR",
+        "tags": [ "english", "literature", "experienced" ]
+      },
+      "students": [
+        {
+          "name": "Emily Tan",
+          "phone": "91234567",
+          "email": "emily.tan@email.com",
+          "address": "Blk 123 Ang Mo Kio Ave 3, #05-11",
+          "role": "STUDENT",
+          "tags": [ "primary6", "scholarship" ]
+        },
+        {
+          "name": "Sophia Ong",
+          "phone": "90123456",
+          "email": "sophia.ong@email.com",
+          "address": "Blk 901 Tampines Street 86, #11-890",
+          "role": "STUDENT",
+          "tags": [ "primary6", "prefect" ]
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1 - Composition Writing",
+          "dateTime": "2025-11-07T10:00:00",
+          "location": "Classroom A"
+        },
+        {
+          "sessionName": "Week 2 - Comprehension Skills",
+          "dateTime": "2025-11-14T10:00:00",
+          "location": "Classroom A"
+        },
+        {
+          "sessionName": "Week 3 - Grammar Review",
+          "dateTime": "2025-11-21T10:00:00",
+          "location": "Classroom A"
+        },
+        {
+          "sessionName": "Week 4 - PSLE Practice Paper",
+          "dateTime": "2025-11-28T10:00:00",
+          "location": "Classroom A"
+        }
+      ]
+    },
+    {
+      "name": "Secondary 4 Chemistry",
+      "tutor": {
+        "name": "Mr David Lee",
+        "phone": "80987654",
+        "email": "david.lee@tutors.com",
+        "address": "Blk 444 East Coast Road, #08-55",
+        "role": "TUTOR",
+        "tags": [ "chemistry", "biology", "PhD" ]
+      },
+      "students": [
+        {
+          "name": "Amelia Koh",
+          "phone": "95678901",
+          "email": "amelia.koh@email.com",
+          "address": "Blk 567 Jurong West Street 52, #10-789",
+          "role": "STUDENT",
+          "tags": [ "sec4", "artElective" ]
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1 - Organic Chemistry",
+          "dateTime": "2025-11-08T15:00:00",
+          "location": "Chemistry Lab 1"
+        },
+        {
+          "sessionName": "Week 2 - Acids and Bases",
+          "dateTime": "2025-11-15T15:00:00",
+          "location": "Chemistry Lab 1"
+        },
+        {
+          "sessionName": "Week 3 - O-Level Revision",
+          "dateTime": "2025-11-22T15:00:00",
+          "location": "Chemistry Lab 1"
+        }
+      ]
+    },
+    {
+      "name": "Primary 5 Mathematics",
+      "tutor": {
+        "name": "Dr Rachel Lim",
+        "phone": "87654321",
+        "email": "rachel.lim@tutors.com",
+        "address": "Blk 111 Bishan Street 12, #14-22",
+        "role": "TUTOR",
+        "tags": [ "mathematics", "experienced", "MOE-certified" ]
+      },
+      "students": [
+        {
+          "name": "Daniel Chen",
+          "phone": "94567890",
+          "email": "daniel.chen@email.com",
+          "address": "Blk 234 Hougang Street 21, #03-567",
+          "role": "STUDENT",
+          "tags": [ "primary5" ]
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1 - Fractions",
+          "dateTime": "2025-11-09T11:00:00",
+          "location": "Classroom B"
+        },
+        {
+          "sessionName": "Week 2 - Decimals",
+          "dateTime": "2025-11-16T11:00:00",
+          "location": "Classroom B"
+        },
+        {
+          "sessionName": "Week 3 - Percentage",
+          "dateTime": "2025-11-23T11:00:00",
+          "location": "Classroom B"
+        }
+      ]
+    },
+    {
+      "name": "Secondary 1 Chinese",
+      "tutor": {
+        "name": "Mrs Jennifer Wong",
+        "phone": "82109876",
+        "email": "jennifer.wong@tutors.com",
+        "address": "Blk 555 Holland Village, #12-66",
+        "role": "TUTOR",
+        "tags": [ "chinese", "MOE-certified" ]
+      },
+      "students": [
+        {
+          "name": "Isabella Lee",
+          "phone": "97890123",
+          "email": "isabella.lee@email.com",
+          "address": "Blk 345 Punggol Way, #07-456",
+          "role": "STUDENT",
+          "tags": [ "sec1", "debate" ]
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1 - Reading Comprehension",
+          "dateTime": "2025-11-10T13:00:00",
+          "location": "Classroom C"
+        },
+        {
+          "sessionName": "Week 2 - Writing Practice",
+          "dateTime": "2025-11-17T13:00:00",
+          "location": "Classroom C"
+        }
+      ]
+    },
+    {
+      "name": "Primary 4 Science",
+      "tutor": {
+        "name": "Mr James Tan",
+        "phone": "88765432",
+        "email": "james.tan@tutors.com",
+        "address": "Blk 222 Bukit Timah Road, #09-33",
+        "role": "TUTOR",
+        "tags": [ "science", "physics", "NIE-trained" ]
+      },
+      "students": [
+        {
+          "name": "Ryan Ng",
+          "phone": "96789012",
+          "email": "ryan.ng@email.com",
+          "address": "Blk 890 Pasir Ris Drive 6, #15-234",
+          "role": "STUDENT",
+          "tags": [ "primary4" ]
+        }
+      ],
+      "sessions": [
+        {
+          "sessionName": "Week 1 - Plants and Animals",
+          "dateTime": "2025-11-11T09:00:00",
+          "location": "Science Room 1"
+        },
+        {
+          "sessionName": "Week 2 - Matter",
+          "dateTime": "2025-11-18T09:00:00",
+          "location": "Science Room 1"
+        },
+        {
+          "sessionName": "Week 3 - Energy",
+          "dateTime": "2025-11-25T09:00:00",
+          "location": "Science Room 1"
+        }
+      ]
+    }
+  ]
+}

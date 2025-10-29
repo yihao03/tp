@@ -22,7 +22,7 @@ public class DeleteSessionCommandParser implements Parser<DeleteSessionCommand> 
      */
     public DeleteSessionCommand parse(String args) throws ParseException {
         String trimmed = args.trim();
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_CLASS, PREFIX_SESSION);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(trimmed, PREFIX_CLASS, PREFIX_SESSION);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_CLASS, PREFIX_SESSION)
                 || !argMultimap.getPreamble().isEmpty()) {

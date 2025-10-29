@@ -25,7 +25,7 @@ public class AddClassCommandParser implements Parser<AddClassCommand> {
             trimmed = trimmed.substring(cmd.length()).trim();
         }
 
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_CLASS, PREFIX_TUTOR);
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(trimmed, PREFIX_CLASS, PREFIX_TUTOR);
 
         if (!arePrefixesPresent(map, PREFIX_CLASS) || !map.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddClassCommand.MESSAGE_USAGE));

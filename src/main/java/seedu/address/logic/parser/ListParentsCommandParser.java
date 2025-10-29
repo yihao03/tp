@@ -16,7 +16,7 @@ public class ListParentsCommandParser implements Parser<ListParentsCommand> {
     public ListParentsCommand parse(String args) throws ParseException {
         requireNonNull(args);
 
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + args, PREFIX_NAME);
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(args, PREFIX_NAME);
 
         if (!map.getValue(PREFIX_NAME).isPresent()) {
             throw new ParseException(

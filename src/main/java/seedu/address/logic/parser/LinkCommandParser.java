@@ -22,7 +22,7 @@ public class LinkCommandParser implements Parser<LinkCommand> {
      */
     public LinkCommand parse(String args) throws ParseException {
         String trimmed = args.trim();
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_PARENT, PREFIX_CHILD);
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(trimmed, PREFIX_PARENT, PREFIX_CHILD);
 
         if (!arePrefixesPresent(map, PREFIX_PARENT, PREFIX_CHILD) || !map.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, LinkCommand.MESSAGE_USAGE));

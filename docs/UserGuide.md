@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-TutBook is a **desktop app for managing tuition centre contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). This release represents a significant enhancement over AB3, transforming it into a comprehensive tuition centre management system.
+TutBook is a **desktop app for tuition centre admins to manage contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). This release represents a significant enhancement over AB3, transforming it into a comprehensive tuition centre management system.
 
 * Table of Contents
 {:toc}
@@ -13,6 +13,7 @@ TutBook is a **desktop app for managing tuition centre contacts, optimized for u
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
+   Installation instructions can be found [here](https://www.java.com/en/download/help/download_options.html) <br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
 1. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W09-3/tp/releases).
@@ -64,6 +65,7 @@ TutBook is a **desktop app for managing tuition centre contacts, optimized for u
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
 </div>
 
 ### Viewing help : `help`
@@ -87,6 +89,7 @@ A person can have any number of tags (including 0)
 </div>
 
 Examples:
+
 * `add n/Ms Lim p/91234567 e/mslim@example.com a/Clementi Ave 2 ro/tutor t/experienced`
 * `add n/Yi Hao p/98765432 e/johnd@example.com a/31 John street, block 123, #01-01 ro/student`
 
@@ -113,6 +116,7 @@ Commands like `edit` and `delete` operate on the index of the **currently displa
 </div> <br>
 
 Examples:
+
 * `filter ro/tutor` shows all tutors
 * `filter ro/student` shows all students
 
@@ -132,8 +136,9 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
     specifying any tags after it.
 
 Examples:
-*  `edit 1 p/87438807 e/alex@gmail.com` Edits the phone number and email address of the 1st person to be `87438807` and `alex@gmail.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+
+* `edit 1 p/87438807 e/alex@gmail.com` Edits the phone number and email address of the 1st person to be `87438807` and `alex@gmail.com` respectively.
+* `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 ![edit command](images/editCommandReal.png)
 
@@ -151,6 +156,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
+
 * `find John` returns `john` and `John Doe`
 * `find david damian` returns `David Li`, `Damian`<br>
   ![result for 'find david damian'](images/findCommand.png)
@@ -166,6 +172,7 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
+
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
@@ -180,6 +187,7 @@ Format: `link parent/PARENT_NAME child/CHILD_NAME`
 * Names are case-sensitive
 
 Examples:
+
 * `link parent/Bernice Yu child/Damian` links parent Bernice Yu to child Damian
 
 ![link command](images/linkCommand.png)
@@ -194,6 +202,7 @@ Format: `children [n/PARENT_NAME]`
 * With `n/PARENT_NAME`, lists only the children linked to that parent
 
 Examples:
+
 * `children` lists all students
 * `children n/Bernice Yu` lists all children of Bernice Yu
 
@@ -209,6 +218,7 @@ Format: `addclass c/CLASS_NAME [tu/TUTOR_NAME]`
 * `TUTOR_NAME` is optional; if provided, the tutor must already exist in the address book
 
 Examples:
+
 * `addclass c/Sec2-Math-A` creates a class without a tutor
 * `addclass c/CS2101 tu/Alex Yeoh` creates a class and assigns Alex Yeoh as the tutor
 
@@ -231,8 +241,8 @@ Format: `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME`
 * Class names can contain spaces
 * All students and tutor assignments are preserved
 
-
 Examples:
+
 * `editclass o/Sec3 Math c/Sec4 Math` renames the class from Sec3 Math to Sec4 Math
 
 ![edit class command](images/editClassCommand.png)
@@ -241,12 +251,13 @@ Examples:
 
 Deletes a class from the system.
 
-Format: `deleteclass CLASS_NAME`
+Format: `deleteclass c/CLASS_NAME`
 
 * Class name can contain spaces
 
 Examples:
-* `deleteclass Sec3-Math-A` deletes the class Sec3-Math-A
+
+* `deleteclass c/Sec3-Math-A` deletes the class Sec3-Math-A
 
 ### Joining a class : `join`
 
@@ -259,6 +270,7 @@ Format: `join n/NAME c/CLASS`
 * Tutors will be assigned to teach the class
 
 Examples:
+
 * `join n/Damian c/Sec4 Math` enrolls student Damian in Sec4 Math
 * `join n/Ms Lim c/Sec2-Math-A` assigns tutor Ms Lim to Sec2-Math-A
 
@@ -289,6 +301,7 @@ Format: `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [l/LOCATION]`
 * Session names must be unique within a class
 
 Examples:
+
 * `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 l/COM1-B103`
 * `addsession c/Physics s/Lab Session 1 dt/2024-03-20 10:00`
 
@@ -302,6 +315,7 @@ Format: `deletesession c/CLASS_NAME s/SESSION_NAME`
 * All attendance records for the session will be deleted
 
 Examples:
+
 * `deletesession c/Math101 s/Week 3 Tutorial`
 * `deletesession c/Physics s/Lab Session 1`
 
@@ -315,6 +329,7 @@ Format: `viewsession c/CLASS_NAME s/SESSION_NAME`
 * Shows attendance status for all enrolled students
 
 Examples:
+
 * `viewsession c/Math101 s/Week 3 Tutorial`
 * `viewsession c/Physics s/Lab Session 1`
 
@@ -341,6 +356,7 @@ Format: `listparents [n/CHILD_NAME]`
 * With a child's name, shows only that child's parents
 
 Examples:
+
 * `listparents` lists all parents
 * `listparents n/Damian` lists Damian's parents
 
@@ -356,6 +372,7 @@ Format: `attend n/NAME c/CLASS_NAME s/SESSION_NAME st/STATUS`
 * Attendance records are persistent and can be viewed with `viewsession`
 
 Examples:
+
 * `attend n/John Doe c/Math101 s/Week 3 Tutorial st/PRESENT` marks John Doe as present
 * `attend n/Jane Smith c/Physics s/Lab Session 1 st/ABSENT` marks Jane Smith as absent
 
@@ -421,7 +438,7 @@ Action | Format, Examples
 **Children** | `children [n/PARENT_NAME]` <br> e.g., `children n/John Doe`
 **Clear** | `clear`
 **Delete** | `delete INDEX` <br> e.g., `delete 3`
-**Delete Class** | `deleteclass CLASS_NAME` <br> e.g., `deleteclass Sec3-Math-A`
+**Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A`
 **Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
