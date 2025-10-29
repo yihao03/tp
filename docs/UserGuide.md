@@ -518,7 +518,7 @@ Action | Format, Examples
 
 | Problem | Possible Cause | Solution |
 |----------|----------------|-----------|
-| `link` command fails | Case-sensitive names or wrong roles | Check spelling; ensure parent/child roles are correct |
+| `link` command fails | Wrong roles | Check spelling; ensure parent/child roles are correct |
 | GUI opens off-screen | Moved app between displays | Delete `preferences.json` before restarting |
 | `help` window not appearing | Window minimized | Restore manually from taskbar |
 | App fails to start | Java not installed | Install Java 17 or above |
@@ -532,6 +532,9 @@ Action | Format, Examples
 
 **Q:** Can I undo a delete or clear command?  
 **A:** No. Destructive commands are irreversible.  
+
+**Q:** Can try the app without fully committing to it?
+**A:** Yes, [sample data](./sample-data/README.md) is pre-loaded for you to explore features. Use the `clear` command to start fresh.
 
 ---
 
