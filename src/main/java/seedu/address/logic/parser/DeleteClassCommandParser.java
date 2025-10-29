@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 
 import seedu.address.logic.commands.DeleteClassCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -16,11 +18,20 @@ public class DeleteClassCommandParser implements Parser<DeleteClassCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteClassCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
+        requireNonNull(args);
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_CLASS);
+
+        if (!argMultimap.getValue(PREFIX_CLASS).isPresent()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteClassCommand.MESSAGE_USAGE));
         }
 
-        return new DeleteClassCommand(trimmedArgs);
+        String className = argMultimap.getValue(PREFIX_CLASS).get().trim();
+
+        if (className.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteClassCommand.MESSAGE_USAGE));
+        }
+
+        return new DeleteClassCommand(className);
     }
 }
