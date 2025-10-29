@@ -21,49 +21,6 @@ import seedu.address.model.person.Student;
 public class ListChildrenCommandTest {
 
     @Test
-    public void execute_listAllChildren_success() throws Exception {
-        Model model = new ModelManager(new AddressBook(), new UserPrefs());
-
-        Student student1 = new Student(
-                new Name("Alice Tan"),
-                new Phone("91234567"),
-                new Email("alice@example.com"),
-                new Address("123 Main St"),
-                new java.util.HashSet<>()
-        );
-        Student student2 = new Student(
-                new Name("Bob Lee"),
-                new Phone("98765432"),
-                new Email("bob@example.com"),
-                new Address("456 Second St"),
-                new java.util.HashSet<>()
-        );
-
-        model.addPerson(student1);
-        model.addPerson(student2);
-
-        ListChildrenCommand command = new ListChildrenCommand();
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all children"));
-        assertTrue(feedback.contains("Alice Tan"));
-        assertTrue(feedback.contains("Bob Lee"));
-    }
-
-    @Test
-    public void execute_noChildren_success() throws Exception {
-        Model model = new ModelManager(new AddressBook(), new UserPrefs());
-
-        ListChildrenCommand command = new ListChildrenCommand();
-        CommandResult result = command.execute(model);
-
-        String feedback = result.getFeedbackToUser();
-        assertTrue(feedback.contains("Listed all children"));
-        assertTrue(feedback.contains("[No children]"));
-    }
-
-    @Test
     public void execute_listChildrenByParent_success() throws Exception {
         Model model = new ModelManager(new AddressBook(), new UserPrefs());
 
@@ -170,23 +127,17 @@ public class ListChildrenCommandTest {
 
     @Test
     public void equals() {
-        ListChildrenCommand listAllCommand = new ListChildrenCommand();
-        ListChildrenCommand listAllCommandCopy = new ListChildrenCommand();
         ListChildrenCommand listByParentCommand = new ListChildrenCommand("John Doe");
         ListChildrenCommand listByParentCommandCopy = new ListChildrenCommand("John Doe");
         ListChildrenCommand listByDifferentParentCommand = new ListChildrenCommand("Jane Smith");
 
-        assertTrue(listAllCommand.equals(listAllCommand));
-
-        assertTrue(listAllCommand.equals(listAllCommandCopy));
-
-        assertFalse(listAllCommand.equals(1));
-
-        assertFalse(listAllCommand.equals(null));
-
-        assertFalse(listAllCommand.equals(listByParentCommand));
+        assertTrue(listByParentCommand.equals(listByParentCommand));
 
         assertTrue(listByParentCommand.equals(listByParentCommandCopy));
+
+        assertFalse(listByParentCommand.equals(1));
+
+        assertFalse(listByParentCommand.equals(null));
 
         assertFalse(listByParentCommand.equals(listByDifferentParentCommand));
     }

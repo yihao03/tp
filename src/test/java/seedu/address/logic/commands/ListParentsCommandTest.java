@@ -371,7 +371,7 @@ public class ListParentsCommandTest {
         ListParentsCommand command1 = new ListParentsCommand("Alice");
         assertFalse(command1.equals(1));
         assertFalse(command1.equals("string"));
-        assertFalse(command1.equals(new ListChildrenCommand()));
+        assertFalse(command1.equals(new ListChildrenCommand("Bob")));
     }
 
     @Test

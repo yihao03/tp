@@ -236,22 +236,17 @@ link parent/PARENT_NAME child/CHILD_NAME
 
 ![link command](images/linkCommand.png)
 
----
+### Listing children : `childrenof`
 
-### Viewing Children — `children`
+Lists children of a specific parent.
 
-See all students or children linked to a specific parent.
+Format: `childrenof n/PARENT_NAME`
 
-**Format:**  
+* Displays all students linked to the specified parent
 
-```
-children [n/PARENT_NAME]
-```
+Example:
 
-**Examples:**  
-
-* `children` — lists all students  
-* `children n/Bernice Yu` — lists Bernice Yu’s children
+* `childrenof n/Bernice Yu` lists all children of Bernice Yu
 
 ![children command](images/childrenCommand.png)
 
@@ -492,7 +487,7 @@ Action | Format, Examples
 **Add Class** | `addclass c/CLASS_NAME [tu/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tu/Ms Lim`
 **Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [l/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 l/COM1-B103`
 **Attend** | `attend n/NAME c/CLASS_NAME s/SESSION_NAME st/STATUS` <br> e.g., `attend n/John Doe c/Math101 s/Week 3 Tutorial st/PRESENT`
-**Children** | `children [n/PARENT_NAME]` <br> e.g., `children n/John Doe`
+**Children** | `childrenof n/PARENT_NAME` <br> e.g., `childrenof n/John Doe`
 **Clear** | `clear`
 **Delete** | `delete INDEX` <br> e.g., `delete 3`
 **Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A`

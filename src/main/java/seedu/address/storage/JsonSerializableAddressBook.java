@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.classroom.ClassSession;
 import seedu.address.model.classroom.TuitionClass;
+import seedu.address.model.person.Parent;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 import seedu.address.model.person.Tutor;
@@ -32,11 +35,12 @@ class JsonSerializableAddressBook {
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons and classes.
+     * Constructs a {@code JsonSerializableAddressBook} with the given persons and
+     * classes.
      */
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
-                                       @JsonProperty("classes") List<JsonAdaptedClass> classes) {
+            @JsonProperty("classes") List<JsonAdaptedClass> classes) {
         if (persons != null) {
             this.persons.addAll(persons);
         }
@@ -48,7 +52,8 @@ class JsonSerializableAddressBook {
     /**
      * Converts a given {@code ReadOnlyAddressBook} into this class for Jackson use.
      *
-     * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
+     * @param source future changes to this will not affect the created
+     *               {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream()
@@ -69,6 +74,7 @@ class JsonSerializableAddressBook {
 
         // Step 1: Add all persons first
         Map<String, Person> personMap = new HashMap<>();
+        Map<String, JsonAdaptedPerson> jsonPersonMap = new HashMap<>();
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
             Person person = jsonAdaptedPerson.toModelType();
             if (addressBook.hasPerson(person)) {
@@ -77,6 +83,23 @@ class JsonSerializableAddressBook {
             addressBook.addPerson(person);
             // Store person by their unique identifier (name) for lookup
             personMap.put(person.getName().fullName, person);
+            jsonPersonMap.put(person.getName().fullName, jsonAdaptedPerson);
+        }
+
+        // Step 1.5: Restore parent-child relationships
+        for (JsonAdaptedPerson jsonPerson : persons) {
+            Person person = personMap.get(jsonPerson.toModelType().getName().fullName);
+
+            // Restore children for parents
+            if (person instanceof Parent) {
+                Parent parent = (Parent) person;
+                for (String childName : jsonPerson.getChildrenNames()) {
+                    Person child = personMap.get(childName);
+                    if (child instanceof Student) {
+                        parent.addChild((Student) child);
+                    }
+                }
+            }
         }
 
         // Step 2: Add all classes (without tutor/students initially)
@@ -112,8 +135,7 @@ class JsonSerializableAddressBook {
                 tuitionClass.addSession(
                         jsonSession.getSessionName(),
                         jsonSession.toModelDateTime(),
-                        jsonSession.getLocation()
-                );
+                        jsonSession.getLocation());
 
                 // Restore attendance data
                 ClassSession session = tuitionClass.getAllSessions().stream()
@@ -123,18 +145,22 @@ class JsonSerializableAddressBook {
 
                 if (session != null) {
                     // Mark students as present based on saved data
-                    for (String studentName : jsonSession.getPresentStudents()) {
+                    for (List<String> record : jsonSession.getPresentStudents()) {
+                        String studentName = record.get(0);
                         Person student = personMap.get(studentName);
                         if (student instanceof Student) {
-                            session.markPresent((Student) student);
+                            session.markPresentAt((Student) student,
+                                    LocalDateTime.parse(record.get(1), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                         }
                     }
 
                     // Mark students as absent based on saved data
-                    for (String studentName : jsonSession.getAbsentStudents()) {
+                    for (List<String> record : jsonSession.getAbsentStudents()) {
+                        String studentName = record.get(0);
                         Person student = personMap.get(studentName);
                         if (student instanceof Student) {
-                            session.markAbsent((Student) student);
+                            session.markAbsentAt((Student) student,
+                                    LocalDateTime.parse(record.get(1), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                         }
                     }
                 }

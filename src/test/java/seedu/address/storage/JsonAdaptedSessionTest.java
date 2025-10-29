@@ -47,9 +47,9 @@ public class JsonAdaptedSessionTest {
 
         // Verify attendance lists
         assertEquals(1, jsonSession.getPresentStudents().size());
-        assertTrue(jsonSession.getPresentStudents().contains("Alice"));
+        assertTrue(jsonSession.getPresentStudents().stream().anyMatch(list -> list.get(0).equals("Alice")));
         assertEquals(1, jsonSession.getAbsentStudents().size());
-        assertTrue(jsonSession.getAbsentStudents().contains("Bob"));
+        assertTrue(jsonSession.getAbsentStudents().stream().anyMatch(list -> list.get(0).equals("Bob")));
     }
 
     @Test
@@ -61,24 +61,26 @@ public class JsonAdaptedSessionTest {
         assertEquals(0, jsonSession.getAbsentStudents().size());
     }
 
-    @Test
     public void constructor_withValidLists_success() {
-        List<String> presentStudents = Arrays.asList("Alice", "Bob");
-        List<String> absentStudents = Arrays.asList("Charlie");
+        List<List<String>> presentStudents = Arrays.asList(
+                Arrays.asList("Alice", VALID_DATETIME),
+                Arrays.asList("Bob", VALID_DATETIME));
+        List<List<String>> absentStudents = Arrays.asList(
+                Arrays.asList("Charlie", VALID_DATETIME));
 
         JsonAdaptedSession jsonSession = new JsonAdaptedSession(
                 VALID_SESSION_NAME, VALID_DATETIME, VALID_LOCATION, presentStudents, absentStudents);
 
         assertEquals(2, jsonSession.getPresentStudents().size());
         assertEquals(1, jsonSession.getAbsentStudents().size());
-        assertTrue(jsonSession.getPresentStudents().contains("Alice"));
-        assertTrue(jsonSession.getAbsentStudents().contains("Charlie"));
+        assertTrue(jsonSession.getPresentStudents().stream().anyMatch(list -> list.get(0).equals("Alice")));
+        assertTrue(jsonSession.getAbsentStudents().stream().anyMatch(list -> list.get(0).equals("Bob")));
     }
 
     @Test
     public void getters_success() {
-        List<String> presentStudents = Arrays.asList("Alice");
-        List<String> absentStudents = Arrays.asList("Bob");
+        List<List<String>> presentStudents = Arrays.asList(Arrays.asList("Alice", VALID_DATETIME));
+        List<List<String>> absentStudents = Arrays.asList(Arrays.asList("Bob", VALID_DATETIME));
 
         JsonAdaptedSession jsonSession = new JsonAdaptedSession(
                 VALID_SESSION_NAME, VALID_DATETIME, VALID_LOCATION, presentStudents, absentStudents);

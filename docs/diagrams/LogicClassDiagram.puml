@@ -54,8 +54,11 @@ AddressBookParser --> DeleteCommandParser : creates
 DeleteCommandParser --> DeleteCommand : returns
 AddressBookParser --> LinkCommandParser : creates
 LinkCommandParser --> LinkCommand : returns
+AddressBookParser --> ListParentsCommandParser : creates
+ListParentsCommandParser --> ListParentsCommand : returns
 DeleteCommand -up-|> Command
 LinkCommand -up-|> Command
+ListParentsCommand -up-|> Command
 
 note right of AddressBookParser
   Creates specific command parsers based on user input,
