@@ -22,37 +22,20 @@ public class ListChildrenCommandParser implements Parser<ListChildrenCommand> {
         requireNonNull(args);
         logger.fine("Parsing ListChildrenCommand with args: " + args);
 
-        String trimmed = args.trim();
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(args, PREFIX_NAME);
 
-        if (trimmed.isEmpty()) {
-            return new ListChildrenCommand();
-        }
-
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(trimmed, PREFIX_NAME);
-
-        // Check if the input contains the n/ prefix
-        if (map.getValue(PREFIX_NAME).isPresent()) {
-            String parentName = map.getValue(PREFIX_NAME).get().trim();
-
-            if (parentName.isEmpty()) {
-                logger.warning("Parent name is empty in ListChildrenCommand");
-                throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        "Parent name cannot be empty. " + ListChildrenCommand.MESSAGE_USAGE));
-            }
-
-            logger.info("Parsed ListChildrenCommand for parent: " + parentName);
-            return new ListChildrenCommand(parentName);
-        }
-
-        // If there's input but no n/ prefix, it's invalid syntax
-        if (!trimmed.isEmpty()) {
-            logger.warning("Invalid syntax in ListChildrenCommand: " + trimmed);
+        if (!map.getValue(PREFIX_NAME).isPresent()) {
             throw new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    "Invalid syntax. " + ListChildrenCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListChildrenCommand.MESSAGE_USAGE));
         }
 
-        return new ListChildrenCommand();
+        String parentName = map.getValue(PREFIX_NAME).get().trim();
+
+        if (parentName.isEmpty()) {
+            throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListChildrenCommand.MESSAGE_USAGE));
+        }
+
+        return new ListChildrenCommand(parentName);
     }
 }

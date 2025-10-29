@@ -126,7 +126,6 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_listChildren() throws Exception {
-        assertTrue(parser.parseCommand(ListChildrenCommand.COMMAND_WORD) instanceof ListChildrenCommand);
         ListChildrenCommand command = (ListChildrenCommand) parser.parseCommand(
                 ListChildrenCommand.COMMAND_WORD + " n/John Doe");
         assertEquals(new ListChildrenCommand("John Doe"), command);
