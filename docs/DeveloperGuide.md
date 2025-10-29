@@ -434,7 +434,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | admin                                      | search for contacts by name    | quickly locate specific people                                        |
 | `* * *`  | admin                                      | link parents to students       | establish and track family relationships                              |
 | `* * *`  | admin                                      | view all children of a parent  | see family groupings at a glance                                      |
-| `* * *`  | admin                                      | view all children (students) in the system | get an overview of all students with parents            |
 | `* * *`  | admin                                      | create classes                 | organize students and tutors into teaching groups                     |
 | `* * *`  | admin                                      | assign tutors to classes       | track which tutor is teaching each class                              |
 | `* * *`  | admin                                      | add students to classes        | manage class rosters efficiently                                      |
@@ -659,33 +658,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-**Use case: UC07 - View all children (students with parents)**
+**Use case: UC07 - View children of a specific parent**
 
 **MSS**
 
-1.  Admin enters children command without parameters
-2.  TutBook retrieves all students who have at least one parent linked
-3.  TutBook displays list of students with their parent information
-4.  Admin views the list of children and their families
-
-    Use case ends.
-
-**Extensions**
-
-* 2a. No students have parents linked.
-    * 2a1. TutBook shows message "No children found with linked parents."
-
-      Use case ends.
-
-**Use case: UC08 - View children of a specific parent**
-
-**MSS**
-
-1.  Admin enters children command with parent's name
+1.  Admin enters command to view children of a specific parent
 2.  TutBook searches for the parent by name
 3.  TutBook retrieves all students linked to this parent
 4.  TutBook displays list of the parent's children
-5.  Admin views the children associated with the parent
 
     Use case ends.
 
@@ -696,17 +676,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
-* 2b. Multiple parents match the given name.
-    * 2b1. TutBook shows error message "Multiple parents found with name [name]. Please be more specific."
-
-      Use case ends.
-
 * 3a. Parent has no children linked.
-    * 3a1. TutBook shows message "Parent [name] has no children linked."
+    * 3a1. TutBook shows message "[No children]"
 
       Use case ends.
 
-**Use case: UC09 - Create a new class**
+**Use case: UC08 - Create a new class**
 
 **MSS**
 
@@ -729,7 +704,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case ends.
 
-**Use case: UC10 - Create a new class with tutor assigned**
+**Use case: UC09 - Create a new class with tutor assigned**
 
 **MSS**
 
@@ -1233,22 +1208,18 @@ testers are expected to do more *exploratory* testing.
 
 ### Viewing children
 
-1. Viewing all children in the system
-
-   1. Prerequisites: Some students have parents linked to them.
-
-   1. Test case: `children`<br>
-      Expected: All students who have at least one parent linked are displayed.
-
 1. Viewing children of a specific parent
 
    1. Prerequisites: Parent "Mary Doe" exists and has children linked.
 
-   1. Test case: `children n/Mary Doe`<br>
+   1. Test case: `childrenof n/Mary Doe`<br>
       Expected: All children of Mary Doe are displayed.
 
-   1. Test case: `children n/NonExistent Parent`<br>
+   1. Test case: `childrenof n/NonExistent Parent`<br>
       Expected: Error message states parent not found.
+
+   1. Test case: `childrenof` (missing parent name)<br>
+      Expected: Error message about invalid command format.
 
 ### Creating and managing classes
 
