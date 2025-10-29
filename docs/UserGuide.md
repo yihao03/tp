@@ -182,7 +182,7 @@ of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
     specifying any tags after it.
 
-![edit command](images/editCommandReal.png)
+![edit command](images/editCommand.png)
 
 ---
 
@@ -387,7 +387,7 @@ deletesession c/CLASS_NAME s/SESSION_NAME
 
 ---
 
-### Viewing a Session — `viewsession` {#viewsession}
+### Viewing a Session — `viewsession`
 
 Check details and attendance for a class session.  
 **Format:**  
