@@ -3,8 +3,10 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.Model;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.Student;
@@ -17,11 +19,15 @@ public class ListClassCommand extends Command {
     public static final String COMMAND_WORD = "listclass";
     public static final String MESSAGE_SUCCESS = "Listed all classes with their students";
 
+    private static final Logger LOGGER = LogsCenter.getLogger(ListClassCommand.class);
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        LOGGER.info("Executing ListClassCommand");
 
         List<TuitionClass> classList = model.getFilteredClassList();
+        LOGGER.info("Found " + classList.size() + " classes");
 
         String output;
         if (classList.isEmpty()) {

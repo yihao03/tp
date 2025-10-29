@@ -43,8 +43,18 @@
           "sessionName": "Week 1",
           "dateTime": "2024-10-28T14:00:00",
           "location": "Room 101",
-          "presentStudents": ["Alice Student"],
-          "absentStudents": ["Bob Student"]
+          "presentStudents": [
+            [
+              "Alice Student",
+              "2024-10-28T14:00:00"
+            ]
+          ],
+          "absentStudents": [
+            [
+              "Bob Student",
+              "2024-10-28T14:00:00"
+            ]
+          ]
         }
       ]
     }

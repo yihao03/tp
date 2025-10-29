@@ -5,7 +5,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TUTOR;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.classroom.ClassName;
@@ -32,6 +34,8 @@ public class AddClassCommand extends Command {
     public static final String MESSAGE_TUTOR_NOT_FOUND = "Tutor not found: %1$s. Please ensure the tutor exists.";
     public static final String MESSAGE_TUTOR_AMBIGUOUS = "Multiple tutors named \"%1$s\" found. Please disambiguate.";
 
+    private static final Logger LOGGER = LogsCenter.getLogger(AddClassCommand.class);
+
     private final String classNameRaw;
     private final String tutorNameRaw; // optional
 
@@ -51,6 +55,9 @@ public class AddClassCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        LOGGER.info("Executing AddClassCommand for class: " + classNameRaw
+                + (tutorNameRaw != null ? " with tutor: " + tutorNameRaw : ""));
+
         ClassName className = new ClassName(classNameRaw);
 
         Tutor tutor = null;
@@ -63,11 +70,13 @@ public class AddClassCommand extends Command {
                 : new TuitionClass(className, tutor);
 
         if (model.hasClass(newClass)) {
+            LOGGER.warning("Attempted to add duplicate class: " + classNameRaw);
             throw new CommandException(MESSAGE_DUPLICATE_CLASS);
         }
 
         model.addClass(newClass);
         final String displayName = newClass.getClassName().toString();
+        LOGGER.info("Successfully added class: " + displayName);
         return new CommandResult(String.format(MESSAGE_SUCCESS, displayName),
                 CommandResult.DisplayType.CLASSES);
     }
@@ -82,6 +91,7 @@ public class AddClassCommand extends Command {
         for (Person p : persons) {
             if (p instanceof Tutor && p.getName().fullName.equalsIgnoreCase(name)) {
                 if (found != null) {
+                    LOGGER.warning("Multiple tutors found with name: " + name);
                     throw new CommandException(String.format(MESSAGE_TUTOR_AMBIGUOUS, name));
                 }
                 found = (Tutor) p;
@@ -89,6 +99,7 @@ public class AddClassCommand extends Command {
         }
 
         if (found == null) {
+            LOGGER.warning("Tutor not found: " + name);
             throw new CommandException(String.format(MESSAGE_TUTOR_NOT_FOUND, name));
         }
 

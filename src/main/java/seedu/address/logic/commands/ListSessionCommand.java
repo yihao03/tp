@@ -4,7 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.classroom.ClassSession;
@@ -22,6 +24,8 @@ public class ListSessionCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all sessions for class: %s";
     public static final String MESSAGE_CLASS_NOT_FOUND = "Class not found: %s";
+
+    private static final Logger LOGGER = LogsCenter.getLogger(ListSessionCommand.class);
 
     private final String className;
 
@@ -46,6 +50,7 @@ public class ListSessionCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model, "model cannot be null");
+        LOGGER.info("Executing ListSessionCommand for class: " + className);
 
         List<TuitionClass> classList = model.getFilteredClassList();
 
@@ -55,10 +60,12 @@ public class ListSessionCommand extends Command {
                 .orElse(null);
 
         if (tuitionClass == null) {
+            LOGGER.warning("Class not found: " + className);
             throw new CommandException(String.format(MESSAGE_CLASS_NOT_FOUND, className));
         }
 
         List<ClassSession> sessions = tuitionClass.getAllSessions();
+        LOGGER.info("Found " + sessions.size() + " sessions for class: " + className);
 
         // Update the observable session list in the model (sorted by datetime descending)
         model.updateSessionListForClass(tuitionClass);

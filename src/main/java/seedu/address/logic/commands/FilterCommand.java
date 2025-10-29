@@ -3,7 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
@@ -23,6 +25,8 @@ public class FilterCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Filtered by role: %s (%d shown)";
     public static final String MESSAGE_EMPTY_AFTER_FILTER = "No contacts match role: %s";
 
+    private static final Logger LOGGER = LogsCenter.getLogger(FilterCommand.class);
+
     private final PersonType role;
     private final Predicate<Person> predicate;
 
@@ -37,9 +41,11 @@ public class FilterCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        LOGGER.info("Executing FilterCommand for role: " + role.name().toLowerCase());
 
         model.updateFilteredPersonList(predicate);
         int size = model.getFilteredPersonList().size();
+        LOGGER.info("Filter result: " + size + " persons found for role " + role.name().toLowerCase());
 
         if (size == 0) {
             // Keep the filter applied (so UI shows empty list), but tell user clearly.

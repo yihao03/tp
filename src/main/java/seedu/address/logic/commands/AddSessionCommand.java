@@ -8,7 +8,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SESSION;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -37,6 +39,8 @@ public class AddSessionCommand extends Command {
     public static final String MESSAGE_SUCCESS = "New session added to class %s: %s";
     public static final String MESSAGE_CLASS_NOT_EXIST = "This class does not exist in the address book";
     public static final String MESSAGE_DUPLICATE_SESSION = "This session name already exists for this class";
+
+    private static final Logger LOGGER = LogsCenter.getLogger(AddSessionCommand.class);
 
     private final String className;
     private final String sessionName;
@@ -71,6 +75,8 @@ public class AddSessionCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        LOGGER.info("Executing AddSessionCommand for session: " + sessionName + " in class: " + className
+                + " at " + dateTime + (location != null ? " at " + location : ""));
 
         // Find the class by name
         List<TuitionClass> classList = model.getFilteredClassList();
@@ -80,16 +86,19 @@ public class AddSessionCommand extends Command {
                 .orElse(null);
 
         if (tuitionClass == null) {
+            LOGGER.warning("Class not found: " + className);
             throw new CommandException(MESSAGE_CLASS_NOT_EXIST);
         }
 
         // Check if session name already exists
         if (tuitionClass.hasSessionName(sessionName)) {
+            LOGGER.warning("Duplicate session name: " + sessionName + " in class: " + className);
             throw new CommandException(MESSAGE_DUPLICATE_SESSION);
         }
 
         // Add session to the class
         ClassSession session = tuitionClass.addSession(sessionName, dateTime, location);
+        LOGGER.info("Successfully added session: " + sessionName + " to class: " + className);
 
         // Update the UI by refreshing the session list
         model.setClass(tuitionClass, tuitionClass);
