@@ -3,8 +3,15 @@ layout: page
 title: Developer Guide
 ---
 
-- Table of Contents
-  {:toc}
+# TutBook Developer Guide
+
+TutBook helps tuition centre administrators **manage students, tutors, parents, and classes efficiently**.  
+It combines the speed of a **Command Line Interface (CLI)** with the convenience of a **Graphical User Interface (GUI)**, designed to streamline administrative tasks in a tuition centre.
+
+This guide explains the **architecture, design decisions, implementation details, and testing strategy** behind TutBook. It also documents the rationale for major features, sequence diagrams, and proposed future enhancements.
+
+* Table of Contents
+{:toc}
 
 ---
 
