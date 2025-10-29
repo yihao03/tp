@@ -65,6 +65,20 @@ Follow these steps to set up TutBook on your computer.
 
 ---
 
+## User Interface Overview
+
+   ![UI Overview](images/AnnotatedUi.png)
+
+This is the main interface of TutBook. It consists of:
+
+* People List
+* Class/Session List
+  * This section switches intelligently with your command
+* Command box
+  * This is where you enter commands to interact with TutBook
+
+---
+
 ## Features
 
 ### Notes on Command Format
