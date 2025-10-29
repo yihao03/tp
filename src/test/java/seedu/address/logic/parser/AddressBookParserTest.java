@@ -146,7 +146,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_attend() throws Exception {
-        String commandString = AttendCommand.COMMAND_WORD + " n/Alice c/className session/sessionName status/PRESENT";
+        String commandString = AttendCommand.COMMAND_WORD + " n/Alice c/className s/sessionName status/PRESENT";
         assertTrue(parser.parseCommand(commandString) instanceof AttendCommand);
     }
 
@@ -170,7 +170,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_viewSession() throws Exception {
-        String commandString = ViewSessionCommand.COMMAND_WORD + " c/Math101 session/Week 1 Tutorial";
+        String commandString = ViewSessionCommand.COMMAND_WORD + " c/Math101 s/Week 1 Tutorial";
         assertTrue(parser.parseCommand(commandString) instanceof ViewSessionCommand);
     }
 
