@@ -16,32 +16,20 @@ public class ListParentsCommandParser implements Parser<ListParentsCommand> {
     public ListParentsCommand parse(String args) throws ParseException {
         requireNonNull(args);
 
-        String trimmed = args.trim();
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(args, PREFIX_NAME);
 
-        if (trimmed.isEmpty()) {
-            return new ListParentsCommand();
-        }
-
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_NAME);
-
-        if (map.getValue(PREFIX_NAME).isPresent()) {
-            String childName = map.getValue(PREFIX_NAME).get().trim();
-
-            if (childName.isEmpty()) {
-                throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                        "Child name cannot be empty. " + ListParentsCommand.MESSAGE_USAGE));
-            }
-
-            return new ListParentsCommand(childName);
-        }
-
-        if (!trimmed.isEmpty()) {
+        if (!map.getValue(PREFIX_NAME).isPresent()) {
             throw new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    "Invalid syntax. " + ListParentsCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListParentsCommand.MESSAGE_USAGE));
         }
 
-        return new ListParentsCommand();
+        String childName = map.getValue(PREFIX_NAME).get().trim();
+
+        if (childName.isEmpty()) {
+            throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListParentsCommand.MESSAGE_USAGE));
+        }
+
+        return new ListParentsCommand(childName);
     }
 }

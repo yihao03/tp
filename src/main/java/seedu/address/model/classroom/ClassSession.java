@@ -51,6 +51,12 @@ public class ClassSession {
         if (parentClass == null) {
             throw new IllegalArgumentException("Parent class cannot be null for session: " + sessionName);
         }
+        if (sessionName == null || sessionName.isBlank()) {
+            throw new IllegalArgumentException("Session name cannot be null or empty");
+        }
+        if (dateTime == null) {
+            throw new IllegalArgumentException("Date/time cannot be null for session: " + sessionName);
+        }
         if (parentClass.hasSessionName(sessionName)) {
             throw new IllegalArgumentException("This session name already exists for this class: " + sessionName);
         }

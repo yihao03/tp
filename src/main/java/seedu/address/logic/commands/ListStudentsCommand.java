@@ -5,7 +5,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.classroom.TuitionClass;
@@ -24,6 +26,8 @@ public class ListStudentsCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all students for class: %s";
     public static final String MESSAGE_CLASS_NOT_FOUND = "Class not found: %s";
+
+    private static final Logger LOGGER = LogsCenter.getLogger(ListStudentsCommand.class);
 
     private final String className;
 
@@ -48,6 +52,7 @@ public class ListStudentsCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model, "model cannot be null");
+        LOGGER.info("Executing ListStudentsCommand for class: " + className);
 
         List<TuitionClass> classList = model.getFilteredClassList();
 
@@ -57,10 +62,12 @@ public class ListStudentsCommand extends Command {
                 .orElse(null);
 
         if (tuitionClass == null) {
+            LOGGER.warning("Class not found: " + className);
             throw new CommandException(String.format(MESSAGE_CLASS_NOT_FOUND, className));
         }
 
         List<Student> students = tuitionClass.getStudents();
+        LOGGER.info("Found " + students.size() + " students in class: " + className);
 
         // Convert students to Person list for display
         List<Person> studentPersons = new ArrayList<>(students);

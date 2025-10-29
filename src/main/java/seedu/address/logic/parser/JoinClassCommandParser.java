@@ -23,7 +23,7 @@ public class JoinClassCommandParser implements Parser<JoinClassCommand> {
      */
     public JoinClassCommand parse(String args) throws ParseException {
         String trimmed = args.trim();
-        ArgumentMultimap map = ArgumentTokenizer.tokenize(" " + trimmed, PREFIX_CLASS, PREFIX_NAME);
+        ArgumentMultimap map = ArgumentTokenizer.tokenize(trimmed, PREFIX_CLASS, PREFIX_NAME);
 
         if (!arePrefixesPresent(map, PREFIX_CLASS, PREFIX_NAME) || !map.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, JoinClassCommand.MESSAGE_USAGE));

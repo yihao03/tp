@@ -7,7 +7,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_SESSION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 
 import java.util.List;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -40,6 +42,8 @@ public class AttendCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Attendance marked: %1$s";
     public static final String MESSAGE_SESSION_NOT_FOUND = "Session '%s' not found in class '%s'";
     public static final String MESSAGE_STUDENT_NOT_FOUND = "Student is not found or not enrolled in the class: %s";
+
+    private static final Logger LOGGER = LogsCenter.getLogger(AttendCommand.class);
 
     private final Name name;
     private final String className;
@@ -75,6 +79,8 @@ public class AttendCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model, "model cannot be null");
+        LOGGER.info("Executing AttendCommand for student: " + name + " in class: " + className
+                + ", session: " + sessionName + ", status: " + (present ? "PRESENT" : "ABSENT"));
 
         // Find the class and session
         List<TuitionClass> classList = model.getFilteredClassList();
@@ -84,6 +90,7 @@ public class AttendCommand extends Command {
                 .orElse(null);
 
         if (tuitionClass == null) {
+            LOGGER.warning("Class not found: " + className);
             throw new CommandException(String.format(MESSAGE_SESSION_NOT_FOUND, sessionName, className));
         }
 
@@ -93,6 +100,7 @@ public class AttendCommand extends Command {
                 .orElse(null);
 
         if (session == null) {
+            LOGGER.warning("Session not found: " + sessionName + " in class: " + className);
             throw new CommandException(String.format(MESSAGE_SESSION_NOT_FOUND, sessionName, className));
         }
 
@@ -103,6 +111,7 @@ public class AttendCommand extends Command {
                 .orElse(null);
 
         if (student == null) {
+            LOGGER.warning("Student not found or not enrolled: " + name + " in class: " + className);
             throw new CommandException(String.format(MESSAGE_STUDENT_NOT_FOUND, name));
         }
 
@@ -112,6 +121,7 @@ public class AttendCommand extends Command {
         } else {
             session.markAbsent(student);
         }
+        LOGGER.info("Successfully marked attendance for student: " + name + " as " + (present ? "PRESENT" : "ABSENT"));
 
         // Update just this session in the observable session list for UI refresh
         // The attendance data is automatically saved to JSON since session is part of tuitionClass
