@@ -80,10 +80,10 @@ package Model as ModelPkg {
   ClassSession "*" o-- "0..*" Person : attendance for
   ClassSession ..> AttendanceStatus
 
-  Person *-- Name 
-  Person *-- Phone 
+  Person *-- Name
+  Person *-- Phone
   Person *-- Email
-  Person *-- Address    
+  Person *-- Address
   Person *-- Role
   Person *-- "*" Tag
 
