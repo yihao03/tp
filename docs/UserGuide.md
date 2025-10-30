@@ -547,4 +547,4 @@ Action | Format, Examples
 
 ---
 
-*TutBook v1.0 – Empowering tuition centre management through simplicity and speed.*
+*TutBook v1.5 – Empowering tuition centre management through simplicity and speed.*
