@@ -190,11 +190,9 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 ---
 
-## Implementation
+## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
-
----
 
 ### Class Enrollment (join / unjoin)
 
