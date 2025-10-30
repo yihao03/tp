@@ -1617,7 +1617,7 @@ testers are expected to do more *exploratory* testing.
 
 ---
 
-## **Appendix C: Effort**
+## **Appendix: Effort**
 
 ### **Overall difficulty**
 Compared to AB3, which manages a single entity (`Person`), TutBook introduces five inter-linked entities — `Student`, `Tutor`, `Parent`, `TuitionClass`, and `ClassSession` — each with its own constraints and bidirectional links. This raised design and testing complexity significantly.
