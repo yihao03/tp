@@ -55,11 +55,12 @@ Follow these steps to set up TutBook on your computer.
  ![UI](images/Ui.png)
 
 5. **Try a few example commands.**
- * `help` — Opens the help window.
- * `list` — Lists all contacts.
- * `add n/John Doe p/98765432 e/johnd@example.com a/John Street ro/student` — Adds a student.
- * `delete 3` — Deletes the 3rd contact.
- * `exit` — Exits the app.
+
+* `help` — Opens the help window.
+* `list` — Lists all contacts.
+* `add n/John Doe p/98765432 e/johnd@example.com a/John Street ro/student` — Adds a student.
+* `delete 3` — Deletes the 3rd contact.
+* `exit` — Exits the app.
 
 6. **Refer to [Features](#features)** for details on each command.
 
@@ -73,9 +74,9 @@ This is the main interface of TutBook. It consists of:
 
 * People List
 * Class/Session List
-* This section switches intelligently with your command
+  * This section switches intelligently with your command
 * Command box
-* This is where you enter commands to interact with TutBook
+  * This is where you enter commands to interact with TutBook
 
 ---
 
