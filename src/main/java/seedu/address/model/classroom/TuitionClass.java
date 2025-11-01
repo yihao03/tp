@@ -254,6 +254,11 @@ public class TuitionClass {
         }
 
         students.set(index, editedStudent);
+
+        // Update all session attendance records to use the edited student
+        for (ClassSession session : sessions) {
+            session.updateStudent(target, editedStudent);
+        }
     }
 
     // ---------------------------------------------------------------------

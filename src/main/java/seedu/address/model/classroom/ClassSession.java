@@ -129,6 +129,20 @@ public class ClassSession {
     }
 
     /**
+     * Updates the attendance record to replace the old student with the edited student.
+     * This is necessary when a student's details are edited, as the Map uses Student objects as keys.
+     *
+     * @param oldStudent the student to replace
+     * @param editedStudent the new student object with updated details
+     */
+    public void updateStudent(Student oldStudent, Student editedStudent) {
+        Attendance attendance = attendanceRecord.remove(oldStudent);
+        if (attendance != null) {
+            attendanceRecord.put(editedStudent, attendance);
+        }
+    }
+
+    /**
      * returns true if the student has attended (marked present) this session.
      */
     public boolean hasAttended(Student student) {

@@ -453,4 +453,54 @@ public class EditCommandTest {
         assertFalse(tuitionClass.isAssignedToTutor());
     }
 
+    @Test
+    public void execute_editStudentName_maintainsSessionAttendance() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create student
+        Person student = new PersonBuilder().withName("Emma Yeoh").withPhone("98765432")
+                .withPersonType(PersonType.STUDENT).build();
+
+        modelWithRelationships.addPerson(student);
+
+        // Create tuition class, add student, and create session
+        TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
+        modelWithRelationships.addClass(tuitionClass);
+        Student studentCast = (Student) student;
+        tuitionClass.addStudent(studentCast);
+
+        // Create session and mark student as present
+        tuitionClass.addSession("Session 1",
+                java.time.LocalDateTime.of(2024, 3, 15, 14, 30), "COM1");
+        seedu.address.model.classroom.ClassSession session = tuitionClass.getAllSessions().get(0);
+        session.markPresent(studentCast);
+
+        // Verify student is present
+        assertTrue(session.hasAttended(studentCast));
+        assertEquals(1, session.getAttendanceCount());
+
+        // Edit student's name
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName("Emma").build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get edited student
+        Person editedStudent = modelWithRelationships.getFilteredPersonList().get(0);
+
+        // Verify edited student is in tuition class
+        assertTrue(tuitionClass.getStudents().contains(editedStudent));
+
+        // Verify session attendance is maintained for edited student
+        assertTrue(session.hasAttended((Student) editedStudent));
+        assertEquals(1, session.getAttendanceCount());
+
+        // Verify old student is no longer in attendance record
+        assertFalse(session.getAttendanceRecord().containsKey(studentCast));
+
+        // Verify new student is in attendance record
+        assertTrue(session.getAttendanceRecord().containsKey((Student) editedStudent));
+    }
+
 }

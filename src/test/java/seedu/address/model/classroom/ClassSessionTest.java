@@ -237,6 +237,63 @@ public class ClassSessionTest {
         assertEquals(1, session.getAttendanceCount());
     }
 
+    @Test
+    @DisplayName("updateStudent replaces old student with edited student in attendance record")
+    void updateStudent_replacesStudentInAttendanceRecord() {
+        ClassSession session = new ClassSession(
+                parentClass, "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1-B103");
+
+        // Mark alice as present
+        session.markPresent(alice);
+        assertTrue(session.hasAttended(alice));
+        assertEquals(1, session.getAttendanceCount());
+
+        // Create an edited version of alice with a different name
+        Student editedAlice = new Student(
+                new Name("Alice Wong"),
+                alice.getPhone(),
+                alice.getEmail(),
+                alice.getAddress(),
+                alice.getTags());
+
+        // Update the session to use edited student
+        session.updateStudent(alice, editedAlice);
+
+        // Old student should no longer be in attendance record
+        assertFalse(session.getAttendanceRecord().containsKey(alice));
+
+        // New student should be in attendance record with same attendance status
+        assertTrue(session.getAttendanceRecord().containsKey(editedAlice));
+        assertTrue(session.hasAttended(editedAlice));
+        assertEquals(1, session.getAttendanceCount());
+    }
+
+    @Test
+    @DisplayName("updateStudent handles student not in attendance record")
+    void updateStudent_studentNotInRecord_doesNothing() {
+        ClassSession session = new ClassSession(
+                parentClass, "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1-B103");
+
+        Student charlie = new Student(
+                new Name("Charlie Goh"), new Phone("99887766"),
+                new Email("charlie@example.com"), new Address("30 Science Drive"), new HashSet<>());
+
+        Student editedCharlie = new Student(
+                new Name("Charlie Tan"), new Phone("99887766"),
+                new Email("charlie@example.com"), new Address("30 Science Drive"), new HashSet<>());
+
+        // Try to update a student not in the session
+        session.updateStudent(charlie, editedCharlie);
+
+        // Session should still have only alice and bob
+        assertEquals(2, session.getAttendanceRecord().size());
+        assertTrue(session.getAttendanceRecord().containsKey(alice));
+        assertTrue(session.getAttendanceRecord().containsKey(bob));
+        assertFalse(session.getAttendanceRecord().containsKey(editedCharlie));
+    }
+
     // --- Equality ---
 
     @Test
