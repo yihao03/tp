@@ -51,6 +51,9 @@ public class EmailTest {
         assertFalse(Email.isValidEmail("peterjack@-example.com")); // domain name starts with a hyphen
         assertFalse(Email.isValidEmail("peterjack@example.com-")); // domain name ends with a hyphen
         assertFalse(Email.isValidEmail("peterjack@example.c")); // top level domain has less than two chars
+        // Create a valid email that exceeds 320 characters
+        String longLocalPart = "a" + ".b".repeat(160); // Creates pattern "a.b.b.b..." (321 chars total with @example.com)
+        assertFalse(Email.isValidEmail(longLocalPart + "@example.com")); // exceeds 320 character limit
 
         // valid email
         assertTrue(Email.isValidEmail("PeterJack_1190@example.com")); // underscore in local part
@@ -64,6 +67,8 @@ public class EmailTest {
         assertTrue(Email.isValidEmail("peter_jack@very-very-very-long-example.com")); // long domain name
         assertTrue(Email.isValidEmail("if.you.dream.it_you.can.do.it@example.com")); // long local part
         assertTrue(Email.isValidEmail("e1234567@u.nus.edu")); // more than one period in domain
+        // 64 chars local + @ + 255 chars domain = 320 chars total (RFC 5321 limit)
+        assertTrue(Email.isValidEmail("a".repeat(64) + "@" + "b".repeat(240) + ".example.com")); // exactly 320 chars
     }
 
     @Test
