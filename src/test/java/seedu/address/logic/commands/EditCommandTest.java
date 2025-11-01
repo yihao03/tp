@@ -503,4 +503,42 @@ public class EditCommandTest {
         assertTrue(session.getAttendanceRecord().containsKey((Student) editedStudent));
     }
 
+    @Test
+    public void execute_editTutorName_updatesTuitionClassTutorProperty() throws Exception {
+        Model modelWithRelationships = new ModelManager(new AddressBook(), new UserPrefs());
+
+        // Create tutor Jonathan
+        Person tutor = new PersonBuilder().withName("Jonathan").withPhone("98765432")
+                .withPersonType(PersonType.TUTOR).build();
+
+        modelWithRelationships.addPerson(tutor);
+
+        // Create tuition class and assign Jonathan as tutor
+        TuitionClass tuitionClass = new TuitionClass(new ClassName("Math101"));
+        modelWithRelationships.addClass(tuitionClass);
+        Tutor tutorCast = (Tutor) tutor;
+        tuitionClass.setTutor(tutorCast);
+
+        // Verify Jonathan is the tutor
+        assertTrue(tuitionClass.isAssignedToTutor());
+        assertEquals("Jonathan", tuitionClass.getTutor().getName().fullName);
+        assertEquals("Jonathan", tuitionClass.getTutorProperty().get());
+
+        // Edit tutor's name to Jay
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName("Jay").build();
+        EditCommand editCommand = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        editCommand.execute(modelWithRelationships);
+
+        // Get edited tutor
+        Person editedTutor = modelWithRelationships.getFilteredPersonList().get(0);
+
+        // Verify Jay is the new tutor
+        assertTrue(tuitionClass.isAssignedToTutor());
+        assertEquals("Jay", editedTutor.getName().fullName);
+        assertEquals("Jay", tuitionClass.getTutor().getName().fullName);
+        assertEquals("Jay", tuitionClass.getTutorProperty().get()); // This should pass if the bug is fixed
+    }
+
 }
