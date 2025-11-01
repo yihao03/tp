@@ -6,13 +6,15 @@ import java.text.Normalizer;
 
 /**
  * Represents a class name in the address book.
- * Constraints: 1–50 characters; letters, digits, spaces, '-', '–', '—', and '_' allowed.
+ * Constraints: 1–100 characters; letters, digits, spaces, '-', '–', '—', and '_' allowed.
  */
 public class ClassName {
+    public static final int MAX_CLASS_NAME_LENGTH = 100;
     public static final String MESSAGE_CONSTRAINTS =
-            "Class name should be 1-50 characters. Allowed: letters, digits, spaces, -, -, —, _.";
+            "Class name should be 1-" + MAX_CLASS_NAME_LENGTH
+            + " characters. Allowed: letters, digits, spaces, -, -, —, _.";
 
-    private static final String VALIDATION_REGEX = "^[\\p{L}\\p{N} _\\--—]{1,50}$";
+    private static final String VALIDATION_REGEX = "^[\\p{L}\\p{N} _\\--—]{1,100}$";
 
     public final String value;
 
