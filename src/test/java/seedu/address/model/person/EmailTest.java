@@ -52,7 +52,8 @@ public class EmailTest {
         assertFalse(Email.isValidEmail("peterjack@example.com-")); // domain name ends with a hyphen
         assertFalse(Email.isValidEmail("peterjack@example.c")); // top level domain has less than two chars
         // Create a valid email that exceeds 320 characters
-        String longLocalPart = "a" + ".b".repeat(160); // Creates pattern "a.b.b.b..." (321 chars total with @example.com)
+        String longLocalPart = "a" + ".b".repeat(160); // Creates pattern "a.b.b.b..." (321 chars total with
+                                                       // @example.com)
         assertFalse(Email.isValidEmail(longLocalPart + "@example.com")); // exceeds 320 character limit
 
         // valid email
