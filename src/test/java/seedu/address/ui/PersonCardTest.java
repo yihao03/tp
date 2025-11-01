@@ -1,11 +1,9 @@
 package seedu.address.ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.scene.layout.FlowPane;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonType;
 import seedu.address.testutil.PersonBuilder;
