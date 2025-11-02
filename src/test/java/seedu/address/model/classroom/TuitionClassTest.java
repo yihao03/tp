@@ -413,4 +413,43 @@ public class TuitionClassTest {
         tuitionClass.removeSession(session1);
         assertEquals(1, tuitionClass.getSessionCountProperty().get());
     }
+
+    // --- Student reference updates ---
+
+    @Test
+    @DisplayName("setStudent updates roster and cascades to session attendance")
+    void setStudent_updatesRosterAndCascadesToSessions() {
+        tuitionClass.addStudent(alice);
+        tuitionClass.addStudent(bob);
+
+        ClassSession session1 = tuitionClass.addSession("Week 1",
+                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1");
+        ClassSession session2 = tuitionClass.addSession("Week 2",
+                LocalDateTime.of(2024, 3, 22, 14, 30), "COM1");
+
+        session1.markPresent(alice);
+        session2.markAbsent(alice);
+        session1.markPresent(bob);
+
+        Student editedAlice = new Student(
+                new Name("Alice Wong"),
+                alice.getPhone(),
+                alice.getEmail(),
+                alice.getAddress(),
+                alice.getTags());
+
+        tuitionClass.setStudent(alice, editedAlice);
+
+        // Roster updated
+        assertFalse(tuitionClass.hasStudent(alice));
+        assertTrue(tuitionClass.hasStudent(editedAlice));
+
+        // Session attendance updated, patterns preserved
+        assertFalse(session1.getAttendanceRecord().containsKey(alice));
+        assertTrue(session1.hasAttended(editedAlice));
+        assertFalse(session2.hasAttended(editedAlice));
+
+        // Other students unaffected
+        assertTrue(session1.hasAttended(bob));
+    }
 }

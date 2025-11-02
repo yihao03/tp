@@ -145,6 +145,20 @@ public class ClassSession {
     }
 
     /**
+     * Updates the student reference in the attendance map from the old student to the edited student.
+     * This preserves the attendance record when a student's details are edited.
+     *
+     * @param oldStudent the original student object
+     * @param editedStudent the updated student object
+     */
+    public void updateStudentReference(Student oldStudent, Student editedStudent) {
+        if (attendanceRecord.containsKey(oldStudent)) {
+            Attendance attendance = attendanceRecord.remove(oldStudent);
+            attendanceRecord.put(editedStudent, attendance);
+        }
+    }
+
+    /**
      * Returns a multi-line string describing detailed session information including
      * date/time, location, remarks and per-student attendance.
      */

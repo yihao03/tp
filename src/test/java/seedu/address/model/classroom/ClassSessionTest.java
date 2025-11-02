@@ -370,4 +370,52 @@ public class ClassSessionTest {
         String details = session.getSessionDetails();
         assertTrue(details.contains("Unknown student"));
     }
+
+    // --- Student reference updates ---
+
+    @Test
+    @DisplayName("updateStudentReference transfers attendance record preserving status and timestamp")
+    void updateStudentReference_transfersAttendance() {
+        ClassSession session = new ClassSession(
+                parentClass, "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1-B103");
+
+        LocalDateTime specificTime = LocalDateTime.of(2024, 3, 15, 15, 0);
+        session.markPresentAt(alice, specificTime);
+
+        Student editedAlice = new Student(
+                new Name("Alice Wong"),
+                alice.getPhone(),
+                alice.getEmail(),
+                alice.getAddress(),
+                alice.getTags());
+
+        session.updateStudentReference(alice, editedAlice);
+
+        Map<Student, Attendance> attendance = session.getAttendanceRecord();
+        assertFalse(attendance.containsKey(alice));
+        assertTrue(attendance.containsKey(editedAlice));
+        assertEquals(specificTime, attendance.get(editedAlice).getTimestamp());
+        assertTrue(attendance.get(editedAlice).isPresent());
+    }
+
+    @Test
+    @DisplayName("updateStudentReference handles student not in map gracefully")
+    void updateStudentReference_studentNotFound_noException() {
+        ClassSession session = new ClassSession(
+                parentClass, "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1-B103");
+
+        Student charlie = new Student(
+                new Name("Charlie Goh"), new Phone("99887766"),
+                new Email("charlie@example.com"), new Address("30 Science Drive"), new HashSet<>());
+        Student editedCharlie = new Student(
+                new Name("Charlie Tan"),
+                charlie.getPhone(), charlie.getEmail(), charlie.getAddress(), charlie.getTags());
+
+        int initialSize = session.getAttendanceRecord().size();
+        session.updateStudentReference(charlie, editedCharlie);
+
+        assertEquals(initialSize, session.getAttendanceRecord().size());
+    }
 }
