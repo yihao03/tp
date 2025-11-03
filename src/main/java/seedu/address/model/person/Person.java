@@ -31,11 +31,11 @@ public abstract class Person {
     /**
      * Constructs a {@code Person}.
      *
-     * @param name    Name of the person. Must not be null.
-     * @param phone   Phone number of the person. Must not be null.
-     * @param email   Email of the person. Must not be null.
+     * @param name Name of the person. Must not be null.
+     * @param phone Phone number of the person. Must not be null.
+     * @param email Email of the person. Must not be null.
      * @param address Address of the person. Must not be null.
-     * @param tags    Set of tags associated with the person. Must not be null.
+     * @param tags Set of tags associated with the person. Must not be null.
      * @throws NullPointerException if any parameter is null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
@@ -47,7 +47,7 @@ public abstract class Person {
         // Limit number of tags per person
         if (tags.size() > MAX_TAGS_PER_PERSON) {
             throw new IllegalArgumentException(
-                    String.format("Too many tags. Maximum %d tags allowed per person.", MAX_TAGS_PER_PERSON));
+                String.format("Too many tags. Maximum %d tags allowed per person.", MAX_TAGS_PER_PERSON));
         }
         this.tags.addAll(tags);
     }
@@ -55,18 +55,18 @@ public abstract class Person {
     /**
      * Factory method to create a concrete {@code Person} based on role.
      *
-     * @param name    Name of the person.
-     * @param phone   Phone number of the person.
-     * @param email   Email of the person.
+     * @param name Name of the person.
+     * @param phone Phone number of the person.
+     * @param email Email of the person.
      * @param address Address of the person.
-     * @param tags    Set of tags associated with the person.
-     * @param role    The role determining the concrete subtype to instantiate.
+     * @param tags Set of tags associated with the person.
+     * @param role The role determining the concrete subtype to instantiate.
      * @return A {@link Student}, {@link Tutor}, or {@link Parent} instance as specified by {@code role}.
      * @throws IllegalArgumentException if {@code role} is not a supported {@link PersonType}.
-     * @throws NullPointerException     if any parameter is null.
+     * @throws NullPointerException if any parameter is null.
      */
     public static Person newPerson(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
-            PersonType role) {
+                    PersonType role) {
         switch (role) {
         case STUDENT:
             return new Student(name, phone, email, address, tags);
@@ -139,7 +139,6 @@ public abstract class Person {
 
         return otherPerson != null && otherPerson.getName().equals(getName());
     }
-
     // Abstract method for deletion
     public abstract void delete();
 
@@ -171,7 +170,7 @@ public abstract class Person {
 
         Person otherPerson = (Person) other;
         return name.equals(otherPerson.name) && phone.equals(otherPerson.phone) && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address) && tags.equals(otherPerson.tags);
+                        && address.equals(otherPerson.address) && tags.equals(otherPerson.tags);
     }
 
     /**
@@ -194,7 +193,7 @@ public abstract class Person {
     @Override
     public String toString() {
         return new ToStringBuilder(this).add("name", name).add("phone", phone).add("email", email)
-                .add("address", address).add("tags", tags).toString();
+                        .add("address", address).add("tags", tags).toString();
     }
 
     /**
