@@ -215,6 +215,11 @@ public class TuitionClass {
             students.add(student);
             student.addClass(this);
             this.studentCount.set(students.size());
+            for (ClassSession session : sessions) {
+                if (session.getDateTime().isAfter(LocalDateTime.now())) {
+                    session.initializeAttendance();
+                }
+            }
         }
     }
 
