@@ -199,7 +199,7 @@ An alternative (arguably, more OOP) model has a central `Tag` list in `TutBook` 
 
 **Extended domain model (new):**
 
-> TutBook introduces `TuitionClass` (with `students`, `tutors`, `sessions`) and `ClassSession` (per-session `attendance`). Relationships are validated by roles (`STUDENT`, `TUTOR`, `PARENT`). Attendance is stored per session as a map from student to `AttendanceStatus`.
+TutBook introduces `TuitionClass` (with `students`, `tutors`, `sessions`) and `ClassSession` (per-session `attendance`). Relationships are validated by roles (`STUDENT`, `TUTOR`, `PARENT`). Attendance is stored per session as a map from student to `AttendanceStatus`.
 
 <img src="images/DomainModelExtended.png" width="650"/>
 
@@ -217,7 +217,7 @@ The `Storage` component,
 
 **Extended JSON adapters (new):**
 
-> Classes and sessions are serialized via `JsonAdaptedClass` and `JsonAdaptedSession`, with attendance encoded as a string map.
+Classes and sessions are serialized via `JsonAdaptedClass` and `JsonAdaptedSession`, with attendance encoded as a string map.
 
 <img src="images/StorageClassDiagramExtended.png" width="650"/>
 
