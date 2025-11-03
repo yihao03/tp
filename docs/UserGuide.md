@@ -62,7 +62,7 @@ Follow these steps to set up TutBook on your computer.
      * Type `cd ` (with a space), then drag your TutBook folder into the window and press Enter
      * Type `java -jar tutbook-v1.6.jar` and press Enter
    * **Linux:** Open Terminal
-     * Type `cd`, navigate to your download folder (e.g., cd ~/Downloads/)
+     * Navigate to your download folder (e.g., `cd ~/Downloads`)
      * Type `java -jar tutbook-v1.6.jar` and press Enter
 
    A window like the one below should appear:
