@@ -275,6 +275,10 @@ link parent/PARENT_NAME child/CHILD_NAME
 * Names are case-sensitive
 * A child can have a maximum of 2 parents linked
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+This version does not support unlinking parent-child relationships. Once linked, the relationship can only be removed by deleting and re-adding the person. Please ensure you are linking the correct parent and child before executing this command.
+</div>
+
 **Examples:**
 
 * `link parent/Bernice Yu child/Damian`
