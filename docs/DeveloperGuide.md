@@ -683,7 +683,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  Admin searches for the student by name
 2.  TutBook displays the student's profile
-3.  Admin enters attendance command with date and status (present/absent)
+3.  Admin enters attendance command with date and status (PRESENT/ABSENT)
 4.  TutBook validates the date format
 5.  TutBook records the attendance
 6.  TutBook displays confirmation message
