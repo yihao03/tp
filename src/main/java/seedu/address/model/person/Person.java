@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -143,6 +145,8 @@ public abstract class Person {
     }
     // Abstract method for deletion
     public abstract void delete();
+
+    public abstract ObservableList<TuitionClass> getTuitionClasses();
 
     /**
      * Handles the editing of this person by updating or removing relationships.
