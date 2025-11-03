@@ -60,10 +60,10 @@ Follow these steps to set up TutBook on your computer.
    * **Windows:** Press `Win + R`, type `cmd`, press Enter
    * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter
      * Type `cd ` (with a space), then drag your TutBook folder into the window and press Enter
-     * Type `java -jar tutbook-v1.5.jar` and press Enter
+     * Type `java -jar tutbook-v1.6.jar` and press Enter
    * **Linux:** Open Terminal
      * Type `cd`, navigate to your download folder (e.g., cd ~/Downloads/)
-     * Type `java -jar tutbook-v1.5.jar` and press Enter
+     * Type `java -jar tutbook-v1.6.jar` and press Enter
 
    A window like the one below should appear:
  ![UI](images/Ui.png)
@@ -152,7 +152,7 @@ add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…
 
 * `PERSON_TYPE`: `student`, `tutor`, or `parent`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-info">:information_source: **Note:**
 A person can have any number of tags, including none.
 </div>
 
@@ -259,7 +259,7 @@ find KEYWORD [MORE_KEYWORDS]
 
 **Examples:**
 
-* `find David Damian` returns `David Li` and `Damian`.
+* `find Amelia David` returns `Amelia Koh` and `Mr David Lee`.
 
 ![find command](images/findCommand.png)
 
@@ -309,7 +309,7 @@ This version does not support unlinking parent-child relationships. Once linked,
 
 **Examples:**
 
-* `link parent/Bernice Yu child/Damian`
+* `link parent/David Li child/Liam Li`
 
 ![link command](images/linkCommand.png)
 
@@ -329,7 +329,7 @@ childrenof n/PARENT_NAME
 
 **Examples:**
 
-* `childrenof n/Bernice Yu`
+* `childrenof n/Don`
 
 ![children command](images/childrenofCommand.png)
 
@@ -347,7 +347,9 @@ parentsof n/CHILD_NAME
 
 **Examples:**
 
-* `parentsof n/Damian`
+* `parentsof n/yihao`
+
+![parents command](images/parentsofCommand.png)
 
 ---
 
@@ -417,7 +419,7 @@ deleteclass c/CLASS_NAME
 
 **Examples:**
 
-* `deleteclass c/Sec3-Math-A` deletes the class Sec3-Math-A
+* `deleteclass c/Sec3` deletes the class Sec3
 
 ![delete class command](images/deleteclassCommand.png)
 
@@ -486,8 +488,8 @@ unjoin n/NAME c/CLASS
 
 **Examples:**
 
-* `unjoin n/Damian c/Sec4 Math`
-* `unjoin n/Ms Lim c/Sec2-Math-A`
+* `unjoin n/Damian c/Sec2`
+* `unjoin n/Ms Lim c/Sec2`
 
 ![unjoin command](images/unjoinCommand.png)
 
@@ -514,7 +516,7 @@ addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]
 
 **Examples:**
 
-* `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
+* `addsession c/Sec3 s/Session 1 dt/2025-11-03 12:15 lo/COM1-B103`
 
 ![add session command](images/addsessionCommand.png)
 
@@ -542,7 +544,7 @@ deletesession c/CLASS_NAME s/SESSION_NAME
 
 **Examples:**
 
-* `deletesession c/Math101 s/Week 3 Tutorial`
+* `deletesession c/Sec3 s/Session 2`
 
 ![delete session command](images/deletesessionCommand.png)
 
@@ -610,7 +612,7 @@ attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS
 
 **Examples:**
 
-* `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
+* `attend n/Damian c/Sec2 s/1 status/PRESENT`
 
 ![attend command](images/attendCommand.png)
 
@@ -657,55 +659,61 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 
 ---
 
-## Command summary
+## Command Summary
 
 ### General Commands
-Action | Format
---------|------------------
-**Help** | `help`
+
+| Action | Format |
+|--------|--------|
+| **Help** | `help` |
 
 ### Person Management
-Action | Format, Examples
---------|------------------
-**Add** | `add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 ro/student`
-**List** | `list`
-**Filter** | `filter ro/PERSON_TYPE` <br> e.g., `filter ro/student`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`
-**Delete** | `delete INDEX` <br> e.g., `delete 3`
+
+| Action | Format, Examples |
+|--------|------------------|
+| **Add** | `add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 ro/student` |
+| **List** | `list` |
+| **Filter** | `filter ro/PERSON_TYPE` <br> e.g., `filter ro/student` |
+| **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com` |
+| **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake` |
+| **Delete** | `delete INDEX` <br> e.g., `delete 3` |
 
 ### Relationship Management
-Action | Format, Examples
---------|------------------
-**Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe`
-**Children** | `childrenof n/PARENT_NAME` <br> e.g., `childrenof n/John Doe`
-**List Parents** | `parentsof n/CHILD_NAME` <br> e.g., `parentsof n/Damian`
+
+| Action | Format, Examples |
+|--------|------------------|
+| **Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe` |
+| **Children** | `childrenof n/PARENT_NAME` <br> e.g., `childrenof n/John Doe` |
+| **List Parents** | `parentsof n/CHILD_NAME` <br> e.g., `parentsof n/Damian` |
 
 ### Class Management
-Action | Format, Examples
---------|------------------
-**Add Class** | `addclass c/CLASS_NAME [tutor/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tutor/Ms Lim`
-**List Class** | `listclass`
-**Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
-**Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A`
-**List Students** | `liststudents c/CLASS_NAME` <br> e.g., `liststudents c/s3 math`
-**Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A`
-**Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math`
+
+| Action | Format, Examples |
+|--------|------------------|
+| **Add Class** | `addclass c/CLASS_NAME [tutor/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tutor/Ms Lim` |
+| **List Class** | `listclass` |
+| **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A` |
+| **Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A` |
+| **List Students** | `liststudents c/CLASS_NAME` <br> e.g., `liststudents c/s3 math` |
+| **Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A` |
+| **Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math` |
 
 ### Session Management
-Action | Format, Examples
---------|------------------
-**Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
-**Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial`
-**View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial`
-**List Sessions** | `listsessions c/CLASS_NAME` <br> e.g., `listsessions c/Math101`
-**Attend** | `attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS` <br> e.g., `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
+
+| Action | Format, Examples |
+|--------|------------------|
+| **Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103` |
+| **Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial` |
+| **View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial` |
+| **List Sessions** | `listsessions c/CLASS_NAME` <br> e.g., `listsessions c/Math101` |
+| **Attend** | `attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS` <br> e.g., `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT` |
 
 ### System Commands
-Action | Format
---------|------------------
-**Clear** | `clear`
-**Exit** | `exit`
+
+| Action | Format |
+|--------|--------|
+| **Clear** | `clear` |
+| **Exit** | `exit` |
 
 ---
 ## Common workflows
