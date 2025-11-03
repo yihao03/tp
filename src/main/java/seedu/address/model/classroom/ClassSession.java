@@ -140,6 +140,10 @@ public class ClassSession {
         return attendanceRecord;
     }
 
+    public void removeStudentFromAttendance(Student student) {
+        attendanceRecord.remove(student);
+    }
+
     public long getAttendanceCount() {
         return attendanceRecord.values().stream().filter(p -> p.isPresent()).count();
     }

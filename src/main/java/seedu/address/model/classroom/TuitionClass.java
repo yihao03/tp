@@ -215,6 +215,9 @@ public class TuitionClass {
             students.add(student);
             student.addClass(this);
             this.studentCount.set(students.size());
+            for (ClassSession session : sessions) {
+                session.initializeAttendance();
+            }
         }
     }
 
@@ -237,6 +240,9 @@ public class TuitionClass {
             throw new PersonNotFoundException();
         }
         this.studentCount.set(students.size());
+        for (ClassSession session : sessions) {
+            session.removeStudentFromAttendance(student);
+        }
     }
 
     /**

@@ -64,7 +64,9 @@ public class ViewSessionCommand extends Command {
         }
 
         LOGGER.log(Level.INFO, "Viewing session: " + sessionName + " of class: " + className);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toView.get().getSessionDetails()));
+        model.updateSessionListForClass(classToView);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toView.get().getSessionDetails()),
+                CommandResult.DisplayType.SESSIONS);
     }
 
     @Override
