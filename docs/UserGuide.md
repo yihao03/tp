@@ -55,7 +55,7 @@ Follow these steps to set up TutBook on your computer.
    * **Windows:** Press `Win + R`, type `cmd`, press Enter
    * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter
    * Type `cd ` (with a space), then drag your TutBook folder into the window and press Enter
-   * Type `java -jar tutbook-v1.5.jar` and press Enter
+   * Type `java -jar tutbook-v1.6.jar` and press Enter
 
    A window like the one below should appear:
  ![UI](images/Ui.png)
@@ -259,6 +259,8 @@ delete INDEX
 * `list` followed by `delete 2` deletes the 2nd listed person.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+![delete command](images/deleteCommand.png)
+
 ---
 
 ### Linking Parent and Child — `link`
@@ -298,7 +300,7 @@ childrenof n/PARENT_NAME
 
 * `childrenof n/Bernice Yu`
 
-![children command](images/childrenCommand.png)
+![children command](images/childrenofCommand.png)
 
 ---
 
@@ -370,6 +372,8 @@ deleteclass c/CLASS_NAME
 
 * `deleteclass c/Sec3-Math-A` deletes the class Sec3-Math-A
 
+![delete class command](images/deleteclassCommand.png)
+
 ---
 
 ### Joining a Class — `join`
@@ -413,6 +417,8 @@ unjoin n/NAME c/CLASS
 * `unjoin n/Damian c/Sec4 Math`
 * `unjoin n/Ms Lim c/Sec2-Math-A`
 
+![unjoin command](images/unjoinCommand.png)
+
 ---
 
 ### Adding a Session — `addsession`
@@ -434,6 +440,8 @@ addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]
 
 * `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
 
+![add session command](images/addsessionCommand.png)
+
 ---
 
 ### Deleting a Session — `deletesession`
@@ -452,6 +460,8 @@ deletesession c/CLASS_NAME s/SESSION_NAME
 
 * `deletesession c/Math101 s/Week 3 Tutorial`
 
+![delete session command](images/deletesessionCommand.png)
+
 ---
 
 ### Viewing a Session — `viewsession`
@@ -465,7 +475,11 @@ viewsession c/CLASS_NAME s/SESSION_NAME
 
 * Displays date, time, location and remarks for the session
 
-`viewsession c/Physics s/Lab Session 1`
+**Examples:**
+
+* `viewsession c/Physics s/Lab Session 1`
+
+![view session command](images/viewsessionCommand.png)
 
 ---
 
@@ -480,8 +494,11 @@ listsessions c/CLASS_NAME
 
 * Displays date, time, and location for each session
 
-**Example:**
-`listsessions c/Math101`
+**Examples:**
+
+* `listsessions c/Math101`
+
+![list sessions command](images/listsessionsCommand.png)
 
 ---
 
@@ -494,8 +511,11 @@ Show parents of a specific child.
 parentsof n/CHILD_NAME
 ```
 
-**Example:**
-`parentsof n/Damian`
+**Examples:**
+
+* `parentsof n/Damian`
+
+![parents of command](images/parentsofCommand.png)
 
 ---
 
@@ -513,19 +533,29 @@ attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS
 * `STATUS` must be either `PRESENT` or `ABSENT`
 * Attendance records can be viewed with [`viewsession`](#viewsession)
 
-**Example:**
-`attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
+**Examples:**
+
+* `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
+
+![attend command](images/attendCommand.png)
 
 ---
 
 ### Clearing All Data — `clear`
 
 Deletes all data in TutBook.
-**Format:** `clear`
+
+**Format:**
+
+```
+clear
+```
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 This action is **irreversible**. Please be careful when using this command.
 </div>
+
+![clear command](images/clearCommand.png)
 
 ### Exiting the Program — `exit`
 
