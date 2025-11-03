@@ -242,9 +242,6 @@ public class TuitionClass {
             throw new PersonNotFoundException();
         }
         this.studentCount.set(students.size());
-        for (ClassSession session : sessions) {
-            session.removeStudentFromAttendance(student);
-        }
     }
 
     /**
