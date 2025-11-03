@@ -65,7 +65,13 @@ public class Tutor extends Person {
      * Removes this tutor from all tuition classes.
      */
     public void unjoinAllClasses() {
-        tuitionClasses.forEach(tuitionClass -> tuitionClass.removeTutor(this));
+        // Create a copy to avoid ConcurrentModificationException
+        new ArrayList<>(tuitionClasses).forEach(tuitionClass -> {
+            if (tuitionClass.hasTutor(this)) {
+                tuitionClass.removeTutor(this);
+            }
+        });
+        tuitionClasses.clear();
     }
 
     /**
