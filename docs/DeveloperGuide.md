@@ -404,7 +404,7 @@ Classes now store comprehensive details including sessions and maintain persiste
   "sessions": [
     {
       "sessionName": "Week 1 Tutorial",
-      "dateTime": "2024-03-15T14:30:00",
+      "dateTime": "2025-03-15T14:30:00",
       "location": "COM1-B103",
       "attendanceRecords": {
         "John Doe": "PRESENT",
@@ -1442,16 +1442,16 @@ testers are expected to do more *exploratory* testing.
 1. Adding a session to a class
    1. Prerequisites: Class "Math-101" exists.
 
-   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`<br>
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2025-03-15 14:30 lo/COM1-B103`<br>
       Expected: Session "Week 1 Tutorial" is added to Math-101 with the specified date/time and location. Success message displayed.
 
-   1. Test case: `addsession c/Math-101 s/Week 2 Tutorial dt/2024-03-22 14:30`<br>
+   1. Test case: `addsession c/Math-101 s/Week 2 Tutorial dt/2025-03-22 14:30`<br>
       Expected: Session "Week 2 Tutorial" is added without location. Success message displayed.
 
-   1. Test case: `addsession c/NonExistent s/Session dt/2024-03-15 14:30`<br>
+   1. Test case: `addsession c/NonExistent s/Session dt/2025-03-15 14:30`<br>
       Expected: No session created. Error message states class not found.
 
-   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30` (duplicate session name)<br>
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2025-03-15 14:30` (duplicate session name)<br>
       Expected: No session created. Error message states session already exists.
 
 1. Viewing session details
