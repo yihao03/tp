@@ -578,6 +578,13 @@ Action | Format, Examples
 **View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial`
 
 ---
+## Common workflows
+
+{first workflow}
+
+{second workflow}
+
+---
 
 ## Troubleshooting
 
