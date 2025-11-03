@@ -163,7 +163,7 @@ Each person must have a unique name. If you have individuals with the same name 
 **Examples:**
 
 * `add n/Ms Lim p/91234567 e/mslim@example.com a/Clementi Ave 2 ro/tutor t/experienced`
-* `add n/Yi Hao p/98765432 e/johnd@example.com a/31 John Street ro/student`
+* `add n/Yi Hao p/98765432 e/yihao@example.com a/31 John Street ro/student`
 
 ![add command](images/addCommand.png)
 
@@ -347,7 +347,7 @@ parentsof n/CHILD_NAME
 
 **Examples:**
 
-* `parentsof n/yihao`
+* `parentsof n/Yi Hao`
 
 ![parents command](images/parentsofCommand.png)
 
