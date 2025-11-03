@@ -43,7 +43,7 @@ Follow these steps to set up TutBook on your computer.
 
    **If you need to install Java:**
    * **Windows:** Download Windows x64 Installer from [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-   * **Mac:** Download macOS Installer, then follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+   * **Mac:** Download macOS Installer and follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
    * **Linux:** Use your distro package manager to install OpenJDK 17.
      * **Ubuntu/Debian:** `sudo apt install openjdk-17-jdk`
      * **Fedora/RHEL:** `sudo dnf install java-17-openjdk`
