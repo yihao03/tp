@@ -55,6 +55,7 @@ public class MessagesTest {
         assertTrue(result.contains("91234567"));
         assertTrue(result.contains("john@example.com"));
         assertTrue(result.contains("123 Main St"));
+        assertTrue(result.contains("student"));
         assertTrue(result.contains("friend"));
     }
 
