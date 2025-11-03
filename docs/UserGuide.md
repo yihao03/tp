@@ -45,10 +45,10 @@ Follow these steps to set up TutBook on your computer.
    * **Windows:** Download Windows x64 Installer from [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
    * **Mac:** Download macOS Installer, then follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
    * **Linux:** Use your distro package manager to install OpenJDK 17.
-     * **Ubuntu/Debian:** sudo apt install openjdk-17-jdk
-     * **Fedora/RHEL:** sudo dnf install java-17-openjdk
-     * **Arch:** sudo pacman -S jdk17-openjdk
-     * **openSUSE:** sudo zypper install java-17-openjdk-devel
+     * **Ubuntu/Debian:** `sudo apt install openjdk-17-jdk`
+     * **Fedora/RHEL:** `sudo dnf install java-17-openjdk`
+     * **Arch:** `sudo pacman -S jdk17-openjdk`
+     * **openSUSE:** `sudo zypper install java-17-openjdk-devel`
 
 2. **Download TutBook.**
  Get the latest `.jar` file from the [Releases page](https://github.com/AY2526S1-CS2103T-W09-3/tp/releases).
@@ -281,6 +281,11 @@ delete INDEX
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ![delete command](images/deleteCommand.png)
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**  
+`delete` permanently removes the person at the specified index. There is **no undo**, so use `list` or `find` first to confirm you are deleting the correct entry.
+</div>
 
 ---
 
@@ -716,7 +721,7 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 | **Exit** | `exit` |
 
 ---
-## Common workflows
+## Common Workflows
 
 ### 1. Manage attendance for a tutor's class
 
@@ -746,13 +751,13 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
    ![workflow1-list-class](images/workflow1-list-students.png)
 5. **Mark attendances for students attending the session**
    ```
-   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/present
+   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/PRESENT
    ```
    ![workflow1-list-class](images/workflow1-attend-present.png)
 
     Optionally mark student as absent:
    ```
-   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/absent
+   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/ABSENT
    ```
    ![workflow1-list-class](images/workflow1-attend-absent.png)
 6. **Review final attendance of the session**
