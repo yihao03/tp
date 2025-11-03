@@ -37,6 +37,7 @@ public class EditClassCommand extends Command {
 
     /**
      * Creates an EditClassCommand to edit the specified class.
+     * 
      * @param oldClassName The current name of the class to be edited
      * @param newClassName The new name for the class
      */
@@ -53,7 +54,7 @@ public class EditClassCommand extends Command {
         LOGGER.info("Executing EditClassCommand from: " + oldClassName + " to: " + newClassName);
 
         TuitionClass oldClass = model.getFilteredClassList().stream()
-                .filter(c -> c.getName().value.equals(oldClassName))
+                .filter(c -> c.getName().value.equalsIgnoreCase(oldClassName))
                 .findFirst()
                 .orElse(null);
 
@@ -73,9 +74,9 @@ public class EditClassCommand extends Command {
 
         model.setClass(oldClass, newClass);
         model.updateFilteredClassList(PREDICATE_SHOW_ALL_CLASSES);
-        LOGGER.info("Successfully edited class from: " + oldClassName + " to: " + newClassName);
+        LOGGER.info("Successfully edited class from: " + oldClass.getName() + " to: " + newClassName);
 
-        return new CommandResult(String.format(MESSAGE_EDIT_CLASS_SUCCESS, oldClassName, newClassName),
+        return new CommandResult(String.format(MESSAGE_EDIT_CLASS_SUCCESS, oldClass.getName(), newClassName),
                 CommandResult.DisplayType.CLASSES);
     }
 

@@ -113,7 +113,7 @@ public class AddSessionCommand extends Command {
         model.setClass(tuitionClass, tuitionClass);
         model.updateSessionListForClass(tuitionClass);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, className, session.toString()),
+        return new CommandResult(String.format(MESSAGE_SUCCESS, tuitionClass.getName(), session.toString()),
                 CommandResult.DisplayType.SESSIONS);
     }
 
