@@ -70,11 +70,11 @@ Follow these steps to set up TutBook on your computer.
 
 5. **Try a few example commands.**
 
-* `help` — Opens the help window.
-* `list` — Lists all contacts.
-* `add n/John Doe p/98765432 e/johnd@example.com a/John Street ro/student` — Adds a student.
-* `delete 3` — Deletes the 3rd contact.
-* `exit` — Exits the app.
+   * `help` — Opens the help window.
+   * `list` — Lists all contacts.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John Street ro/student` — Adds a student.
+   * `delete 3` — Deletes the 3rd contact.
+   * `exit` — Exits the app.
 
 6. **Refer to [Features](#features)** for details on each command.
 
