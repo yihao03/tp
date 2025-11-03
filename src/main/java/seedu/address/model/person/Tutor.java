@@ -3,6 +3,8 @@ package seedu.address.model.person;
 import java.util.ArrayList;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -14,8 +16,9 @@ import seedu.address.model.tag.Tag;
 public class Tutor extends Person {
     /**
      * Tuition classes this tutor teaches.
+     * Using ObservableList allows UI to bind directly and be notified of changes.
      */
-    private ArrayList<TuitionClass> tuitionClasses = new ArrayList<>();
+    private ObservableList<TuitionClass> tuitionClasses = FXCollections.observableArrayList();
 
     /**
      * Constructs a {@code Tutor}.
@@ -30,8 +33,13 @@ public class Tutor extends Person {
         super(name, phone, email, address, tags);
     }
 
-    public ArrayList<TuitionClass> getTuitionClasses() {
-        return tuitionClasses;
+    /**
+     * Returns an unmodifiable view of the tuition classes list.
+     * This allows UI components to observe changes while preventing external modifications.
+     */
+    @Override
+    public ObservableList<TuitionClass> getTuitionClasses() {
+        return FXCollections.unmodifiableObservableList(tuitionClasses);
     }
 
     /**
