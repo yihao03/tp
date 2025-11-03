@@ -137,7 +137,7 @@ A person can have any number of tags, including none.
 </div>
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
-Each person must have a unique name. If you have individuals with the same name but different roles (e.g., a student and parent both named "John Tan"), use suffixes or indexing to differentiate them (e.g., "John Tan (Father)" and "John Tan (Son)", or "John Tan 1" and "John Tan 2").
+Each person must have a unique name. If you have individuals with the same name but different roles (e.g., a student and parent both named "John Tan"), use suffixes or indexing to differentiate them (e.g., "John Tan 1" and "John Tan 2").
 </div>
 
 **Examples:**

@@ -170,10 +170,28 @@ The `Model` component,
 - stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 - does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note on Name Uniqueness:** The `UniquePersonList` enforces that each person must have a unique name. This means two persons cannot have identical names, even if they have different roles (e.g., student vs parent). If your use case requires managing individuals with the same name, users should differentiate them using suffixes or indexing (e.g., "John Tan (Father)" and "John Tan (Son)", or "John Tan 1" and "John Tan 2").
+<div markdown="span" class="alert alert-info">
+:information_source: **Design Note — Name Uniqueness**
+
+The `UniquePersonList` enforces that each person must have a unique name. This means two persons cannot have identical names, even if they have different roles (e.g., student vs parent). If your use case requires managing individuals with the same name, users should differentiate them using suffixes or indexing (e.g., "John Tan 1" and "John Tan 2").
 </div>
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `TutBook`, which `Person` references. This allows `TutBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
+<div markdown="span" class="alert alert-info">
+:information_source: **Design Note — Phone Numbers & Emails Are Not Unique**
+
+Unlike many CRM systems, TutBook does **not** require phone numbers or email addresses to be globally unique. This decision reflects real tuition-centre workflows:
+
+- Some students (especially younger ones) do not have personal phone numbers or emails.
+- Students may share a parent's phone/email for contact purposes.
+- Siblings may share the same guardian contact information.
+
+**Takeaway:** TutBook enforces **unique names**, not unique contact details, to support real-world family scenarios while keeping the model simple.
+</div>
+
+<div markdown="span" class="alert alert-info">
+:information_source: **Design Note — Alternative Tag Model**
+
+An alternative (arguably, more OOP) model has a central `Tag` list in `TutBook` that `Person` references. This allows TutBook to require only one `Tag` object per unique tag, instead of each `Person` having their own `Tag` objects. <br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
 
