@@ -327,8 +327,9 @@ Show parents of a specific child.
 parentsof n/CHILD_NAME
 ```
 
-**Example:**
-`parentsof n/Damian`
+**Examples:**
+
+* `parentsof n/Damian`
 
 ---
 
@@ -389,8 +390,6 @@ editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME
 #### Deleting a Class — `deleteclass`
 
 Remove a class permanently.
-
-**Format:** `deleteclass c/CLASS_NAME`
 
 **Format:**
 
@@ -652,7 +651,7 @@ Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 ro/student`
 **List** | `list`
-**Filter** | `filter ro/STUDENT\|TUTOR\|PARENT` <br> e.g., `filter ro/student`
+**Filter** | `filter ro/PERSON_TYPE` <br> e.g., `filter ro/student`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`
 **Delete** | `delete INDEX` <br> e.g., `delete 3`
@@ -711,7 +710,7 @@ Action | Format
 **Q:** Can I undo a delete or clear command?
 **A:** No. Destructive commands are irreversible.
 
-**Q:** Can try the app without fully committing to it?
+**Q:** Can I try the app without fully committing to it?
 **A:** Yes, [sample data](./sample-data/README.md) is pre-loaded for you to explore features. Use the `clear` command to start fresh.
 
 ---
