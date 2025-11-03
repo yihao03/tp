@@ -93,6 +93,12 @@ This is the main interface of TutBook. It consists of:
 * Command box
   * This is where you enter commands to interact with TutBook
 
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip — Flexible Panel Resizing**
+
+You can drag the vertical divider between the **People List** and the **Class/Session List** to resize the panels. This helps you focus on contacts, classes, or sessions depending on your workflow.
+</div>
+
 ---
 
 ## Features
