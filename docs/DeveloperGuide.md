@@ -1644,6 +1644,7 @@ testers are expected to do more *exploratory* testing.
 | 8 | Implement Undo/Redo | Not available | Add `VersionedAddressBook` and `commit()` hooks | Error recovery |
 | 9 | Prevent joining tutors as students | Possible by mistake | Add pre-check in `JoinCommand` | Data integrity |
 | 10 | UI dark-mode theme | Visual inconsistency | Add CSS theme toggle | Accessibility |
+| 11 | Unlink command | Not available | Add a `UnlinkCommand` | Error recovery |
 
 ---
 
