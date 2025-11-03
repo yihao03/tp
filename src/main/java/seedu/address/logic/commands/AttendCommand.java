@@ -128,7 +128,7 @@ public class AttendCommand extends Command {
         model.setSession(session, session);
 
         String result = String.format("Name: %s, Class: %s, Session: %s, Status: %s",
-                name, className, sessionName, present ? "PRESENT" : "ABSENT");
+                name, className, session.getSessionName(), present ? "PRESENT" : "ABSENT");
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, result));
     }
