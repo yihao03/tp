@@ -37,7 +37,7 @@ public class EditClassCommand extends Command {
 
     /**
      * Creates an EditClassCommand to edit the specified class.
-     * 
+     *
      * @param oldClassName The current name of the class to be edited
      * @param newClassName The new name for the class
      */
