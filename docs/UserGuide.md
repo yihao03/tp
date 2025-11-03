@@ -359,7 +359,7 @@ These commands help you manage tuition classes and enrollment.
 
 #### Adding a Class — `addclass`
 
-Create a new tuition class and add to the address book.
+Create a new tuition class and add it to the address book.
 
 **Format:**
 
