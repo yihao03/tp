@@ -35,8 +35,15 @@ It covers how to install TutBook, perform common tasks, and troubleshoot issues.
 Follow these steps to set up TutBook on your computer.
 
 1. **Install Java 17 or above.**
- Download it [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
- **Mac users:** Follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) for the correct JDK setup.
+
+   **Check if you already have Java:**
+   * **Windows:** Press `Win + R`, type `cmd`, press Enter. Then type `java -version`
+   * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter. Then type `java -version`
+   * If you see "java version 17" or higher, skip to step 2
+
+   **If you need to install Java:**
+   * **Windows:** Download Windows x64 Installer from [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+   * **Mac:** Download macOS Installer, then follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
 
 2. **Download TutBook.**
  Get the latest `.jar` file from the [Releases page](https://github.com/AY2526S1-CS2103T-W09-3/tp/releases).
@@ -45,13 +52,12 @@ Follow these steps to set up TutBook on your computer.
  Copy the `.jar` file into a folder of your choice. This will be your TutBook **home folder**.
 
 4. **Run the application.**
- Open a command terminal, `cd` into the folder, and run:
+   * **Windows:** Press `Win + R`, type `cmd`, press Enter
+   * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter
+   * Type `cd ` (with a space), then drag your TutBook folder into the window and press Enter
+   * Type `java -jar tutbook-v1.5.jar` and press Enter
 
- ```
- java -jar tutbook-v1.5.jar
- ```
-
- A window like the one below should appear:
+   A window like the one below should appear:
  ![UI](images/Ui.png)
 
 5. **Try a few example commands.**
