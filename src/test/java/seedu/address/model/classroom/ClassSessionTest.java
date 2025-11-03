@@ -132,6 +132,40 @@ public class ClassSessionTest {
     }
 
     @Test
+    @DisplayName("Throws exception when session name exceeds maximum length")
+    void constructor_sessionNameTooLong_throwsException() {
+        String tooLongName = "A".repeat(101); // 101 characters, exceeds MAX_SESSION_NAME_LENGTH (100)
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                new ClassSession(parentClass, tooLongName, LocalDateTime.now(), "COM1-B103"));
+        assertTrue(ex.getMessage().contains("Session name must not exceed 100 characters"));
+    }
+
+    @Test
+    @DisplayName("Allows session name at maximum length")
+    void constructor_sessionNameAtMaxLength_succeeds() {
+        String maxLengthName = "A".repeat(100); // exactly 100 characters
+        ClassSession session = new ClassSession(parentClass, maxLengthName, LocalDateTime.now(), "COM1-B103");
+        assertEquals(maxLengthName, session.getSessionName());
+    }
+
+    @Test
+    @DisplayName("Throws exception when location exceeds maximum length")
+    void constructor_locationTooLong_throwsException() {
+        String tooLongLocation = "A".repeat(151); // 151 characters, exceeds MAX_LOCATION_LENGTH (150)
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), tooLongLocation));
+        assertTrue(ex.getMessage().contains("Location must not exceed 150 characters"));
+    }
+
+    @Test
+    @DisplayName("Allows location at maximum length")
+    void constructor_locationAtMaxLength_succeeds() {
+        String maxLengthLocation = "A".repeat(150); // exactly 150 characters
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), maxLengthLocation);
+        assertEquals(maxLengthLocation, session.getLocation());
+    }
+
+    @Test
     @DisplayName("Allows null location")
     void constructor_nullLocation_succeeds() {
         ClassSession session = new ClassSession(
@@ -157,6 +191,106 @@ public class ClassSessionTest {
         assertEquals(time.plusHours(2), session.getDateTime());
         assertEquals("COM1-B202", session.getLocation());
         assertEquals(parentClass, session.getParentClass());
+    }
+
+    @Test
+    @DisplayName("setSessionName throws exception when name is null")
+    void setSessionName_null_throwsException() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                session.setSessionName(null));
+        assertTrue(ex.getMessage().contains("Session name cannot be null or empty"));
+    }
+
+    @Test
+    @DisplayName("setSessionName throws exception when name is empty")
+    void setSessionName_empty_throwsException() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                session.setSessionName(""));
+        assertTrue(ex.getMessage().contains("Session name cannot be null or empty"));
+    }
+
+    @Test
+    @DisplayName("setSessionName throws exception when name exceeds maximum length")
+    void setSessionName_tooLong_throwsException() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        String tooLongName = "A".repeat(101);
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                session.setSessionName(tooLongName));
+        assertTrue(ex.getMessage().contains("Session name must not exceed 100 characters"));
+    }
+
+    @Test
+    @DisplayName("setSessionName accepts name at maximum length")
+    void setSessionName_atMaxLength_succeeds() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        String maxLengthName = "A".repeat(100);
+        session.setSessionName(maxLengthName);
+        assertEquals(maxLengthName, session.getSessionName());
+    }
+
+    @Test
+    @DisplayName("setLocation throws exception when location exceeds maximum length")
+    void setLocation_tooLong_throwsException() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        String tooLongLocation = "A".repeat(151);
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                session.setLocation(tooLongLocation));
+        assertTrue(ex.getMessage().contains("Location must not exceed 150 characters"));
+    }
+
+    @Test
+    @DisplayName("setLocation accepts location at maximum length")
+    void setLocation_atMaxLength_succeeds() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        String maxLengthLocation = "A".repeat(150);
+        session.setLocation(maxLengthLocation);
+        assertEquals(maxLengthLocation, session.getLocation());
+    }
+
+    @Test
+    @DisplayName("setLocation accepts null value")
+    void setLocation_null_succeeds() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        session.setLocation(null);
+        assertNull(session.getLocation());
+    }
+
+    @Test
+    @DisplayName("setRemarks throws exception when remarks exceed maximum length")
+    void setRemarks_tooLong_throwsException() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        String tooLongRemarks = "A".repeat(501);
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                session.setRemarks(tooLongRemarks));
+        assertTrue(ex.getMessage().contains("Remarks must not exceed 500 characters"));
+    }
+
+    @Test
+    @DisplayName("setRemarks accepts remarks at maximum length")
+    void setRemarks_atMaxLength_succeeds() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        String maxLengthRemarks = "A".repeat(500);
+        session.setRemarks(maxLengthRemarks);
+        assertEquals(maxLengthRemarks, session.getRemarks());
+    }
+
+    @Test
+    @DisplayName("setRemarks accepts null value")
+    void setRemarks_null_succeeds() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        session.setRemarks(null);
+        assertNull(session.getRemarks());
+    }
+
+    @Test
+    @DisplayName("getRemarks returns correct value")
+    void getRemarks_returnsCorrectValue() {
+        ClassSession session = new ClassSession(parentClass, "Week 1 Tutorial", LocalDateTime.now(), "COM1-B103");
+        assertNull(session.getRemarks()); // default is null
+        session.setRemarks("Important session");
+        assertEquals("Important session", session.getRemarks());
     }
 
     @Test
@@ -426,5 +560,53 @@ public class ClassSessionTest {
 
         String details = session.getSessionDetails();
         assertTrue(details.contains("Unknown student"));
+    }
+
+    // --- Student reference updates ---
+
+    @Test
+    @DisplayName("updateStudentReference transfers attendance record preserving status and timestamp")
+    void updateStudentReference_transfersAttendance() {
+        ClassSession session = new ClassSession(
+                parentClass, "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1-B103");
+
+        LocalDateTime specificTime = LocalDateTime.of(2024, 3, 15, 15, 0);
+        session.markPresentAt(alice, specificTime);
+
+        Student editedAlice = new Student(
+                new Name("Alice Wong"),
+                alice.getPhone(),
+                alice.getEmail(),
+                alice.getAddress(),
+                alice.getTags());
+
+        session.updateStudentReference(alice, editedAlice);
+
+        Map<Student, Attendance> attendance = session.getAttendanceRecord();
+        assertFalse(attendance.containsKey(alice));
+        assertTrue(attendance.containsKey(editedAlice));
+        assertEquals(specificTime, attendance.get(editedAlice).getTimestamp());
+        assertTrue(attendance.get(editedAlice).isPresent());
+    }
+
+    @Test
+    @DisplayName("updateStudentReference handles student not in map gracefully")
+    void updateStudentReference_studentNotFound_noException() {
+        ClassSession session = new ClassSession(
+                parentClass, "Week 1 Tutorial",
+                LocalDateTime.of(2024, 3, 15, 14, 30), "COM1-B103");
+
+        Student charlie = new Student(
+                new Name("Charlie Goh"), new Phone("99887766"),
+                new Email("charlie@example.com"), new Address("30 Science Drive"), new HashSet<>());
+        Student editedCharlie = new Student(
+                new Name("Charlie Tan"),
+                charlie.getPhone(), charlie.getEmail(), charlie.getAddress(), charlie.getTags());
+
+        int initialSize = session.getAttendanceRecord().size();
+        session.updateStudentReference(charlie, editedCharlie);
+
+        assertEquals(initialSize, session.getAttendanceRecord().size());
     }
 }

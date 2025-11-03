@@ -241,6 +241,7 @@ public class TuitionClass {
 
     /**
      * Replaces the target student with the edited student.
+     * Also updates the student reference in all session attendance records.
      *
      * @throws PersonNotFoundException if target student is not in this class
      */
@@ -255,9 +256,9 @@ public class TuitionClass {
 
         students.set(index, editedStudent);
 
-        // Update all session attendance records to use the edited student
+        // Update student reference in all session attendance records
         for (ClassSession session : sessions) {
-            session.updateStudent(target, editedStudent);
+            session.updateStudentReference(target, editedStudent);
         }
     }
 

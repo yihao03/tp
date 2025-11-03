@@ -42,12 +42,8 @@ public class ClassCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         className.setText(tuitionClass.getClassName());
 
-        tutorName.textProperty().bind(Bindings.createStringBinding(() ->
-                tuitionClass.isAssignedToTutor()
-                        ? tuitionClass.getTutor().getName().fullName
-                        : "Unassigned",
-                tuitionClass.getTutorProperty()
-        ));
+        // Bind directly to the tutorName property for automatic updates
+        tutorName.textProperty().bind(tuitionClass.getTutorProperty());
 
         // Display student count
         studentCount.textProperty().bind(Bindings.createStringBinding(() -> {

@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -46,7 +45,7 @@ public class ListParentsCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         LOGGER.info("Executing ListParentsCommand" + (childName != null ? " for child: " + childName : ""));
-        List<Person> personList = model.getFilteredPersonList();
+        List<Person> personList = model.getPersonList();
 
         Student child = personList.stream()
                 .filter(p -> p.getPersonType() == PersonType.STUDENT)
@@ -62,16 +61,19 @@ public class ListParentsCommand extends Command {
 
         List<Parent> parents = child.getParents();
 
-        String output;
         if (parents.isEmpty()) {
-            output = "[No parents]";
-        } else {
-            output = parents.stream()
-                    .map(parent -> parent.getName().fullName)
-                    .collect(Collectors.joining(", "));
+            LOGGER.info("Child has no parents: " + childName);
+            // Show empty list in UI
+            model.updateFilteredPersonList(p -> false);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, childName) + "\n[No parents]");
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, childName) + "\n" + output);
+        // Filter to show only the parents in the UI
+        model.updateFilteredPersonList(parents::contains);
+        int parentCount = parents.size();
+        LOGGER.info("Found " + parentCount + " parent(s) for child: " + childName);
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, childName) + " (" + parentCount + " shown)");
     }
 
     @Override

@@ -70,10 +70,11 @@ public class UnjoinClassCommand extends Command {
                     LOGGER.warning("Person not found: " + personName);
                     return new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, personName));
                 });
+        String actualName = person.getName().toString();
 
         // Check if person is a parent
         if (person.getPersonType() == PersonType.PARENT) {
-            LOGGER.warning("Attempted to remove parent from class: " + personName);
+            LOGGER.warning("Attempted to remove parent from class: " + actualName);
             throw new CommandException(MESSAGE_PARENT_CANNOT_BE_IN_CLASS);
         }
 
@@ -90,28 +91,28 @@ public class UnjoinClassCommand extends Command {
         if (person.getPersonType() == PersonType.STUDENT) {
             Student student = (Student) person;
             if (!tuitionClass.hasStudent(student)) {
-                LOGGER.warning("Student not in class: " + personName + " in " + className);
+                LOGGER.warning("Student not in class: " + actualName + " in " + className);
                 throw new CommandException(String.format(MESSAGE_NOT_IN_CLASS, personName, className.value));
             }
             tuitionClass.removeStudent(student);
             student.unjoin(tuitionClass);
-            LOGGER.info("Successfully removed student " + personName + " from class " + className);
+            LOGGER.info("Successfully removed student " + actualName + " from class " + className);
         } else if (person.getPersonType() == PersonType.TUTOR) {
             Tutor tutor = (Tutor) person;
             if (!tuitionClass.hasTutor(tutor)) {
-                LOGGER.warning("Tutor not assigned to class: " + personName + " in " + className);
+                LOGGER.warning("Tutor not assigned to class: " + actualName + " in " + className);
                 throw new CommandException(String.format(MESSAGE_NOT_IN_CLASS, personName, className.value));
             }
             tuitionClass.removeTutor(tutor);
             tutor.unjoin(tuitionClass);
-            LOGGER.info("Successfully removed tutor " + personName + " from class " + className);
+            LOGGER.info("Successfully removed tutor " + actualName + " from class " + className);
         }
 
         // Force ObservableList to update by calling setClass
         model.setClass(tuitionClass, tuitionClass);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, personName, className.value),
+        return new CommandResult(String.format(MESSAGE_SUCCESS, actualName, className.value),
                 CommandResult.DisplayType.CLASSES);
     }
 
