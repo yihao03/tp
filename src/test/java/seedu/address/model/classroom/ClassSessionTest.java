@@ -392,7 +392,7 @@ public class ClassSessionTest {
                 alice.getTags());
 
         // Update the session to use edited student
-        session.updateStudent(alice, editedAlice);
+        session.updateStudentReference(alice, editedAlice);
 
         // Old student should no longer be in attendance record
         assertFalse(session.getAttendanceRecord().containsKey(alice));
@@ -419,7 +419,7 @@ public class ClassSessionTest {
                 new Email("charlie@example.com"), new Address("30 Science Drive"), new HashSet<>());
 
         // Try to update a student not in the session
-        session.updateStudent(charlie, editedCharlie);
+        session.updateStudentReference(charlie, editedCharlie);
 
         // Session should still have only alice and bob
         assertEquals(2, session.getAttendanceRecord().size());
