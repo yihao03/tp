@@ -178,7 +178,7 @@ Update contact information for an existing person.
 **Format:**
 
 ```
-edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…
+edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAG]
 ```
 
 **Examples:**
@@ -507,7 +507,7 @@ Action | Format, Examples
 **Delete** | `delete INDEX` <br> e.g., `delete 3`
 **Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A`
 **Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
 **Exit** | `exit`
 **Filter** | `filter ro/STUDENT\|TUTOR\|PARENT` <br> e.g., `filter ro/student`
