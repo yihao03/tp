@@ -438,7 +438,7 @@ List all students enrolled in a specific class.
 
 **Example:**
 
-* `liststudents c/s3 math`
+* `liststudents c/Sec3 Math`
 
 ![list students command](images/listStudentsCommand.png)
 
@@ -694,7 +694,7 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 | **List Class** | `listclass` |
 | **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A` |
 | **Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A` |
-| **List Students** | `liststudents c/CLASS_NAME` <br> e.g., `liststudents c/s3 math` |
+| **List Students** | `liststudents c/CLASS_NAME` <br> e.g., `liststudents c/Sec3 Math` |
 | **Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A` |
 | **Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math` |
 
