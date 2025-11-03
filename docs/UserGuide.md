@@ -39,11 +39,17 @@ Follow these steps to set up TutBook on your computer.
    **Check if you already have Java:**
    * **Windows:** Press `Win + R`, type `cmd`, press Enter. Then type `java -version`
    * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter. Then type `java -version`
+   * **Linux:** Open Terminal, then type `java -version`
    * If you see "java version 17" or higher, skip to step 2
 
    **If you need to install Java:**
    * **Windows:** Download Windows x64 Installer from [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
    * **Mac:** Download macOS Installer, then follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+   * **Linux:** Use your distro package manager to install OpenJDK 17.
+     * **Ubuntu/Debian:** sudo apt install openjdk-17-jdk
+     * **Fedora/RHEL:** sudo dnf install java-17-openjdk
+     * **Arch:** sudo pacman -S jdk17-openjdk
+     * **openSUSE:** sudo zypper install java-17-openjdk-devel
 
 2. **Download TutBook.**
  Get the latest `.jar` file from the [Releases page](https://github.com/AY2526S1-CS2103T-W09-3/tp/releases).
@@ -54,8 +60,11 @@ Follow these steps to set up TutBook on your computer.
 4. **Run the application.**
    * **Windows:** Press `Win + R`, type `cmd`, press Enter
    * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter
-   * Type `cd ` (with a space), then drag your TutBook folder into the window and press Enter
-   * Type `java -jar tutbook-v1.5.jar` and press Enter
+     * Type `cd ` (with a space), then drag your TutBook folder into the window and press Enter
+     * Type `java -jar tutbook-v1.5.jar` and press Enter
+   * **Linux:** Open Terminal
+     * Type `cd`, navigate to your download folder (e.g., cd ~/Downloads/)
+     * Type `java -jar tutbook-v1.5.jar` and press Enter
 
    A window like the one below should appear:
  ![UI](images/Ui.png)
@@ -143,7 +152,7 @@ A person can have any number of tags, including none.
 </div>
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:**
-Each person must have a unique name. If you have individuals with the same name but different roles (e.g., a student and parent both named "John Tan"), use suffixes or indexing to differentiate them (e.g., "John Tan 1" and "John Tan 2").
+Each person must have a unique name. If you have individuals with the same name but different roles (e.g., a student and parent both named "John Tan"), use suffixes or indexing to differentiate them (e.g., "John Tan Father" and "John Tan Son", or "John Tan 1" and "John Tan 2").
 </div>
 
 **Examples:**
@@ -195,6 +204,11 @@ the first person in the main address book.
 </div>
 
 ![filter command](images/filterCommand.png)
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip — Reset the view:**  
+Use `list` anytime to return to the full contact list after filtering.
+</div>
 
 ---
 
@@ -265,6 +279,8 @@ delete INDEX
 * `list` followed by `delete 2` deletes the 2nd listed person.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+![delete command](images/deleteCommand.png)
+
 ---
 
 ### Linking Parent and Child — `link`
@@ -304,7 +320,7 @@ childrenof n/PARENT_NAME
 
 * `childrenof n/Bernice Yu`
 
-![children command](images/childrenCommand.png)
+![children command](images/childrenofCommand.png)
 
 ---
 
@@ -376,6 +392,13 @@ deleteclass c/CLASS_NAME
 
 * `deleteclass c/Sec3-Math-A` deletes the class Sec3-Math-A
 
+![delete class command](images/deleteclassCommand.png)
+
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution**  
+Deleting a class removes its sessions and attendance records.
+</div>
+
 ---
 
 ### Joining a Class — `join`
@@ -399,6 +422,12 @@ join n/NAME c/CLASS
 
 ![join command](images/joinCommand.png)
 
+<div markdown="span" class="alert alert-info">
+:information_source: **Role reminder:**  
+Only `student` and `tutor` can join classes.  
+Parents cannot be enrolled in classes.
+</div>
+
 ---
 
 ### Removing from a Class — `unjoin`
@@ -418,6 +447,8 @@ unjoin n/NAME c/CLASS
 
 * `unjoin n/Damian c/Sec4 Math`
 * `unjoin n/Ms Lim c/Sec2-Math-A`
+
+![unjoin command](images/unjoinCommand.png)
 
 ---
 
@@ -440,6 +471,16 @@ addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]
 
 * `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
 
+![add session command](images/addsessionCommand.png)
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip — Consistent session names help tracking and attendance.**  
+Example naming formats:
+- Week 1, Week 2, …
+- Lesson 1, Lesson 2, …
+- Term1-S1, Term1-S2
+</div>
+
 ---
 
 ### Deleting a Session — `deletesession`
@@ -458,6 +499,8 @@ deletesession c/CLASS_NAME s/SESSION_NAME
 
 * `deletesession c/Math101 s/Week 3 Tutorial`
 
+![delete session command](images/deletesessionCommand.png)
+
 ---
 
 ### Viewing a Session — `viewsession`
@@ -471,7 +514,16 @@ viewsession c/CLASS_NAME s/SESSION_NAME
 
 * Displays date, time, location and remarks for the session
 
-`viewsession c/Physics s/Lab Session 1`
+**Examples:**
+
+* `viewsession c/Physics s/Lab Session 1`
+
+![view session command](images/viewsessionCommand.png)
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip — Quickly check all sessions first:**  
+Run `listsessions c/CLASS_NAME` if you're unsure about a session name.
+</div>
 
 ---
 
@@ -486,8 +538,11 @@ listsessions c/CLASS_NAME
 
 * Displays date, time, and location for each session
 
-**Example:**
-`listsessions c/Math101`
+**Examples:**
+
+* `listsessions c/Math101`
+
+![list sessions command](images/listsessionsCommand.png)
 
 ---
 
@@ -500,8 +555,11 @@ Show parents of a specific child.
 parentsof n/CHILD_NAME
 ```
 
-**Example:**
-`parentsof n/Damian`
+**Examples:**
+
+* `parentsof n/Damian`
+
+![parents of command](images/parentsofCommand.png)
 
 ---
 
@@ -519,19 +577,36 @@ attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS
 * `STATUS` must be either `PRESENT` or `ABSENT`
 * Attendance records can be viewed with [`viewsession`](#viewsession)
 
-**Example:**
-`attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
+**Examples:**
+
+* `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
+
+![attend command](images/attendCommand.png)
+
+<div markdown="span" class="alert alert-info">
+:information_source: **If attendance fails:**  
+- Ensure the student is **enrolled** in the class using `join`  
+- Ensure the session exists (`listsessions`)  
+- Check spelling & capitalization of names and session titles  
+</div>
 
 ---
 
 ### Clearing All Data — `clear`
 
 Deletes all data in TutBook.
-**Format:** `clear`
+
+**Format:**
+
+```
+clear
+```
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 This action is **irreversible**. Please be careful when using this command.
 </div>
+
+![clear command](images/clearCommand.png)
 
 ### Exiting the Program — `exit`
 
