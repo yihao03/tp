@@ -119,7 +119,9 @@ You can drag the vertical divider between the **People List** and the **Class/Se
 
 ---
 
-### Viewing Help — `help`
+### General Commands
+
+#### Viewing Help — `help`
 
 Use this command to view instructions within the app.
 
@@ -133,7 +135,11 @@ help
 
 ---
 
-### Adding a Person — `add`
+### Person Management
+
+These commands help you manage students, tutors, and parents in TutBook.
+
+#### Adding a Person — `add`
 
 Add a student, tutor, or parent to your contact list.
 
@@ -164,21 +170,17 @@ Each person must have a unique name. If you have individuals with the same name 
 
 ---
 
-### Listing All Persons — `list`
+#### Listing All Persons — `list`
 
 Displays all persons currently stored in TutBook.
 
-**Format:**
-
-```
-list
-```
+**Format:** `list`
 
 ![list command](images/listCommand.png)
 
 ---
 
-### Filtering by Role — `filter`
+#### Filtering by Role — `filter`
 
 Focus on a specific group, such as only students or tutors.
 
@@ -212,7 +214,7 @@ Use `list` anytime to return to the full contact list after filtering.
 
 ---
 
-### Editing a Person — `edit`
+#### Editing a Person — `edit`
 
 Update contact information for an existing person.
 
@@ -235,14 +237,14 @@ positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * When editing tags, the existing tags of the person will be removed i.e adding
 of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+* You can remove all the person's tags by typing `t/` without
 specifying any tags after it.
 
 ![edit command](images/editCommand.png)
 
 ---
 
-### Finding a Person — `find`
+#### Finding a Person — `find`
 
 Search for persons by name.
 
@@ -264,7 +266,7 @@ find KEYWORD [MORE_KEYWORDS]
 
 ---
 
-### Deleting a Person — `delete`
+#### Deleting a Person — `delete`
 
 Remove a person from your contact list.
 
@@ -283,7 +285,11 @@ delete INDEX
 
 ---
 
-### Linking Parent and Child — `link`
+### Relationship Management
+
+These commands help you manage relationships between parents and students.
+
+#### Linking Parent and Child — `link`
 
 Connects a parent to a student.
 
@@ -304,7 +310,9 @@ link parent/PARENT_NAME child/CHILD_NAME
 
 ![link command](images/linkCommand.png)
 
-### Listing Children — `childrenof`
+---
+
+#### Listing Children — `childrenof`
 
 Lists children of a specific parent.
 
@@ -324,7 +332,27 @@ childrenof n/PARENT_NAME
 
 ---
 
-### Adding a Class — `addclass`
+#### Listing Parents — `parentsof`
+
+Show parents of a specific child.
+
+**Format:**
+
+```
+parentsof n/CHILD_NAME
+```
+
+**Examples:**
+
+* `parentsof n/Damian`
+
+---
+
+### Class Management
+
+These commands help you manage tuition classes and enrollment.
+
+#### Adding a Class — `addclass`
 
 Create a new tuition class and add to the address book.
 
@@ -346,21 +374,17 @@ addclass c/CLASS_NAME [tutor/TUTOR_NAME]
 
 ---
 
-### Listing Classes — `listclass`
+#### Listing Classes — `listclass`
 
 Displays all classes and their enrolled students.
 
-**Format:**
-
-```
-listclass
-```
+**Format:** `listclass`
 
 ![list class command](images/listClassCommand.png)
 
 ---
 
-### Editing a Class — `editclass`
+#### Editing a Class — `editclass`
 
 Rename an existing class while keeping all students and tutors.
 
@@ -378,7 +402,7 @@ editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME
 
 ---
 
-### Deleting a Class — `deleteclass`
+#### Deleting a Class — `deleteclass`
 
 Remove a class permanently.
 
@@ -401,7 +425,21 @@ Deleting a class removes its sessions and attendance records.
 
 ---
 
-### Joining a Class — `join`
+#### Listing Students in a Class — `liststudents`
+
+List all students enrolled in a specific class.
+
+**Format:** `liststudents c/CLASS_NAME`
+
+**Example:**
+
+* `liststudents c/s3 math`
+
+![list students command](images/listStudentsCommand.png)
+
+---
+
+#### Joining a Class — `join`
 
 Add a tutor or student to an existing class.
 
@@ -430,7 +468,7 @@ Parents cannot be enrolled in classes.
 
 ---
 
-### Removing from a Class — `unjoin`
+#### Removing from a Class — `unjoin`
 
 Remove a student or tutor from a class.
 
@@ -452,7 +490,11 @@ unjoin n/NAME c/CLASS
 
 ---
 
-### Adding a Session — `addsession`
+### Session Management
+
+These commands help you manage class sessions and attendance tracking.
+
+#### Adding a Session — `addsession`
 
 Record a session for a class.
 
@@ -483,7 +525,7 @@ Example naming formats:
 
 ---
 
-### Deleting a Session — `deletesession`
+#### Deleting a Session — `deletesession`
 
 Remove a session and its attendance records.
 
@@ -503,9 +545,10 @@ deletesession c/CLASS_NAME s/SESSION_NAME
 
 ---
 
-### Viewing a Session — `viewsession`
+#### Viewing a Session — `viewsession`
 
 Check details and attendance for a class session.
+
 **Format:**
 
 ```
@@ -527,9 +570,10 @@ Run `listsessions c/CLASS_NAME` if you're unsure about a session name.
 
 ---
 
-### Listing Sessions — `listsessions`
+#### Listing Sessions — `listsessions`
 
 View all sessions for a class in chronological order.
+
 **Format:**
 
 ```
@@ -546,26 +590,10 @@ listsessions c/CLASS_NAME
 
 ---
 
-### Listing Parents — `parentsof`
-
-Show parents of a specific child.
-**Format:**
-
-```
-parentsof n/CHILD_NAME
-```
-
-**Examples:**
-
-* `parentsof n/Damian`
-
-![parents of command](images/parentsofCommand.png)
-
----
-
-### Marking Attendance — `attend`
+#### Marking Attendance — `attend`
 
 Record attendance for a class session.
+
 **Format:**
 
 ```
@@ -575,7 +603,7 @@ attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS
 * The student must be enrolled in the specified class
 * The session must exist in the class
 * `STATUS` must be either `PRESENT` or `ABSENT`
-* Attendance records can be viewed with [`viewsession`](#viewsession)
+* Attendance records can be viewed with [`viewsession`](#viewing-a-session--viewsession)
 
 **Examples:**
 
@@ -592,25 +620,24 @@ attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS
 
 ---
 
-### Clearing All Data — `clear`
+### System Commands
+
+#### Clearing All Data — `clear`
 
 Deletes all data in TutBook.
 
-**Format:**
-
-```
-clear
-```
+**Format:** `clear`
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 This action is **irreversible**. Please be careful when using this command.
 </div>
 
-![clear command](images/clearCommand.png)
+---
 
-### Exiting the Program — `exit`
+#### Exiting the Program — `exit`
 
 Closes TutBook.
+
 **Format:** `exit`
 
 ---
@@ -629,31 +656,53 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 
 ## Command summary
 
+### General Commands
+Action | Format
+--------|------------------
+**Help** | `help`
+
+### Person Management
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 ro/student`
-**Add Class** | `addclass c/CLASS_NAME [tutor/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tutor/Ms Lim`
-**Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
-**Attend** | `attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS` <br> e.g., `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
-**Children** | `childrenof n/PARENT_NAME` <br> e.g., `childrenof n/John Doe`
-**Clear** | `clear`
-**Delete** | `delete INDEX` <br> e.g., `delete 3`
-**Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A`
-**Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
-**Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
-**Exit** | `exit`
-**Filter** | `filter ro/PERSON_TYPE` <br> e.g., `filter ro/student`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`
-**Help** | `help`
-**Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A`
-**Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe`
 **List** | `list`
-**List Class** | `listclass`
+**Filter** | `filter ro/PERSON_TYPE` <br> e.g., `filter ro/student`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
+**Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`
+**Delete** | `delete INDEX` <br> e.g., `delete 3`
+
+### Relationship Management
+Action | Format, Examples
+--------|------------------
+**Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe`
+**Children** | `childrenof n/PARENT_NAME` <br> e.g., `childrenof n/John Doe`
 **List Parents** | `parentsof n/CHILD_NAME` <br> e.g., `parentsof n/Damian`
-**List Sessions** | `listsessions c/CLASS_NAME` <br> e.g., `listsessions c/Math101`
+
+### Class Management
+Action | Format, Examples
+--------|------------------
+**Add Class** | `addclass c/CLASS_NAME [tutor/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tutor/Ms Lim`
+**List Class** | `listclass`
+**Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
+**Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A`
+**List Students** | `liststudents c/CLASS_NAME` <br> e.g., `liststudents c/s3 math`
+**Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A`
 **Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math`
+
+### Session Management
+Action | Format, Examples
+--------|------------------
+**Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
+**Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial`
 **View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial`
+**List Sessions** | `listsessions c/CLASS_NAME` <br> e.g., `listsessions c/Math101`
+**Attend** | `attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS` <br> e.g., `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
+
+### System Commands
+Action | Format
+--------|------------------
+**Clear** | `clear`
+**Exit** | `exit`
 
 ---
 
@@ -676,7 +725,7 @@ Action | Format, Examples
 **Q:** Can I undo a delete or clear command?
 **A:** No. Destructive commands are irreversible.
 
-**Q:** Can try the app without fully committing to it?
+**Q:** Can I try the app without fully committing to it?
 **A:** Yes, [sample data](./sample-data/README.md) is pre-loaded for you to explore features. Use the `clear` command to start fresh.
 
 ---
