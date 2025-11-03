@@ -48,7 +48,7 @@ Follow these steps to set up TutBook on your computer.
  Open a command terminal, `cd` into the folder, and run:
 
  ```
- java -jar tutbook-v1.5.jar
+ java -jar tutbook-v1.6.jar
  ```
 
  A window like the one below should appear:
@@ -102,7 +102,12 @@ This is the main interface of TutBook. It consists of:
 
 Use this command to view instructions within the app.
 
-**Format:** `help`
+**Format:**
+
+```
+help
+```
+
 ![help message](images/helpMessageNew.png)
 
 ---
@@ -125,6 +130,10 @@ add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…
 A person can have any number of tags, including none.
 </div>
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:**
+Each person must have a unique name. If you have individuals with the same name but different roles (e.g., a student and parent both named "John Tan"), use suffixes or indexing to differentiate them (e.g., "John Tan (Father)" and "John Tan (Son)", or "John Tan 1" and "John Tan 2").
+</div>
+
 **Examples:**
 
 * `add n/Ms Lim p/91234567 e/mslim@example.com a/Clementi Ave 2 ro/tutor t/experienced`
@@ -138,7 +147,12 @@ A person can have any number of tags, including none.
 
 Displays all persons currently stored in TutBook.
 
-**Format:** `list`
+**Format:**
+
+```
+list
+```
+
 ![list command](images/listCommand.png)
 
 ---
@@ -153,9 +167,10 @@ Focus on a specific group, such as only students or tutors.
 filter ro/PERSON_TYPE
 ```
 
-**Example:**
-`filter ro/tutor` shows only tutors.
-`filter ro/student` shows only students.
+**Examples:**
+
+* `filter ro/tutor` shows only tutors.
+* `filter ro/student` shows only students.
 
 <div markdown="span" class="alert alert-warning">
 
@@ -205,14 +220,19 @@ specifying any tags after it.
 
 Search for persons by name.
 
-**Format:** `find KEYWORD [MORE_KEYWORDS]`
+**Format:**
+
+```
+find KEYWORD [MORE_KEYWORDS]
+```
 
 * Case-insensitive
 * Matches full words
 * Returns results containing any keyword
 
-**Example:**
-`find David Damian` returns `David Li` and `Damian`.
+**Examples:**
+
+* `find David Damian` returns `David Li` and `Damian`.
 
 ![find command](images/findCommand.png)
 
@@ -222,13 +242,16 @@ Search for persons by name.
 
 Remove a person from your contact list.
 
-**Format:** `delete INDEX`
+**Format:**
 
-**Example:**
-`list` followed by `delete 2` deletes the 2nd listed person.
+```
+delete INDEX
+```
 
-`find Betsy` followed by `delete 1` deletes the 1st person in the results of the
-`find` command.
+**Examples:**
+
+* `list` followed by `delete 2` deletes the 2nd listed person.
+* `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ---
 
@@ -245,9 +268,11 @@ link parent/PARENT_NAME child/CHILD_NAME
 * Both parent and child must already exist in the address book
 * The parent must have the role `parent` and the child must have the role `student`
 * Names are case-sensitive
+* A child can have a maximum of 2 parents linked
 
-**Example:**
-`link parent/Bernice Yu child/Damian`
+**Examples:**
+
+* `link parent/Bernice Yu child/Damian`
 
 ![link command](images/linkCommand.png)
 
@@ -263,9 +288,9 @@ childrenof n/PARENT_NAME
 
 * Displays all students linked to the specified parent
 
-**Example:**
+**Examples:**
 
-`childrenof n/Bernice Yu`
+* `childrenof n/Bernice Yu`
 
 ![children command](images/childrenCommand.png)
 
@@ -296,7 +321,12 @@ addclass c/CLASS_NAME [tutor/TUTOR_NAME]
 ### Listing Classes — `listclass`
 
 Displays all classes and their enrolled students.
-**Format:** `listclass`
+
+**Format:**
+
+```
+listclass
+```
 
 ![list class command](images/listClassCommand.png)
 
@@ -312,8 +342,9 @@ Rename an existing class while keeping all students and tutors.
 editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME
 ```
 
-**Example:**
-`editclass o/Sec3 Math c/Sec4 Math`
+**Examples:**
+
+* `editclass o/Sec3 Math c/Sec4 Math`
 
 ![edit class command](images/editClassCommand.png)
 
@@ -322,9 +353,14 @@ editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME
 ### Deleting a Class — `deleteclass`
 
 Remove a class permanently.
-Format: `deleteclass c/CLASS_NAME`
 
-**Example:**
+**Format:**
+
+```
+deleteclass c/CLASS_NAME
+```
+
+**Examples:**
 
 * `deleteclass c/Sec3-Math-A` deletes the class Sec3-Math-A
 
@@ -333,6 +369,7 @@ Format: `deleteclass c/CLASS_NAME`
 ### Joining a Class — `join`
 
 Add a tutor or student to an existing class.
+
 **Format:**
 
 ```
@@ -355,6 +392,7 @@ join n/NAME c/CLASS
 ### Removing from a Class — `unjoin`
 
 Remove a student or tutor from a class.
+
 **Format:**
 
 ```
@@ -374,6 +412,7 @@ unjoin n/NAME c/CLASS
 ### Adding a Session — `addsession`
 
 Record a session for a class.
+
 **Format:**
 
 ```
@@ -385,14 +424,16 @@ addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]
 * Location is optional
 * Session names must be unique within a class
 
-**Example:**
-`addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
+**Examples:**
+
+* `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
 
 ---
 
 ### Deleting a Session — `deletesession`
 
 Remove a session and its attendance records.
+
 **Format:**
 
 ```
@@ -401,8 +442,9 @@ deletesession c/CLASS_NAME s/SESSION_NAME
 
 * The session must exist in the specified class
 
-**Example:**
-`deletesession c/Math101 s/Week 3 Tutorial`
+**Examples:**
+
+* `deletesession c/Math101 s/Week 3 Tutorial`
 
 ---
 
@@ -552,4 +594,4 @@ Action | Format, Examples
 
 ---
 
-*TutBook v1.5 – Empowering tuition centre management through simplicity and speed.*
+*TutBook v1.6 - Empowering tuition centre management through simplicity and speed.*

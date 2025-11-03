@@ -121,6 +121,38 @@ public class LinkCommandTest {
     }
 
     @Test
+    public void execute_maxParentsReached_throwsCommandException() throws Exception {
+        // Create a second parent
+        Parent parent2 = new Parent(
+                new Name("Jane Smith"),
+                new Phone("99887766"),
+                new Email("jane.smith@example.com"),
+                new Address("30 Kent Ridge Road"),
+                new HashSet<>());
+        model.addPerson(parent2);
+
+        // Link first parent to student
+        new LinkCommand("John Doe", "Jane Doe").execute(model);
+
+        // Link second parent to student
+        new LinkCommand("Jane Smith", "Jane Doe").execute(model);
+
+        // Create a third parent
+        Parent parent3 = new Parent(
+                new Name("Bob Lee"),
+                new Phone("88776655"),
+                new Email("bob.lee@example.com"),
+                new Address("40 Kent Ridge Road"),
+                new HashSet<>());
+        model.addPerson(parent3);
+
+        // Try to link third parent - should fail
+        LinkCommand command = new LinkCommand("Bob Lee", "Jane Doe");
+        assertThrows(CommandException.class, LinkCommand.MESSAGE_MAX_PARENTS_REACHED, () ->
+                command.execute(model));
+    }
+
+    @Test
     public void equals() {
         LinkCommand command1 = new LinkCommand("John Doe", "Jane Doe");
         LinkCommand command2 = new LinkCommand("John Doe", "Jane Doe");
