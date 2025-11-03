@@ -510,7 +510,7 @@ addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]
 ```
 
 * The class must already exist
-* `DATETIME` format: `YYYY-MM-DD HH:mm` (e.g., 2024-03-15 14:30)
+* `DATETIME` format: `YYYY-MM-DD HH:mm` (e.g., 2025-03-15 14:30)
 * Location is optional
 * Session names must be unique within a class
 
@@ -702,7 +702,7 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 
 | Action | Format, Examples |
 |--------|------------------|
-| **Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103` |
+| **Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2025-03-15 14:30 lo/COM1-B103` |
 | **Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial` |
 | **View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial` |
 | **List Sessions** | `listsessions c/CLASS_NAME` <br> e.g., `listsessions c/Math101` |
