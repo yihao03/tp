@@ -1664,15 +1664,15 @@ Compared to AB3, which manages a single entity (`Person`), TutBook introduces fi
 | Testing | Creating realistic linked test data | Added `TypicalClasses` and `TypicalSessions` fixtures. |
 
 ### Team effort
-- 5 developers over 9 weeks, ~30 commits each.  
-- ≈ 70 % of AB3 refactored or re-engineered.  
+- 5 developers over 9 weeks, ~30 commits each.
+- ≈ 70% of AB3 refactored or re-engineered.
 - CI/CD with GitHub Actions and Codecov for every PR.
 
 ### Code reuse and efficiency
-- ~15 % of AB3 code reused (core parser/UI logic).  
+- ~15% of AB3 code reused (core parser/UI logic).
 
 ### Achievements
-- Delivered full multi-role contact management and session tracking.  
-- Achieved > 80 % coverage in `logic`; > 80 % overall.  
+- Delivered full multi-role contact management and session tracking.
+- Achieved > 80% coverage in `logic`; > 80% overall.  
 - Extended DG/UG with new diagrams and testing sections.  
 - Maintained consistent code style, peer reviews, and iteration deadlines.
