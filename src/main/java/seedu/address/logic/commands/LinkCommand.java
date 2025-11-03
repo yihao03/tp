@@ -16,7 +16,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Student;
 
 /**
- * Links a parent and a child (student) in the address book, establishing a bidirectional relationship.
+ * Links a parent and a child (student) in the address book, establishing a
+ * bidirectional relationship.
  */
 public class LinkCommand extends Command {
 
@@ -36,6 +37,8 @@ public class LinkCommand extends Command {
     public static final String MESSAGE_NOT_PARENT = "The person specified is not a parent";
     public static final String MESSAGE_NOT_STUDENT = "The person specified is not a student";
     public static final String MESSAGE_ALREADY_LINKED = "This parent and child are already linked";
+    public static final String MESSAGE_MAX_PARENTS_REACHED = "This child already has 2 parents linked. "
+            + "Cannot add more than 2 parents per child.";
 
     private static final Logger LOGGER = LogsCenter.getLogger(LinkCommand.class);
 
@@ -56,11 +59,13 @@ public class LinkCommand extends Command {
     }
 
     /**
-     * Executes the link command to establish a bidirectional relationship between a parent and child.
+     * Executes the link command to establish a bidirectional relationship between a
+     * parent and child.
      *
      * @param model The model which the command should operate on.
      * @return A CommandResult with the success message.
-     * @throws CommandException If the parent or child does not exist, or if they're not the correct type.
+     * @throws CommandException If the parent or child does not exist, or if they're
+     *                          not the correct type.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
@@ -105,22 +110,29 @@ public class LinkCommand extends Command {
 
         // Check if already linked
         if (parent.getChildren().contains(child)) {
-            LOGGER.warning("Parent and child already linked: " + parentName + " - " + childName);
+            LOGGER.warning("Parent and child already linked: " + parent.getName() + " - " + child.getName());
             throw new CommandException(MESSAGE_ALREADY_LINKED);
+        }
+
+        // Check if child already has 2 parents
+        if (child.getParents().size() >= 2) {
+            LOGGER.warning("Child already has 2 parents: " + childName);
+            throw new CommandException(MESSAGE_MAX_PARENTS_REACHED);
         }
 
         // Establish bidirectional relationship
         parent.addChild(child);
-        LOGGER.info("Successfully linked parent: " + parentName + " with child: " + childName);
+        LOGGER.info("Successfully linked parent: " + parent.getName() + " with child: " + child.getName());
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, parentName, childName));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, parent.getName(), child.getName()));
     }
 
     /**
      * Checks if this LinkCommand is equal to another object.
      *
      * @param other The object to compare with.
-     * @return True if both objects are LinkCommands with the same parent and child names.
+     * @return True if both objects are LinkCommands with the same parent and child
+     *         names.
      */
     @Override
     public boolean equals(Object other) {

@@ -37,9 +37,16 @@ public class AddClassCommandParser implements Parser<AddClassCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddClassCommand.MESSAGE_USAGE));
         }
 
-        // Check for invalid prefix like t/ in the class name value
-        if (className.contains(" t/")) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddClassCommand.MESSAGE_USAGE));
+        // Check for common prefix typos in the class name value
+        String[] commonPrefixTypos = {" t/", " tu/", " n/", " p/", " e/", " a/", " s/", " ro/"};
+        for (String prefix : commonPrefixTypos) {
+            if (className.contains(prefix)) {
+                String suggestion = prefix.equals(" t/") || prefix.equals(" tu/")
+                    ? " Did you mean 'tutor/' instead of '" + prefix.trim() + "'?"
+                    : "";
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddClassCommand.MESSAGE_USAGE)
+                    + suggestion);
+            }
         }
 
         // Only parse tutor name if present

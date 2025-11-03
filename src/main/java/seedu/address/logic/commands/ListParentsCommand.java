@@ -62,16 +62,16 @@ public class ListParentsCommand extends Command {
         List<Parent> parents = child.getParents();
 
         if (parents.isEmpty()) {
-            LOGGER.info("Child has no parents: " + childName);
+            LOGGER.info("Child has no parents: " + child.getName());
             // Show empty list in UI
             model.updateFilteredPersonList(p -> false);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, childName) + "\n[No parents]");
+            return new CommandResult(String.format(MESSAGE_SUCCESS, child.getName()) + "\n[No parents]");
         }
 
         // Filter to show only the parents in the UI
         model.updateFilteredPersonList(parents::contains);
         int parentCount = parents.size();
-        LOGGER.info("Found " + parentCount + " parent(s) for child: " + childName);
+        LOGGER.info("Found " + parentCount + " parent(s) for child: " + child.getName());
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, childName) + " (" + parentCount + " shown)");
     }

@@ -24,7 +24,7 @@ public class ViewSessionCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": View a session's details. "
             + "Parameters: "
             + PREFIX_CLASS + "Class "
-            + PREFIX_SESSION + "Session "
+            + PREFIX_SESSION + "Session\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_CLASS + "Maths "
             + PREFIX_SESSION + "1";
@@ -63,7 +63,9 @@ public class ViewSessionCommand extends Command {
             throw new CommandException(MESSAGE_SESSION_NOT_FOUND);
         }
 
-        LOGGER.log(Level.INFO, "Viewing session: " + sessionName + " of class: " + className);
+        LOGGER.log(Level.INFO,
+                "Viewing session: " + toView.get().getSessionName() + " of class: " + classToView.getName());
+        model.updateSessionListForClass(classToView);
         return new CommandResult(String.format(MESSAGE_SUCCESS, toView.get().getSessionDetails()));
     }
 

@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.stream.Collectors;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -80,18 +81,27 @@ public class PersonCard extends UiPart<Region> {
         // Display enrolled classes for students and tutors
         if (person.getPersonType() == PersonType.STUDENT) {
             Student student = (Student) person;
-            String classes = student.getTuitionClasses().stream()
-                    .map(tc -> tc.getClassName())
-                    .collect(Collectors.joining(", "));
-            enrolledClasses.setText(classes.isEmpty() ? "No classes" : classes);
+            enrolledClasses.textProperty().bind(Bindings.createStringBinding(() -> {
+                String classes = student.getTuitionClasses().stream()
+                        .map(tc -> tc.getClassName())
+                        .collect(Collectors.joining(", "));
+                return classes.isEmpty() ? "No classes" : classes;
+            },
+                    person.getTuitionClasses()
+            ));
+
             enrolledClasses.setVisible(true);
             enrolledClasses.setManaged(true);
         } else if (person.getPersonType() == PersonType.TUTOR) {
             Tutor tutor = (Tutor) person;
-            String classes = tutor.getTuitionClasses().stream()
-                    .map(tc -> tc.getClassName())
-                    .collect(Collectors.joining(", "));
-            enrolledClasses.setText(classes.isEmpty() ? "No classes" : classes);
+            enrolledClasses.textProperty().bind(Bindings.createStringBinding(() -> {
+                String classes = tutor.getTuitionClasses().stream()
+                        .map(tc -> tc.getClassName())
+                        .collect(Collectors.joining(", "));
+                return classes.isEmpty() ? "No classes" : classes;
+            },
+                    person.getTuitionClasses()
+            ));
             enrolledClasses.setVisible(true);
             enrolledClasses.setManaged(true);
         } else {

@@ -56,6 +56,12 @@ public class AddClassCommandParserTest {
     }
 
     @Test
+    public void parse_invalidTutorPrefixTypo_throwsParseException() {
+        // tu/ is not accepted; only tutor/
+        assertThrows(ParseException.class, () -> parser.parse("c/Sec1-Math-A tu/Ms Lee"));
+    }
+
+    @Test
     public void parse_missingClassNamePrefix_throwsParseException() {
         assertThrows(ParseException.class, () -> parser.parse("tutor/Ms Lee"));
     }

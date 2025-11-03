@@ -94,27 +94,29 @@ public class JoinClassCommand extends Command {
             throw new CommandException(MESSAGE_CLASS_NOT_EXIST);
         }
 
+        String actualClassName = tuitionClass.getName().toString();
+
         if (toJoin instanceof Student) {
             Student studentToJoin = (Student) toJoin;
             if (tuitionClass.hasStudent(studentToJoin)) {
-                LOGGER.warning("Student already in class: " + toJoinName + " in " + className);
+                LOGGER.warning("Student already in class: " + toJoinName + " in " + actualClassName);
                 throw new CommandException(MESSAGE_STUDENT_ALREADY_IN_CLASS);
             }
             model.addStudentToClass(studentToJoin, tuitionClass);
             model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
-            LOGGER.info("Successfully added student " + toJoinName + " to class " + className);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", className, toJoinName),
+            LOGGER.info("Successfully added student " + toJoinName + " to class " + actualClassName);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", actualClassName, toJoinName),
                     CommandResult.DisplayType.CLASSES);
         } else if (toJoin instanceof Tutor) {
             Tutor tutorToJoin = (Tutor) toJoin;
             if (tuitionClass.hasTutor(tutorToJoin)) {
-                LOGGER.warning("Tutor already assigned to class: " + toJoinName + " in " + className);
+                LOGGER.warning("Tutor already assigned to class: " + toJoinName + " in " + actualClassName);
                 throw new CommandException(MESSAGE_TUTOR_ALREADY_ASSIGNED);
             }
             model.assignTutorToClass(tutorToJoin, tuitionClass);
             model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
-            LOGGER.info("Successfully assigned tutor " + personName + " to class " + className);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", className, toJoinName),
+            LOGGER.info("Successfully assigned tutor " + personName + " to class " + actualClassName);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", actualClassName, toJoinName),
                     CommandResult.DisplayType.CLASSES);
         } else {
             LOGGER.warning("Attempted to join non-student/tutor to class: " + toJoinName);

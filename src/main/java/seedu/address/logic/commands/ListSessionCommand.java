@@ -65,7 +65,7 @@ public class ListSessionCommand extends Command {
         }
 
         List<ClassSession> sessions = tuitionClass.getAllSessions();
-        LOGGER.info("Found " + sessions.size() + " sessions for class: " + className);
+        LOGGER.info("Found " + sessions.size() + " sessions for class: " + tuitionClass.getName());
 
         // Update the observable session list in the model (sorted by datetime descending)
         model.updateSessionListForClass(tuitionClass);
@@ -74,7 +74,7 @@ public class ListSessionCommand extends Command {
         if (sessions.isEmpty()) {
             output = "[No sessions]";
         } else {
-            output = String.format("Displaying %d session(s) for class: %s", sessions.size(), className);
+            output = String.format("Displaying %d session(s) for class: %s", sessions.size(), tuitionClass.getName());
         }
 
         return new CommandResult(output, CommandResult.DisplayType.SESSIONS);
