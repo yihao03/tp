@@ -15,6 +15,10 @@ import seedu.address.model.person.Student;
  */
 public class ClassSession {
 
+    public static final int MAX_SESSION_NAME_LENGTH = 100;
+    public static final int MAX_LOCATION_LENGTH = 150;
+    public static final int MAX_REMARK_LENGTH = 500;
+
     /** The class this session belongs to. */
     private final TuitionClass parentClass;
 
@@ -55,8 +59,16 @@ public class ClassSession {
         if (sessionName == null || sessionName.isBlank()) {
             throw new IllegalArgumentException("Session name cannot be null or empty");
         }
+        if (sessionName.length() > MAX_SESSION_NAME_LENGTH) {
+            throw new IllegalArgumentException("Session name must not exceed "
+                    + MAX_SESSION_NAME_LENGTH + " characters");
+        }
         if (dateTime == null) {
             throw new IllegalArgumentException("Date/time cannot be null for session: " + sessionName);
+        }
+        if (location != null && location.length() > MAX_LOCATION_LENGTH) {
+            throw new IllegalArgumentException("Location must not exceed "
+                    + MAX_LOCATION_LENGTH + " characters");
         }
         if (parentClass.hasSessionName(sessionName)) {
             throw new IllegalArgumentException("This session name already exists for this class: " + sessionName);
@@ -80,6 +92,13 @@ public class ClassSession {
     }
 
     public void setSessionName(String sessionName) {
+        if (sessionName == null || sessionName.isBlank()) {
+            throw new IllegalArgumentException("Session name cannot be null or empty");
+        }
+        if (sessionName.length() > MAX_SESSION_NAME_LENGTH) {
+            throw new IllegalArgumentException("Session name must not exceed "
+                    + MAX_SESSION_NAME_LENGTH + " characters");
+        }
         this.sessionName = sessionName;
     }
 
@@ -96,7 +115,23 @@ public class ClassSession {
     }
 
     public void setLocation(String location) {
+        if (location != null && location.length() > MAX_LOCATION_LENGTH) {
+            throw new IllegalArgumentException("Location must not exceed "
+                    + MAX_LOCATION_LENGTH + " characters");
+        }
         this.location = location;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        if (remarks != null && remarks.length() > MAX_REMARK_LENGTH) {
+            throw new IllegalArgumentException("Remarks must not exceed "
+                    + MAX_REMARK_LENGTH + " characters");
+        }
+        this.remarks = remarks;
     }
 
     // Attendance

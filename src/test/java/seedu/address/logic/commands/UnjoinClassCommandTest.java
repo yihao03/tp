@@ -351,7 +351,7 @@ public class UnjoinClassCommandTest {
 
     @Test
     public void execute_veryLongNames_success() throws Exception {
-        String longName = "A".repeat(50) + " " + "B".repeat(50);
+        String longName = "A".repeat(49) + " " + "B".repeat(50); // exactly 100 characters (max allowed)
         Student longNameStudent = new Student(
                 new Name(longName),
                 new Phone("98901234"),
