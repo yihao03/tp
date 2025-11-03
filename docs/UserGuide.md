@@ -720,7 +720,53 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 
 {first workflow}
 
-{second workflow}
+### 2. Onboard a New Student and Link to a Parent
+
+**Goal:** Add a new student and parent, link them, and enrol the student in a class.
+
+**Typical sequence:**
+
+1. **Add parent**
+   ```
+   add n/Mr Lim p/91231234 e/mrlim@example.com a/Bishan Street 12 ro/parent
+   ```
+   ![workflow2-add-parent](images/workflow2-add-parent.png)
+
+2. **Add student**
+   ```
+   add n/Lim Kai p/98765432 e/limkai@example.com a/Bishan Street 12 ro/student
+   ```
+   ![workflow2-add-student](images/workflow2-add-student.png)
+
+3. **Link parent and child**
+   ```
+   link parent/Mr Lim child/Lim Kai
+   ```
+   ![workflow2-link](images/workflow2-link.png)
+
+4. **Add class**
+   ```
+   addclass c/Sec2-Math-A
+   ```
+   ![workflow2-addclass](images/workflow2-addclass.png)
+
+5. **Enrol student into the class**
+   ```
+   join n/Lim Kai c/Sec2-Math-A
+   ```
+   ![workflow2-join](images/workflow2-join.png)
+
+6. **Verify parent-child link**
+   ```
+   childrenof n/Mr Lim
+   ```
+   ![workflow2-childrenof](images/workflow2-childrenof.png)
+
+7. **Verify class enrollment**
+   ```
+   liststudents c/Sec2-Math-A
+   ```
+   ![workflow2-liststudents](images/workflow2-liststudents.png)
 
 ---
 
