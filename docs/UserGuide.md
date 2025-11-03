@@ -337,7 +337,7 @@ childrenof n/PARENT_NAME
 
 #### Listing Parents — `parentsof`
 
-Show parents of a specific child.
+Shows parents of a specific child.
 
 **Format:**
 
