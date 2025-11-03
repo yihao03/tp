@@ -851,7 +851,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC11 - Add student to a class**
+**Use case: UC10 - Add student to a class**
 
 **MSS**
 
@@ -891,7 +891,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC12 - View all classes with enrolled students**
+**Use case: UC11 - View all classes with enrolled students**
 
 **MSS**
 
@@ -909,7 +909,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC13 - Rename a class**
+**Use case: UC12 - Rename a class**
 
 **MSS**
 
@@ -933,7 +933,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC14 - Delete a class**
+**Use case: UC13 - Delete a class**
 
 **MSS**
 
@@ -952,7 +952,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC15 - Add a session to a class**
+**Use case: UC14 - Add a session to a class**
 
 **MSS**
 
@@ -976,7 +976,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC16 - Mark attendance for a session**
+**Use case: UC15 - Mark attendance for a session**
 
 **MSS**
 
@@ -1012,7 +1012,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC17 - View session details**
+**Use case: UC16 - View session details**
 
 **MSS**
 
@@ -1037,7 +1037,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC18 - Remove student from class**
+**Use case: UC17 - Remove student from class**
 
 **MSS**
 
@@ -1067,7 +1067,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC19 - List parents of a child**
+**Use case: UC18 - List parents of a child**
 
 **MSS**
 
@@ -1090,7 +1090,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC20 - List sessions for a class**
+**Use case: UC19 - List sessions for a class**
 
 **MSS**
 
@@ -1102,7 +1102,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 2a. Class not found → Error “Class [name] not found.”
 
-**Use case: UC21 - List students in a class**
+**Use case: UC20 - List students in a class**
 
 **MSS**
 
