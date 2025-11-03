@@ -65,6 +65,16 @@ class JsonSerializableAddressBook {
     }
 
     /**
+     * Finds a person by name and role, handling cases where multiple persons share the same name.
+     */
+    private Person findPersonByNameAndRole(Map<String, Person> personMap, String name, String role) {
+        return personMap.values().stream()
+                .filter(p -> p.getName().fullName.equals(name) && p.getPersonType().name().equals(role))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
      * Converts this address book into the model's {@code AddressBook} object.
      *
      * @throws IllegalValueException if there were any data constraints violated.
@@ -81,20 +91,23 @@ class JsonSerializableAddressBook {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
             addressBook.addPerson(person);
-            // Store person by their unique identifier (name) for lookup
-            personMap.put(person.getName().fullName, person);
-            jsonPersonMap.put(person.getName().fullName, jsonAdaptedPerson);
+            // Store person by their unique identifier (name + role) for lookup
+            String key = person.getName().fullName + ":" + person.getPersonType().name();
+            personMap.put(key, person);
+            jsonPersonMap.put(key, jsonAdaptedPerson);
         }
 
         // Step 1.5: Restore parent-child relationships
         for (JsonAdaptedPerson jsonPerson : persons) {
-            Person person = personMap.get(jsonPerson.toModelType().getName().fullName);
+            Person modelPerson = jsonPerson.toModelType();
+            Person person = findPersonByNameAndRole(personMap,
+                    modelPerson.getName().fullName, jsonPerson.getRole().name());
 
             // Restore children for parents
             if (person instanceof Parent) {
                 Parent parent = (Parent) person;
                 for (String childName : jsonPerson.getChildrenNames()) {
-                    Person child = personMap.get(childName);
+                    Person child = findPersonByNameAndRole(personMap, childName, "STUDENT");
                     if (child instanceof Student) {
                         parent.addChild((Student) child);
                     }
@@ -120,7 +133,8 @@ class JsonSerializableAddressBook {
             // Link tutor
             if (jsonClass.getTutor() != null) {
                 Person tutorPerson = jsonClass.getTutor().toModelType();
-                Person matchingTutor = personMap.get(tutorPerson.getName().fullName);
+                Person matchingTutor = findPersonByNameAndRole(personMap,
+                        tutorPerson.getName().fullName, "TUTOR");
                 if (matchingTutor instanceof Tutor) {
                     tuitionClass.setTutor((Tutor) matchingTutor);
                 } else {
@@ -147,7 +161,7 @@ class JsonSerializableAddressBook {
                     // Mark students as present based on saved data
                     for (List<String> record : jsonSession.getPresentStudents()) {
                         String studentName = record.get(0);
-                        Person student = personMap.get(studentName);
+                        Person student = findPersonByNameAndRole(personMap, studentName, "STUDENT");
                         if (student instanceof Student) {
                             session.markPresentAt((Student) student,
                                     LocalDateTime.parse(record.get(1), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
@@ -157,7 +171,7 @@ class JsonSerializableAddressBook {
                     // Mark students as absent based on saved data
                     for (List<String> record : jsonSession.getAbsentStudents()) {
                         String studentName = record.get(0);
-                        Person student = personMap.get(studentName);
+                        Person student = findPersonByNameAndRole(personMap, studentName, "STUDENT");
                         if (student instanceof Student) {
                             session.markAbsentAt((Student) student,
                                     LocalDateTime.parse(record.get(1), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
@@ -169,7 +183,8 @@ class JsonSerializableAddressBook {
             // Link students
             for (JsonAdaptedPerson jsonStudent : jsonClass.getStudents()) {
                 Person studentPerson = jsonStudent.toModelType();
-                Person matchingStudent = personMap.get(studentPerson.getName().fullName);
+                Person matchingStudent = findPersonByNameAndRole(personMap,
+                        studentPerson.getName().fullName, "STUDENT");
                 if (matchingStudent instanceof Student) {
                     tuitionClass.addStudent((Student) matchingStudent);
                 } else {

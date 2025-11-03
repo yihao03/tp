@@ -333,7 +333,7 @@ Copy code
 
 ---
 
-### Deleting a Class (cascade cleanup)
+### Deleting a Class
 
 Deleting a class removes enrollments, unassigns tutors, and clears sessions before persisting.  
 ![Delete Class Cascade](images/DeleteClassCascadeSequenceDiagram.png)
@@ -1584,12 +1584,14 @@ testers are expected to do more *exploratory* testing.
 
 ## **Appendix: Planned Enhancements**
 
+**Team size:** 5
+
 | # | Enhancement | Current Limitation | Proposed Fix | Impact |
 |:--|:--|:--|:--|:--|
 | 1 | More specific error for invalid roles in `link` | Generic error message | Add role-based feedback ("Only a PARENT can link to a STUDENT") | Improved UX |
 | 2 | Alphabetical sorting of classes | Unordered list output | Add `Comparator` in `Model#updateFilteredClassList()` | Better readability |
 | 3 | Allow multiple tutors per class | One tutor only | Change `TuitionClass` → `List<Tutor>` | Realistic multi-tutor support |
-| 4 | Edit session details (date/time) | Not editable | Add `editsession` command | Flexibility |
+| 4 | Edit session details (date/time) | Not editable | Add `editsession` command | Provides consistency and flexibility |
 | 5 | Filter attendance by status | Always shows all | Add `status/` parameter in `viewsession` | Faster lookup |
 | 6 | Display children in `listparents` | Not shown | Enhance `ListParentsCommand#format()` | Clearer relationships |
 | 7 | Implement `archive` / `restorearchive` commands | No data versioning | Use `ArchiveManager` | Data safety |

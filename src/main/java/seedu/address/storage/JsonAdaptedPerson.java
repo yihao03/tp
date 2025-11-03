@@ -182,4 +182,11 @@ class JsonAdaptedPerson {
         return parentNames;
     }
 
+    /**
+     * Returns the role of this person.
+     */
+    public PersonType getRole() {
+        return role;
+    }
+
 }
