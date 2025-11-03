@@ -95,7 +95,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/AY2
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `ClassListPanel`, `SessionListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S1-CS2103T-W09-3/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -104,7 +104,12 @@ The `UI` component,
 - executes user commands using the `Logic` component.
 - listens for changes to `Model` data so that the UI can be updated with the modified data.
 - keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-- depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+- depends on some classes in the `Model` component, as it displays `Person`, `TuitionClass`, and `ClassSession` objects residing in the `Model`.
+
+**Key UI Panels:**
+- `PersonListPanel` displays a list of persons (students, tutors, parents) using `PersonCard` components.
+- `ClassListPanel` displays a list of tuition classes with their enrolled students and assigned tutors using `ClassCard` components.
+- `SessionListPanel` displays a list of class sessions with their date, time, location, and attendance information using `SessionCard` components.
 
 ### Logic component
 
@@ -162,8 +167,11 @@ The `Model` component,
 
 - stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 - stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-- stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+- stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 - does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+
+<div markdown="span" class="alert alert-info">:information_source: **Note on Name Uniqueness:** The `UniquePersonList` enforces that each person must have a unique name. This means two persons cannot have identical names, even if they have different roles (e.g., student vs parent). If your use case requires managing individuals with the same name, users should differentiate them using suffixes or indexing (e.g., "John Tan (Father)" and "John Tan (Son)", or "John Tan 1" and "John Tan 2").
+</div>
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `TutBook`, which `Person` references. This allows `TutBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
@@ -1261,10 +1269,15 @@ testers are expected to do more *exploratory* testing.
       Expected: No person is added. Error message about missing required fields is shown.
 
 1. Adding a duplicate person
-   1. Prerequisites: A contact with name "John Doe" and phone "98765432" already exists.
+   1. Prerequisites: A contact with name "John Doe" already exists in the address book.
 
    1. Test case: `add n/John Doe p/98765432 e/different@example.com a/Different Address ro/student`<br>
       Expected: No person is added. Error message states "Contact already exists. Cannot add duplicate."
+
+   1. Test case: `add n/John Doe p/99999999 e/another@example.com a/Another Address ro/parent`<br>
+      Expected: No person is added, even though the role is different. Error message states "Contact already exists. Cannot add duplicate."
+
+   1. Note: Name uniqueness is enforced across all roles. To add individuals with the same real name but different roles, use suffixes (e.g., "John Doe (Father)" and "John Doe (Son)").
 
 ### Filtering contacts by role
 
@@ -1320,6 +1333,14 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `link parent/Mary Doe child/Alice Doe`<br>
       Expected: No new link created. Message states they are already linked.
+
+1. Attempting to link more than 2 parents to a child
+   1. Prerequisites: Alice Doe already has 2 parents linked (e.g., Mary Doe and John Doe).
+
+   1. Test case: `link parent/Jane Smith child/Alice Doe`<br>
+      Expected: No new link created. Error message states "This child already has 2 parents linked. Cannot add more than 2 parents per child."
+
+   1. Note: This constraint enforces a realistic parent-child relationship model, limiting each child to a maximum of 2 parents.
 
 ### Viewing children
 

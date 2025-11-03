@@ -36,6 +36,8 @@ public class LinkCommand extends Command {
     public static final String MESSAGE_NOT_PARENT = "The person specified is not a parent";
     public static final String MESSAGE_NOT_STUDENT = "The person specified is not a student";
     public static final String MESSAGE_ALREADY_LINKED = "This parent and child are already linked";
+    public static final String MESSAGE_MAX_PARENTS_REACHED = "This child already has 2 parents linked. "
+            + "Cannot add more than 2 parents per child.";
 
     private static final Logger LOGGER = LogsCenter.getLogger(LinkCommand.class);
 
@@ -107,6 +109,12 @@ public class LinkCommand extends Command {
         if (parent.getChildren().contains(child)) {
             LOGGER.warning("Parent and child already linked: " + parentName + " - " + childName);
             throw new CommandException(MESSAGE_ALREADY_LINKED);
+        }
+
+        // Check if child already has 2 parents
+        if (child.getParents().size() >= 2) {
+            LOGGER.warning("Child already has 2 parents: " + childName);
+            throw new CommandException(MESSAGE_MAX_PARENTS_REACHED);
         }
 
         // Establish bidirectional relationship
