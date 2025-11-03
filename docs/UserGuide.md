@@ -190,6 +190,11 @@ the first person in the main address book.
 
 ![filter command](images/filterCommand.png)
 
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip — Reset the view:**  
+Use `list` anytime to return to the full contact list after filtering.
+</div>
+
 ---
 
 ### Editing a Person — `edit`
@@ -374,6 +379,11 @@ deleteclass c/CLASS_NAME
 
 ![delete class command](images/deleteclassCommand.png)
 
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution**  
+Deleting a class removes its sessions and attendance records.
+</div>
+
 ---
 
 ### Joining a Class — `join`
@@ -396,6 +406,12 @@ join n/NAME c/CLASS
 * `join n/Ms Lim c/Sec2-Math-A`
 
 ![join command](images/joinCommand.png)
+
+<div markdown="span" class="alert alert-info">
+:information_source: **Role reminder:**  
+Only `student` and `tutor` can join classes.  
+Parents cannot be enrolled in classes.
+</div>
 
 ---
 
@@ -442,6 +458,14 @@ addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]
 
 ![add session command](images/addsessionCommand.png)
 
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip — Consistent session names help tracking and attendance.**  
+Example naming formats:
+- Week 1, Week 2, …
+- Lesson 1, Lesson 2, …
+- Term1-S1, Term1-S2
+</div>
+
 ---
 
 ### Deleting a Session — `deletesession`
@@ -480,6 +504,11 @@ viewsession c/CLASS_NAME s/SESSION_NAME
 * `viewsession c/Physics s/Lab Session 1`
 
 ![view session command](images/viewsessionCommand.png)
+
+<div markdown="span" class="alert alert-primary">
+:bulb: **Tip — Quickly check all sessions first:**  
+Run `listsessions c/CLASS_NAME` if you're unsure about a session name.
+</div>
 
 ---
 
@@ -538,6 +567,13 @@ attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS
 * `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
 
 ![attend command](images/attendCommand.png)
+
+<div markdown="span" class="alert alert-info">
+:information_source: **If attendance fails:**  
+- Ensure the student is **enrolled** in the class using `join`  
+- Ensure the session exists (`listsessions`)  
+- Check spelling & capitalization of names and session titles  
+</div>
 
 ---
 
