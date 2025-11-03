@@ -22,7 +22,7 @@ It covers how to install TutBook, perform common tasks, and troubleshoot issues.
 
 ### Conventions Used
 
-* Commands are shown in `monospace`.
+* Commands are shown in `monospace` font.
 * Parameters are in `UPPER_CASE` (e.g., `add n/NAME`).
 * Square brackets `[ ]` mark optional elements.
 * Ellipsis `…` means the parameter can appear multiple times.
