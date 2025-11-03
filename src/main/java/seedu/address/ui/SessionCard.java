@@ -60,7 +60,7 @@ public class SessionCard extends UiPart<Region> {
 
         // Display attendance information
         long attendanceCount = session.getAttendanceCount();
-        long totalStudents = session.getAttendanceRecord().size();
+        long totalStudents = session.getParentClass().getStudents().size();
         attendance.setText(String.format("%d/%d present", attendanceCount, totalStudents));
 
         // Set session icon

@@ -208,7 +208,7 @@ public class ClassSession {
         if (remarks != null && !remarks.isEmpty()) {
             sb.append("Remarks: ").append(remarks).append(System.lineSeparator());
         }
-        sb.append("Attendance: ").append(getAttendanceCount()).append("/").append(attendanceRecord.size())
+        sb.append("Attendance: ").append(getAttendanceCount()).append("/").append(parentClass.getStudents().size())
                 .append(" present").append(System.lineSeparator());
 
         // Split attendance into Present and Absent sections
@@ -227,10 +227,22 @@ public class ClassSession {
                 studentName = student.getName().toString();
             }
             String line = "- " + studentName + timeStr + System.lineSeparator();
-            if (Boolean.TRUE.equals(present)) {
+            if (present) {
                 presentSb.append(line);
-            } else {
-                absentSb.append(line);
+            }
+        }
+
+        for (Student s : parentClass.getStudents()) {
+            Attendance record = attendanceRecord.get(s);
+            if (record == null || !record.isPresent()) {
+                LocalDateTime ts = (record == null) ? null : record.getTimestamp();
+                String timeStr = (ts == null || ts.equals(LocalDateTime.MIN))
+                        ? " (unmarked)"
+                        : " (marked: " + ts.format(fmt) + ")";
+                String name = (s != null && s.getName() != null)
+                        ? s.getName().toString()
+                        : "Unknown student";
+                absentSb.append("- ").append(name).append(timeStr).append(System.lineSeparator());
             }
         }
 
