@@ -246,7 +246,7 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Implementation
 
-The remove-from-class feature provides the inverse operation of the join command, allowing removal of students and tutors from classes.
+The remove-from-class feature provides the opposite operation of the join command, allowing removal of students and tutors from classes.
 
 **Key Components**
 - `UnjoinClassCommand` - Handles removal logic  
