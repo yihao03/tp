@@ -491,7 +491,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 **Aspect: How undo & redo executes:**
 
-- **Alternative 1 (current choice):** Saves the entire address book.
+- **Alternative 1 (proposed approach):** Saves the entire address book.
   - Pros: Easy to implement.
   - Cons: May have performance issues in terms of memory usage.
 
