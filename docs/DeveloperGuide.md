@@ -22,6 +22,17 @@ This guide explains the **architecture, design decisions, implementation details
 - Icons from [Material Design Icons](https://materialdesignicons.com/).
 - Diagram styling adapted from [PlantUML Standard Library](https://plantuml.com/stdlib).
 
+### AI Assistance Acknowledgement
+
+Parts of this project were developed with assistance from AI tools (e.g., ChatGPT/Copilot/Claude Code).  
+Specifically, AI was used for:
+- Documentation proofreading and polishing
+- Code debugging guidance
+- Suggesting alternative implementations
+- Generating and refining some test cases
+
+All design and implementation decisions were made by our group, and AI-generated content was reviewed and adapted to ensure understanding and correctness.
+
 ---
 
 ## **Setting up, getting started**
@@ -312,10 +323,9 @@ Lists parents of a specific child.
 - Model filtering for parent lookups
 
 **Command format**
+```
 parentsof n/CHILD_NAME
-
-markdown
-Copy code
+```
 
 #### Children Management Feature
 
@@ -326,10 +336,9 @@ Lists children of a specific parent.
 - Model filtering for child lookups
 
 **Command format**
+```
 childrenof n/PARENT_NAME
-
-yaml
-Copy code
+```
 
 ---
 
@@ -1216,7 +1225,7 @@ testers are expected to do more *exploratory* testing.
 1. Initial launch
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file. Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
 1. Saving window preferences
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
@@ -1332,7 +1341,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `addclass c/Math-101`<br>
       Expected: New class "Math-101" is created. Success message displayed.
 
-   1. Test case: `addclass c/Physics-201 tu/Mr. Smith` (where Mr. Smith is a tutor)<br>
+   1. Test case: `addclass c/Physics-201 tutor/Mr. Smith` (where Mr. Smith is a tutor)<br>
       Expected: New class "Physics-201" is created with Mr. Smith as tutor. Success message displayed.
 
 1. Creating a class with invalid parameters
@@ -1341,7 +1350,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `addclass c/Math-101`<br>
       Expected: No class created. Error message states class already exists.
 
-   1. Test case: `addclass c/Physics-201 tu/NonExistent Tutor`<br>
+   1. Test case: `addclass c/Physics-201 tutor/NonExistent Tutor`<br>
       Expected: No class created. Error message states tutor not found.
 
 1. Adding students to a class
