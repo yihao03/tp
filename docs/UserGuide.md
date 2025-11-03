@@ -5,7 +5,7 @@ title: User Guide
 
 # TutBook User Guide
 
-TutBook helps tuition centre administrators **manage students, tutors, parents, and classes efficiently**.
+TutBook helps tuition centre administrators **manage students, tutors, parents, and classes efficiently**. Instead of juggling spreadsheets, chat groups and paper attendance sheets, you can **view all students, tutors and parents at a glance, see which students belong to which classes and parents, and record sessions and attendance reliably** in a single system.
 It combines the speed of a Command Line Interface (CLI) with the convenience of a Graphical User Interface (GUI).
 
 This guide will help you **set up TutBook**, understand its features, and make the most out of its commands — even if you are new to CLI-based applications.
@@ -17,8 +17,7 @@ This guide will help you **set up TutBook**, understand its features, and make t
 
 ## About This Guide
 
-This User Guide is written for **tuition centre admins** with minimal technical background.
-It covers how to install TutBook, perform common tasks, and troubleshoot issues.
+This User Guide is written for **tuition centre administrators** with minimal technical background. TutBook is designed for admins who are **willing to overcome a small learning curve** in exchange for **much faster day-to-day operations**, especially when managing information about students, tutors, parents, classes and sessions. This guide explains how to install TutBook, perform common tasks, and troubleshoot common issues.
 
 ### Conventions Used
 
