@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.classroom.ClassName;
 import seedu.address.model.classroom.TuitionClass;
 
 /**
@@ -43,15 +42,22 @@ public class DeleteClassCommand extends Command {
         requireNonNull(model);
         LOGGER.info("Executing DeleteClassCommand for class: " + className);
 
-        TuitionClass classToDelete = new TuitionClass(new ClassName(className));
+        // Find the actual class from the model (not a new empty instance)
+        TuitionClass classToDelete = model.getFilteredClassList().stream()
+                .filter(c -> c.getName().value.equalsIgnoreCase(className))
+                .findFirst()
+                .orElse(null);
 
-        if (!model.hasClass(classToDelete)) {
+        if (classToDelete == null) {
             LOGGER.warning("Class not found: " + className);
             throw new CommandException(String.format(MESSAGE_CLASS_NOT_FOUND, className));
         }
 
         model.deleteClass(classToDelete);
         LOGGER.info("Successfully deleted class: " + className);
+
+        // Update the filtered person list to refresh UI display of students and tutors
+        model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
 
         return new CommandResult(String.format(MESSAGE_DELETE_CLASS_SUCCESS, classToDelete.getName()),
                 CommandResult.DisplayType.CLASSES);
