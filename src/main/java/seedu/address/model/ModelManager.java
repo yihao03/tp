@@ -151,6 +151,7 @@ public class ModelManager implements Model {
         sessionList.removeAll(sessionsToRemove);
 
         addressBook.unjoin(target);
+        updateFilteredClassList(PREDICATE_SHOW_ALL_CLASSES);
     }
 
     @Override
