@@ -5,11 +5,12 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.ArrayList;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
-
 
 /**
  * Represents a Student in the address book. A Student is a {@link Person} that
@@ -28,8 +29,9 @@ public class Student extends Person {
 
     /**
      * Tuition classes this student is enrolled in.
+     * Using ObservableList allows UI to bind directly and be notified of changes.
      */
-    private ArrayList<TuitionClass> tuitionClasses = new ArrayList<>();
+    private ObservableList<TuitionClass> tuitionClasses = FXCollections.observableArrayList();
 
     /**
      * Constructs a {@code Student}.
@@ -66,8 +68,13 @@ public class Student extends Person {
         return parents;
     }
 
-    public ArrayList<TuitionClass> getTuitionClasses() {
-        return tuitionClasses;
+    /**
+     * Returns an unmodifiable view of the tuition classes list.
+     * This allows UI components to observe changes while preventing external modifications.
+     */
+    @Override
+    public ObservableList<TuitionClass> getTuitionClasses() {
+        return FXCollections.unmodifiableObservableList(tuitionClasses);
     }
 
     /**
@@ -139,9 +146,13 @@ public class Student extends Person {
      * and populates the editedStudent's tuitionClasses list.
      */
     public void editTuitionClassMappings(Student editedStudent) {
-        tuitionClasses.forEach(tuitionClass -> {
+        // Create a copy to avoid ConcurrentModificationException
+        // (when this == editedStudent, we'd be modifying the list while iterating)
+        new ArrayList<>(tuitionClasses).forEach(tuitionClass -> {
             tuitionClass.setStudent(this, editedStudent);
-            editedStudent.tuitionClasses.add(tuitionClass);
+            if (this != editedStudent) {
+                editedStudent.tuitionClasses.add(tuitionClass);
+            }
         });
     }
 

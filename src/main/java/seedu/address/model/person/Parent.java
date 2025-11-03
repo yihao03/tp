@@ -5,6 +5,9 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.ArrayList;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import seedu.address.model.classroom.TuitionClass;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -98,6 +101,12 @@ public class Parent extends Person {
     public void delete() {
         // Remove this parent from associated children
         this.removeParentFromChildren();
+    }
+
+    @Override
+    public ObservableList<TuitionClass> getTuitionClasses() {
+        // Parents do not have tuition classes
+        return FXCollections.observableArrayList();
     }
 
     /**

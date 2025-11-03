@@ -251,17 +251,21 @@ link parent/PARENT_NAME child/CHILD_NAME
 
 ![link command](images/linkCommand.png)
 
-### Listing children : `childrenof`
+### Listing Children — `childrenof`
 
 Lists children of a specific parent.
 
-Format: `childrenof n/PARENT_NAME`
+**Format:**
+
+```
+childrenof n/PARENT_NAME
+```
 
 * Displays all students linked to the specified parent
 
-Example:
+**Example:**
 
-* `childrenof n/Bernice Yu` lists all children of Bernice Yu
+`childrenof n/Bernice Yu`
 
 ![children command](images/childrenCommand.png)
 
@@ -510,14 +514,14 @@ Action | Format, Examples
 **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAGS]​` <br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A`
 **Exit** | `exit`
-**Filter** | `filter ro/STUDENT\|TUTOR\|PARENT` <br> e.g., `filter ro/student`
+**Filter** | `filter ro/PERSON_TYPE` <br> e.g., `filter ro/student`
 **Find** | `find KEYWORD [MORE_KEYWORDS]` <br> e.g., `find James Jake`
 **Help** | `help`
 **Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A`
 **Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe`
 **List** | `list`
 **List Class** | `listclass`
-**List Parents** | `listparents [n/CHILD_NAME]` <br> e.g., `listparents n/Damian`
+**List Parents** | `parentsof n/CHILD_NAME` <br> e.g., `parentsof n/Damian`
 **List Sessions** | `listsessions c/CLASS_NAME` <br> e.g., `listsessions c/Math101`
 **Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math`
 **View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial`
