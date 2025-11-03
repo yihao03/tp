@@ -67,7 +67,7 @@ public class ListStudentsCommand extends Command {
         }
 
         List<Student> students = tuitionClass.getStudents();
-        LOGGER.info("Found " + students.size() + " students in class: " + className);
+        LOGGER.info("Found " + students.size() + " students in class: " + tuitionClass.getName());
 
         // Convert students to Person list for display
         List<Person> studentPersons = new ArrayList<>(students);
@@ -79,7 +79,7 @@ public class ListStudentsCommand extends Command {
         if (students.isEmpty()) {
             output = "[No students in this class]";
         } else {
-            output = String.format("Displaying %d student(s) for class: %s", students.size(), className);
+            output = String.format("Displaying %d student(s) for class: %s", students.size(), tuitionClass.getName());
         }
 
         return new CommandResult(output, CommandResult.DisplayType.NONE);

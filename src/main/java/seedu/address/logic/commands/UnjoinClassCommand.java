@@ -91,28 +91,30 @@ public class UnjoinClassCommand extends Command {
         if (person.getPersonType() == PersonType.STUDENT) {
             Student student = (Student) person;
             if (!tuitionClass.hasStudent(student)) {
-                LOGGER.warning("Student not in class: " + actualName + " in " + className);
-                throw new CommandException(String.format(MESSAGE_NOT_IN_CLASS, personName, className.value));
+                LOGGER.warning("Student not in class: " + actualName + " in " + tuitionClass.getName());
+                throw new CommandException(
+                        String.format(MESSAGE_NOT_IN_CLASS, personName, tuitionClass.getName()));
             }
             tuitionClass.removeStudent(student);
             student.unjoin(tuitionClass);
-            LOGGER.info("Successfully removed student " + actualName + " from class " + className);
+            LOGGER.info("Successfully removed student " + actualName + " from class " + tuitionClass.getName());
         } else if (person.getPersonType() == PersonType.TUTOR) {
             Tutor tutor = (Tutor) person;
             if (!tuitionClass.hasTutor(tutor)) {
-                LOGGER.warning("Tutor not assigned to class: " + actualName + " in " + className);
-                throw new CommandException(String.format(MESSAGE_NOT_IN_CLASS, personName, className.value));
+                LOGGER.warning("Tutor not assigned to class: " + actualName + " in " + tuitionClass.getName());
+                throw new CommandException(
+                        String.format(MESSAGE_NOT_IN_CLASS, personName, tuitionClass.getName()));
             }
             tuitionClass.removeTutor(tutor);
             tutor.unjoin(tuitionClass);
-            LOGGER.info("Successfully removed tutor " + actualName + " from class " + className);
+            LOGGER.info("Successfully removed tutor " + actualName + " from class " + tuitionClass.getName());
         }
 
         // Force ObservableList to update by calling setClass
         model.setClass(tuitionClass, tuitionClass);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, actualName, className.value),
+        return new CommandResult(String.format(MESSAGE_SUCCESS, actualName, tuitionClass.getName()),
                 CommandResult.DisplayType.CLASSES);
     }
 
