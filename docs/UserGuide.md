@@ -718,7 +718,53 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 ---
 ## Common workflows
 
-{first workflow}
+### 1. Manage attendance for a tutor's class
+
+**Goal:** Find out which classes and sessions a tutor is managing and record who is present or absent.
+
+**Typical sequence:**
+
+1. **List all classes**
+   ```
+   listclass
+   ```
+   ![workflow1-list-class](images/workflow1-list-class.png)
+2. **List all sessions for the class**
+   ```
+   listsessions c/Math Class
+   ```
+   ![workflow1-list-class](images/workflow1-list-sessions.png)
+3. **Open details for a specific session**
+   ```
+   viewsession c/Math Class s/Week 1 Monday
+   ```
+   ![workflow1-list-class](images/workflow1-view-session.png)
+4. **List students attending this class**
+   ```
+   liststudents c/Math Class
+   ```
+   ![workflow1-list-class](images/workflow1-list-students.png)
+5. **Mark attendances for students attending the session**
+   ```
+   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/present
+   ```
+   ![workflow1-list-class](images/workflow1-attend-present.png)
+
+    Optionally mark student as absent:
+   ```
+   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/absent
+   ```
+   ![workflow1-list-class](images/workflow1-attend-absent.png)
+6. **Review final attendance of the session**
+   ```
+   viewsession c/Math Class s/Week 1 Monday
+   ```
+   ![workflow1-list-class](images/workflow1-view-session-2.png)
+7. **Find the contact details of parents of an absent student**
+   ```
+   parentsof n/Ethan Yeoh
+   ```
+   ![workflow1-list-parent](images/workflow1-list-parent.png)
 
 {second workflow}
 
