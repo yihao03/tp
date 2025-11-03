@@ -131,6 +131,10 @@ add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…
 A person can have any number of tags, including none.
 </div>
 
+<div markdown="span" class="alert alert-info">:information_source: **Note:**
+Each person must have a unique name. If you have individuals with the same name but different roles (e.g., a student and parent both named "John Tan"), use suffixes or indexing to differentiate them (e.g., "John Tan Father" and "John Tan Son", or "John Tan 1" and "John Tan 2").
+</div>
+
 **Examples:**
 
 * `add n/Ms Lim p/91234567 e/mslim@example.com a/Clementi Ave 2 ro/tutor t/experienced`

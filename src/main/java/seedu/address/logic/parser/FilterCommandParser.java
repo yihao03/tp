@@ -21,6 +21,8 @@ public class FilterCommandParser implements Parser<FilterCommand> {
 
         ArgumentMultimap map = ArgumentTokenizer.tokenize(args, PREFIX_PERSON_TYPE);
 
+        map.verifyNoDuplicatePrefixesFor(PREFIX_PERSON_TYPE);
+
         // No preamble allowed, and ro/ is mandatory
         if (!arePrefixesPresent(map, PREFIX_PERSON_TYPE) || !map.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
