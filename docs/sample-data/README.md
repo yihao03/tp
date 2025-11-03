@@ -1,5 +1,3 @@
-# Sample Seed Data for TutBook
-
 This directory contains sample data files that can be used to quickly populate TutBook with realistic test data.
 
 ## Files

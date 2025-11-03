@@ -1210,7 +1210,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-### Requirements implemented in the current version (v1.5)
+### Requirements implemented in the current version (v1.6)
 
 | ID | Requirement | Type | How it is implemented |
 |:--|:--|:--|:--|
