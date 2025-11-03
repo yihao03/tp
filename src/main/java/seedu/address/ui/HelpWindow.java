@@ -16,7 +16,38 @@ import seedu.address.commons.core.LogsCenter;
 public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2526s1-cs2103t-w09-3.github.io/tp/";
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String HELP_MESSAGE = "Quick Command Reference\n\n"
+            + "=== PERSON MANAGEMENT ===\n"
+            + "add - Add a person\n"
+            + "edit - Edit a person\n"
+            + "delete - Delete a person\n"
+            + "list - List all persons\n"
+            + "find - Find persons by keyword\n"
+            + "filter - Filter persons by role\n\n"
+            + "=== CLASS MANAGEMENT ===\n"
+            + "addclass - Add a tuition class\n"
+            + "editclass - Edit a class\n"
+            + "deleteclass - Delete a class\n"
+            + "listclass - List all classes\n"
+            + "join - Add person to class\n"
+            + "unjoin - Remove person from class\n"
+            + "liststudents - List students in class\n\n"
+            + "=== SESSION MANAGEMENT ===\n"
+            + "addsession - Add a session\n"
+            + "deletesession - Delete a session\n"
+            + "listsessions - List sessions of class\n"
+            + "viewsession - View session details\n\n"
+            + "=== ATTENDANCE ===\n"
+            + "attend - Mark attendance\n\n"
+            + "=== PARENT-CHILD RELATIONSHIPS ===\n"
+            + "link - Link parent to child\n"
+            + "childrenof - List children of parent\n"
+            + "parentsof - List parents of child\n\n"
+            + "=== GENERAL ===\n"
+            + "clear - Clear all entries\n"
+            + "help - Show this help window\n"
+            + "exit - Exit the program\n\n"
+            + "For detailed documentation, visit:\n" + USERGUIDE_URL;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
