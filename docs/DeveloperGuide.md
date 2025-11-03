@@ -333,7 +333,7 @@ Copy code
 
 ---
 
-### Deleting a Class (cascade cleanup)
+### Deleting a Class
 
 Deleting a class removes enrollments, unassigns tutors, and clears sessions before persisting.  
 ![Delete Class Cascade](images/DeleteClassCascadeSequenceDiagram.png)

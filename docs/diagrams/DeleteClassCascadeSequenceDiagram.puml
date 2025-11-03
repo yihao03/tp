@@ -43,11 +43,27 @@ activate Model
 Model --> DelCmd : c
 deactivate Model
 
-group Cascade cleanup
-  DelCmd -> Class : removeAllStudents()
-  DelCmd -> Class : unassignAllTutors()
-  DelCmd -> Class : clearSessions()
-end
+note right of DelCmd
+  Cascade cleanup:
+  Remove all students,
+  unassign tutors,
+  clear sessions
+end note
+
+DelCmd -> Class : removeAllStudents()
+activate Class
+Class --> DelCmd
+deactivate Class
+
+DelCmd -> Class : unassignAllTutors()
+activate Class
+Class --> DelCmd
+deactivate Class
+
+DelCmd -> Class : clearSessions()
+activate Class
+Class --> DelCmd
+deactivate Class
 
 DelCmd -> Model : deleteClass(c) & save
 activate Model
