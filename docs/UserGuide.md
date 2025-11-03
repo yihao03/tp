@@ -347,7 +347,7 @@ parentsof n/CHILD_NAME
 
 **Examples:**
 
-* `parentsof n/yihao`
+* `parentsof n/Yi Hao`
 
 ![parents command](images/parentsofCommand.png)
 
