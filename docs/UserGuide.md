@@ -746,13 +746,13 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
    ![workflow1-list-class](images/workflow1-list-students.png)
 5. **Mark attendances for students attending the session**
    ```
-   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/present
+   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/PRESENT
    ```
    ![workflow1-list-class](images/workflow1-attend-present.png)
 
     Optionally mark student as absent:
    ```
-   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/absent
+   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/ABSENT
    ```
    ![workflow1-list-class](images/workflow1-attend-absent.png)
 6. **Review final attendance of the session**
