@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CHILD;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PARENT;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class LinkCommand extends Command {
             + PREFIX_PARENT + "John Doe "
             + PREFIX_CHILD + "Jane Doe";
 
-    public static final String MESSAGE_SUCCESS = "Successfully linked parent %s to child %s";
+    public static final String MESSAGE_SUCCESS = "Successfully linked parent %s to child %s. "
+            + "Run `childrenof %s%s` to see the updated list of childrens.";
     public static final String MESSAGE_PARENT_NOT_EXIST = "This parent does not exist in the address book";
     public static final String MESSAGE_CHILD_NOT_EXIST = "This child does not exist in the address book";
     public static final String MESSAGE_NOT_PARENT = "The person specified is not a parent";
@@ -122,9 +124,9 @@ public class LinkCommand extends Command {
 
         // Establish bidirectional relationship
         parent.addChild(child);
-        LOGGER.info("Successfully linked parent: " + parent.getName() + " with child: " + child.getName());
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS, parent.getName(), child.getName()));
+        LOGGER.info("Linked parent '" + parent.getName() + "' with child '" + child.getName());
+        return new CommandResult(String.format(MESSAGE_SUCCESS, parent.getName(),
+                child.getName(), PREFIX_NAME, parent.getName()));
     }
 
     /**

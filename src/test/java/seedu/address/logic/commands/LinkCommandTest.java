@@ -75,7 +75,7 @@ public class LinkCommandTest {
         LinkCommand command = new LinkCommand("John Doe", "Jane Doe");
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(LinkCommand.MESSAGE_SUCCESS, "John Doe", "Jane Doe"),
+        assertEquals(String.format(LinkCommand.MESSAGE_SUCCESS, "John Doe", "Jane Doe", "n/", "John Doe"),
                 result.getFeedbackToUser());
         assertTrue(parent.getChildren().contains(student));
         assertTrue(student.getParents().contains(parent));
