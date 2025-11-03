@@ -553,11 +553,13 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 ## Command summary
 
 ### General Commands
+
 Action | Format
 --------|------------------
 **Help** | `help`
 
 ### Person Management
+
 Action | Format, Examples
 --------|------------------
 **Add** | `add n/NAME p/PHONE e/EMAIL a/ADDRESS ro/PERSON_TYPE [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 ro/student`
@@ -568,6 +570,7 @@ Action | Format, Examples
 **Delete** | `delete INDEX` <br> e.g., `delete 3`
 
 ### Relationship Management
+
 Action | Format, Examples
 --------|------------------
 **Link** | `link parent/PARENT_NAME child/CHILD_NAME` <br> e.g., `link parent/John Doe child/Jane Doe`
@@ -575,6 +578,7 @@ Action | Format, Examples
 **List Parents** | `parentsof n/CHILD_NAME` <br> e.g., `parentsof n/Damian`
 
 ### Class Management
+
 Action | Format, Examples
 --------|------------------
 **Add Class** | `addclass c/CLASS_NAME [tutor/TUTOR_NAME]` <br> e.g., `addclass c/Sec2-Math-A tutor/Ms Lim`
@@ -586,6 +590,7 @@ Action | Format, Examples
 **Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math`
 
 ### Session Management
+
 Action | Format, Examples
 --------|------------------
 **Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`
@@ -595,6 +600,7 @@ Action | Format, Examples
 **Attend** | `attend n/NAME c/CLASS_NAME s/SESSION_NAME status/STATUS` <br> e.g., `attend n/John Doe c/Math101 s/Week 3 Tutorial status/PRESENT`
 
 ### System Commands
+
 Action | Format
 --------|------------------
 **Clear** | `clear`
