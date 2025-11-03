@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -60,16 +59,19 @@ public class ListChildrenCommand extends Command {
 
         List<Student> children = parent.getChildren();
 
-        String output;
         if (children.isEmpty()) {
-            output = "[No children]";
-        } else {
-            output = children.stream()
-                    .map(student -> student.getName().fullName)
-                    .collect(Collectors.joining(", "));
+            LOGGER.info("Parent has no children: " + parentName);
+            // Show empty list in UI
+            model.updateFilteredPersonList(p -> false);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, parentName) + "\n[No children]");
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, parentName) + "\n" + output);
+        // Filter to show only the children in the UI
+        model.updateFilteredPersonList(children::contains);
+        int childCount = children.size();
+        LOGGER.info("Found " + childCount + " child(ren) for parent: " + parentName);
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, parentName) + " (" + childCount + " shown)");
     }
 
     @Override
