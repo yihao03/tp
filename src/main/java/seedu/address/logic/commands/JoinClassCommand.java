@@ -99,6 +99,7 @@ public class JoinClassCommand extends Command {
                 throw new CommandException(MESSAGE_STUDENT_ALREADY_IN_CLASS);
             }
             model.addStudentToClass(studentToJoin, tuitionClass);
+            model.setPerson(studentToJoin, studentToJoin);
             model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
             LOGGER.info("Successfully added student " + personName + " to class " + className);
             return new CommandResult(String.format(MESSAGE_SUCCESS, "Student", className, personName),
@@ -110,6 +111,7 @@ public class JoinClassCommand extends Command {
                 throw new CommandException(MESSAGE_TUTOR_ALREADY_ASSIGNED);
             }
             model.assignTutorToClass(tutorToJoin, tuitionClass);
+            model.setPerson(tutorToJoin, tutorToJoin);
             model.updateFilteredClassList(Model.PREDICATE_SHOW_ALL_CLASSES);
             LOGGER.info("Successfully assigned tutor " + personName + " to class " + className);
             return new CommandResult(String.format(MESSAGE_SUCCESS, "Tutor", className, personName),
