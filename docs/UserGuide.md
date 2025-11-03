@@ -718,9 +718,101 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 ---
 ## Common workflows
 
-{first workflow}
+### 1. Manage attendance for a tutor's class
 
-{second workflow}
+**Goal:** Find out which classes and sessions a tutor is managing and record who is present or absent.
+
+**Typical sequence:**
+
+1. **List all classes**
+   ```
+   listclass
+   ```
+   ![workflow1-list-class](images/workflow1-list-class.png)
+2. **List all sessions for the class**
+   ```
+   listsessions c/Math Class
+   ```
+   ![workflow1-list-class](images/workflow1-list-sessions.png)
+3. **Open details for a specific session**
+   ```
+   viewsession c/Math Class s/Week 1 Monday
+   ```
+   ![workflow1-list-class](images/workflow1-view-session.png)
+4. **List students attending this class**
+   ```
+   liststudents c/Math Class
+   ```
+   ![workflow1-list-class](images/workflow1-list-students.png)
+5. **Mark attendances for students attending the session**
+   ```
+   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/present
+   ```
+   ![workflow1-list-class](images/workflow1-attend-present.png)
+
+    Optionally mark student as absent:
+   ```
+   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/absent
+   ```
+   ![workflow1-list-class](images/workflow1-attend-absent.png)
+6. **Review final attendance of the session**
+   ```
+   viewsession c/Math Class s/Week 1 Monday
+   ```
+   ![workflow1-list-class](images/workflow1-view-session-2.png)
+7. **Find the contact details of parents of an absent student**
+   ```
+   parentsof n/Ethan Yeoh
+   ```
+   ![workflow1-list-parent](images/workflow1-list-parent.png)
+
+### 2. Onboard a New Student and Link to a Parent
+
+**Goal:** Add a new student and parent, link them, and enrol the student in a class.
+
+**Typical sequence:**
+
+1. **Add parent**
+   ```
+   add n/Mr Lim p/91231234 e/mrlim@example.com a/Bishan Street 12 ro/parent
+   ```
+   ![workflow2-add-parent](images/workflow2-add-parent.png)
+
+2. **Add student**
+   ```
+   add n/Lim Kai p/98765432 e/limkai@example.com a/Bishan Street 12 ro/student
+   ```
+   ![workflow2-add-student](images/workflow2-add-student.png)
+
+3. **Link parent and child**
+   ```
+   link parent/Mr Lim child/Lim Kai
+   ```
+   ![workflow2-link](images/workflow2-link.png)
+
+4. **Add class**
+   ```
+   addclass c/Sec2-Math-A
+   ```
+   ![workflow2-addclass](images/workflow2-addclass.png)
+
+5. **Enrol student into the class**
+   ```
+   join n/Lim Kai c/Sec2-Math-A
+   ```
+   ![workflow2-join](images/workflow2-join.png)
+
+6. **Verify parent-child link**
+   ```
+   childrenof n/Mr Lim
+   ```
+   ![workflow2-childrenof](images/workflow2-childrenof.png)
+
+7. **Verify class enrollment**
+   ```
+   liststudents c/Sec2-Math-A
+   ```
+   ![workflow2-liststudents](images/workflow2-liststudents.png)
 
 ---
 
