@@ -595,7 +595,7 @@ Action | Format, Examples
 **Q:** Can I undo a delete or clear command?
 **A:** No. Destructive commands are irreversible.
 
-**Q:** Can try the app without fully committing to it?
+**Q:** Can I try the app without fully committing to it?
 **A:** Yes, [sample data](./sample-data/README.md) is pre-loaded for you to explore features. Use the `clear` command to start fresh.
 
 ---
