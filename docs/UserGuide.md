@@ -58,7 +58,7 @@ Follow these steps to set up TutBook on your computer.
 
 4. **Run the application.**
    * **Windows:** Navigate to your TutBook folder in File Explorer
-      * Hold `Shift` and right-click in the folder, select "Open command window here" or "Open PowerShell window here"
+      * Right-click in the folder, select "Open Terminal here" or "Open PowerShell window here"
       * Type `java -jar tutbook-v1.6.jar` and press Enter
    * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter
       * Type `cd` followed by a space, then drag your TutBook folder into the window and press Enter
