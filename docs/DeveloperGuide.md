@@ -124,6 +124,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
+
 </div>
 
 How the `Logic` component works:
@@ -199,7 +200,7 @@ An alternative (arguably, more OOP) model has a central `Tag` list in `TutBook` 
 
 **Extended domain model (new):**
 
-> TutBook introduces `TuitionClass` (with `students`, `tutors`, `sessions`) and `ClassSession` (per-session `attendance`). Relationships are validated by roles (`STUDENT`, `TUTOR`, `PARENT`). Attendance is stored per session as a map from student to `AttendanceStatus`.
+TutBook introduces `TuitionClass` (with `students`, `tutors`, `sessions`) and `ClassSession` (per-session `attendance`). Relationships are validated by roles (`STUDENT`, `TUTOR`, `PARENT`). Attendance is stored per session as a map from student to `AttendanceStatus`.
 
 <img src="images/DomainModelExtended.png" width="650"/>
 
@@ -217,7 +218,7 @@ The `Storage` component,
 
 **Extended JSON adapters (new):**
 
-> Classes and sessions are serialized via `JsonAdaptedClass` and `JsonAdaptedSession`, with attendance encoded as a string map.
+Classes and sessions are serialized via `JsonAdaptedClass` and `JsonAdaptedSession`, with attendance encoded as a string map.
 
 <img src="images/StorageClassDiagramExtended.png" width="650"/>
 
@@ -245,7 +246,7 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Implementation
 
-The remove-from-class feature provides the inverse operation of the join command, allowing removal of students and tutors from classes.
+The remove-from-class feature provides the opposite operation of the join command, allowing removal of students and tutors from classes.
 
 **Key Components**
 - `UnjoinClassCommand` - Handles removal logic  
@@ -403,7 +404,7 @@ Classes now store comprehensive details including sessions and maintain persiste
   "sessions": [
     {
       "sessionName": "Week 1 Tutorial",
-      "dateTime": "2024-03-15T14:30:00",
+      "dateTime": "2025-03-15T14:30:00",
       "location": "COM1-B103",
       "attendanceRecords": {
         "John Doe": "PRESENT",
@@ -452,8 +453,7 @@ Step 4. The user now decides that adding the person was a mistake, and decides t
 
 ![UndoRedoState3](images/UndoRedoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
 
 </div>
 
@@ -491,7 +491,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 **Aspect: How undo & redo executes:**
 
-- **Alternative 1 (current choice):** Saves the entire address book.
+- **Alternative 1 (proposed approach):** Saves the entire address book.
   - Pros: Easy to implement.
   - Cons: May have performance issues in terms of memory usage.
 
@@ -682,7 +682,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  Admin searches for the student by name
 2.  TutBook displays the student's profile
-3.  Admin enters attendance command with date and status (present/absent)
+3.  Admin enters attendance command with date and status (PRESENT/ABSENT)
 4.  TutBook validates the date format
 5.  TutBook records the attendance
 6.  TutBook displays confirmation message
@@ -851,7 +851,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC11 - Add student to a class**
+**Use case: UC10 - Add student to a class**
 
 **MSS**
 
@@ -891,7 +891,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC12 - View all classes with enrolled students**
+**Use case: UC11 - View all classes with enrolled students**
 
 **MSS**
 
@@ -909,7 +909,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC13 - Rename a class**
+**Use case: UC12 - Rename a class**
 
 **MSS**
 
@@ -933,7 +933,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC14 - Delete a class**
+**Use case: UC13 - Delete a class**
 
 **MSS**
 
@@ -952,7 +952,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC15 - Add a session to a class**
+**Use case: UC14 - Add a session to a class**
 
 **MSS**
 
@@ -976,7 +976,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC16 - Mark attendance for a session**
+**Use case: UC15 - Mark attendance for a session**
 
 **MSS**
 
@@ -1012,7 +1012,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC17 - View session details**
+**Use case: UC16 - View session details**
 
 **MSS**
 
@@ -1037,7 +1037,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC18 - Remove student from class**
+**Use case: UC17 - Remove student from class**
 
 **MSS**
 
@@ -1067,7 +1067,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC19 - List parents of a child**
+**Use case: UC18 - List parents of a child**
 
 **MSS**
 
@@ -1090,7 +1090,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Use case: UC20 - List sessions for a class**
+**Use case: UC19 - List sessions for a class**
 
 **MSS**
 
@@ -1102,7 +1102,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 2a. Class not found → Error “Class [name] not found.”
 
-**Use case: UC21 - List students in a class**
+**Use case: UC20 - List students in a class**
 
 **MSS**
 
@@ -1241,8 +1241,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 Given below are instructions to test the app manually.
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on;
-testers are expected to do more *exploratory* testing.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** These instructions only provide a starting point for testers to work on; testers are expected to do more *exploratory* testing.
 
 </div>
 
@@ -1441,16 +1440,16 @@ testers are expected to do more *exploratory* testing.
 1. Adding a session to a class
    1. Prerequisites: Class "Math-101" exists.
 
-   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30 lo/COM1-B103`<br>
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2025-03-15 14:30 lo/COM1-B103`<br>
       Expected: Session "Week 1 Tutorial" is added to Math-101 with the specified date/time and location. Success message displayed.
 
-   1. Test case: `addsession c/Math-101 s/Week 2 Tutorial dt/2024-03-22 14:30`<br>
+   1. Test case: `addsession c/Math-101 s/Week 2 Tutorial dt/2025-03-22 14:30`<br>
       Expected: Session "Week 2 Tutorial" is added without location. Success message displayed.
 
-   1. Test case: `addsession c/NonExistent s/Session dt/2024-03-15 14:30`<br>
+   1. Test case: `addsession c/NonExistent s/Session dt/2025-03-15 14:30`<br>
       Expected: No session created. Error message states class not found.
 
-   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2024-03-15 14:30` (duplicate session name)<br>
+   1. Test case: `addsession c/Math-101 s/Week 1 Tutorial dt/2025-03-15 14:30` (duplicate session name)<br>
       Expected: No session created. Error message states session already exists.
 
 1. Viewing session details
@@ -1664,15 +1663,15 @@ Compared to AB3, which manages a single entity (`Person`), TutBook introduces fi
 | Testing | Creating realistic linked test data | Added `TypicalClasses` and `TypicalSessions` fixtures. |
 
 ### Team effort
-- 5 developers over 9 weeks, ~30 commits each.  
-- ≈ 70 % of AB3 refactored or re-engineered.  
+- 5 developers over 9 weeks, ~30 commits each.
+- ≈ 70% of AB3 refactored or re-engineered.
 - CI/CD with GitHub Actions and Codecov for every PR.
 
 ### Code reuse and efficiency
-- ~15 % of AB3 code reused (core parser/UI logic).  
+- ~15% of AB3 code reused (core parser/UI logic).
 
 ### Achievements
-- Delivered full multi-role contact management and session tracking.  
-- Achieved > 80 % coverage in `logic`; > 80 % overall.  
+- Delivered full multi-role contact management and session tracking.
+- Achieved > 80% coverage in `logic`; > 80% overall.  
 - Extended DG/UG with new diagrams and testing sections.  
 - Maintained consistent code style, peer reviews, and iteration deadlines.
