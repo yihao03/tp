@@ -5,7 +5,7 @@ title: User Guide
 
 # TutBook User Guide
 
-TutBook helps tuition centre administrators **manage students, tutors, parents, and classes efficiently**. Instead of juggling spreadsheets, chat groups and paper attendance sheets, you can **view all students, tutors and parents at a glance, see which students belong to which classes and parents, and record sessions and attendance reliably** in a single system.
+TutBook helps tuition centre administrators **manage students, tutors, parents, and classes efficiently**. Instead of juggling spreadsheets, chat groups, and paper attendance sheets, you can **view all students, tutors and parents at a glance, see which students belong to which classes and parents, and record sessions and attendance reliably** in a single system.
 It combines the speed of a Command Line Interface (CLI) with the convenience of a Graphical User Interface (GUI).
 
 This guide will help you **set up TutBook**, understand its features, and make the most out of its commands — even if you are new to CLI-based applications.
@@ -43,12 +43,12 @@ Follow these steps to set up TutBook on your computer.
 
    **If you need to install Java:**
    * **Windows:** Download Windows x64 Installer from [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-   * **Mac:** Download macOS Installer, then follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+   * **Mac:** Download macOS Installer and follow [this guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
    * **Linux:** Use your distro package manager to install OpenJDK 17.
-     * **Ubuntu/Debian:** sudo apt install openjdk-17-jdk
-     * **Fedora/RHEL:** sudo dnf install java-17-openjdk
-     * **Arch:** sudo pacman -S jdk17-openjdk
-     * **openSUSE:** sudo zypper install java-17-openjdk-devel
+     * **Ubuntu/Debian:** `sudo apt install openjdk-17-jdk`
+     * **Fedora/RHEL:** `sudo dnf install java-17-openjdk`
+     * **Arch:** `sudo pacman -S jdk17-openjdk`
+     * **openSUSE:** `sudo zypper install java-17-openjdk-devel`
 
 2. **Download TutBook.**
  Get the latest `.jar` file from the [Releases page](https://github.com/AY2526S1-CS2103T-W09-3/tp/releases).
@@ -62,7 +62,7 @@ Follow these steps to set up TutBook on your computer.
      * Type `cd ` (with a space), then drag your TutBook folder into the window and press Enter
      * Type `java -jar tutbook-v1.6.jar` and press Enter
    * **Linux:** Open Terminal
-     * Type `cd`, navigate to your download folder (e.g., cd ~/Downloads/)
+     * Navigate to your download folder (e.g., `cd ~/Downloads`)
      * Type `java -jar tutbook-v1.6.jar` and press Enter
 
    A window like the one below should appear:
@@ -163,7 +163,7 @@ Each person must have a unique name. If you have individuals with the same name 
 **Examples:**
 
 * `add n/Ms Lim p/91234567 e/mslim@example.com a/Clementi Ave 2 ro/tutor t/experienced`
-* `add n/Yi Hao p/98765432 e/johnd@example.com a/31 John Street ro/student`
+* `add n/Yi Hao p/98765432 e/yihao@example.com a/31 John Street ro/student`
 
 ![add command](images/addCommand.png)
 
@@ -234,7 +234,7 @@ edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [ro/PERSON_TYPE] [t/TAG]
 the index number shown in the displayed person list. The index **must be a
 positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
-* When editing tags, the existing tags of the person will be removed i.e adding
+* When editing tags, the existing tags of the person will be removed i.e., adding
 of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without
 specifying any tags after it.
@@ -337,7 +337,7 @@ childrenof n/PARENT_NAME
 
 #### Listing Parents — `parentsof`
 
-Show parents of a specific child.
+Shows parents of a specific child.
 
 **Format:**
 
@@ -347,7 +347,7 @@ parentsof n/CHILD_NAME
 
 **Examples:**
 
-* `parentsof n/yihao`
+* `parentsof n/Yi Hao`
 
 ![parents command](images/parentsofCommand.png)
 
@@ -359,7 +359,7 @@ These commands help you manage tuition classes and enrollment.
 
 #### Adding a Class — `addclass`
 
-Create a new tuition class and add to the address book.
+Create a new tuition class and add it to the address book.
 
 **Format:**
 
@@ -438,7 +438,7 @@ List all students enrolled in a specific class.
 
 **Example:**
 
-* `liststudents c/s3 math`
+* `liststudents c/Sec3 Math`
 
 ![list students command](images/listStudentsCommand.png)
 
@@ -510,7 +510,7 @@ addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]
 ```
 
 * The class must already exist
-* `DATETIME` format: `YYYY-MM-DD HH:mm` (e.g., 2024-03-15 14:30)
+* `DATETIME` format: `YYYY-MM-DD HH:mm` (e.g., 2025-03-15 14:30)
 * Location is optional
 * Session names must be unique within a class
 
@@ -694,7 +694,7 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 | **List Class** | `listclass` |
 | **Edit Class** | `editclass o/OLD_CLASS_NAME c/NEW_CLASS_NAME` <br> e.g., `editclass o/Sec2-Math-A c/Sec3-Math-A` |
 | **Delete Class** | `deleteclass c/CLASS_NAME` <br> e.g., `deleteclass c/Sec3-Math-A` |
-| **List Students** | `liststudents c/CLASS_NAME` <br> e.g., `liststudents c/s3 math` |
+| **List Students** | `liststudents c/CLASS_NAME` <br> e.g., `liststudents c/Sec3 Math` |
 | **Join** | `join n/NAME c/CLASS` <br> e.g., `join n/John Doe c/Sec2-Math-A` |
 | **Remove From** | `unjoin n/NAME c/CLASS` <br> e.g., `unjoin n/Damian c/Sec4 Math` |
 
@@ -702,7 +702,7 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 
 | Action | Format, Examples |
 |--------|------------------|
-| **Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2024-03-15 14:30 lo/COM1-B103` |
+| **Add Session** | `addsession c/CLASS_NAME s/SESSION_NAME dt/DATETIME [lo/LOCATION]` <br> e.g., `addsession c/Math101 s/Week 3 Tutorial dt/2025-03-15 14:30 lo/COM1-B103` |
 | **Delete Session** | `deletesession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `deletesession c/Math101 s/Week 3 Tutorial` |
 | **View Session** | `viewsession c/CLASS_NAME s/SESSION_NAME` <br> e.g., `viewsession c/Math101 s/Week 3 Tutorial` |
 | **List Sessions** | `listsessions c/CLASS_NAME` <br> e.g., `listsessions c/Math101` |
@@ -746,13 +746,13 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
    ![workflow1-list-class](images/workflow1-list-students.png)
 5. **Mark attendances for students attending the session**
    ```
-   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/present
+   attend c/Math Class s/Week 1 Monday n/Emma Yeoh status/PRESENT
    ```
    ![workflow1-list-class](images/workflow1-attend-present.png)
 
     Optionally mark student as absent:
    ```
-   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/absent
+   attend c/Math Class s/Week 1 Monday n/Ethan Yeoh status/ABSENT
    ```
    ![workflow1-list-class](images/workflow1-attend-absent.png)
 6. **Review final attendance of the session**
