@@ -191,21 +191,14 @@ public class ParserUtil {
     public static LocalDateTime parseDateTime(String dateTime) throws ParseException {
         requireNonNull(dateTime);
         String trimmed = dateTime.trim();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        // Use strict parsing to properly validate all dates (leap years, month bounds, etc.)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm")
+                .withResolverStyle(java.time.format.ResolverStyle.STRICT);
         try {
-            LocalDateTime result = LocalDateTime.parse(trimmed, formatter);
-            // Validate the date by trying to create it again with strict parsing
-            String[] parts = trimmed.split(" ")[0].split("-");
-            int year = Integer.parseInt(parts[0]);
-            int month = Integer.parseInt(parts[1]);
-            int day = Integer.parseInt(parts[2]);
-            if (month == 2 && day == 29 && !java.time.Year.isLeap(year)) {
-                throw new DateTimeParseException("Invalid date: Feb 29 in non-leap year", trimmed, 0);
-            }
-            return result;
-        } catch (DateTimeParseException | NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            return LocalDateTime.parse(trimmed, formatter);
+        } catch (DateTimeParseException e) {
             throw new ParseException("Invalid date/time. Please check if the date exists "
-                    + "(e.g., Feb 29 only in leap years). Format: yyyy-MM-dd HH:mm");
+                    + "(e.g., Feb 29 only in leap years, no April 31). Format: yyyy-MM-dd HH:mm");
         }
     }
 
