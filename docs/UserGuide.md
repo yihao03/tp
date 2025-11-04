@@ -307,7 +307,6 @@ link parent/PARENT_NAME child/CHILD_NAME
 
 * Both parent and child must already exist in the address book
 * The parent must have the role `parent` and the child must have the role `student`
-* Names are case-sensitive
 * A child can have a maximum of 2 parents linked
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
