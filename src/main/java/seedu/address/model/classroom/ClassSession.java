@@ -208,12 +208,14 @@ public class ClassSession {
         if (remarks != null && !remarks.isEmpty()) {
             sb.append("Remarks: ").append(remarks).append(System.lineSeparator());
         }
-        sb.append("Attendance: ").append(getAttendanceCount()).append("/").append(parentClass.getStudents().size())
+        sb.append("Attendance: ").append(getAttendanceCount()).append("/").append(attendanceRecord.size())
                 .append(" present").append(System.lineSeparator());
 
         // Split attendance into Present and Absent sections
         StringBuilder presentSb = new StringBuilder();
         StringBuilder absentSb = new StringBuilder();
+
+        // Only iterate through students who have attendance records for this session
         for (Map.Entry<Student, Attendance> entry : attendanceRecord.entrySet()) {
             Student student = entry.getKey();
             Attendance pair = entry.getValue();
@@ -227,22 +229,11 @@ public class ClassSession {
                 studentName = student.getName().toString();
             }
             String line = "- " + studentName + timeStr + System.lineSeparator();
+
             if (present) {
                 presentSb.append(line);
-            }
-        }
-
-        for (Student s : parentClass.getStudents()) {
-            Attendance record = attendanceRecord.get(s);
-            if (record == null || !record.isPresent()) {
-                LocalDateTime ts = (record == null) ? null : record.getTimestamp();
-                String timeStr = (ts == null || ts.equals(LocalDateTime.MIN))
-                        ? " (unmarked)"
-                        : " (marked: " + ts.format(fmt) + ")";
-                String name = (s != null && s.getName() != null)
-                        ? s.getName().toString()
-                        : "Unknown student";
-                absentSb.append("- ").append(name).append(timeStr).append(System.lineSeparator());
+            } else {
+                absentSb.append(line);
             }
         }
 
