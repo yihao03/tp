@@ -282,6 +282,11 @@ delete INDEX
 
 ![delete command](images/deleteCommand.png)
 
+<div markdown="span" class="alert alert-warning">
+:exclamation: **Caution:**  
+`delete` permanently removes the person at the specified index. There is **no undo**, so use `list` or `find` first to confirm you are deleting the correct entry.
+</div>
+
 ---
 
 ### Relationship Management
@@ -716,7 +721,7 @@ Furthermore, certain edits can cause the TutBook to behave in unexpected ways (e
 | **Exit** | `exit` |
 
 ---
-## Common workflows
+## Common Workflows
 
 ### 1. Manage attendance for a tutor's class
 
