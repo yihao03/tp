@@ -59,13 +59,13 @@ Follow these steps to set up TutBook on your computer.
 4. **Run the application.**
    * **Windows:** Navigate to your TutBook folder in File Explorer
       * Right-click in the folder, select "Open Terminal here" or "Open PowerShell window here"
-      * Type `java -jar [CS2103T-W09-3][TutBook].jar` and press Enter
+      * Type `java -jar <your-downloaded-file-name>.jar` and press Enter
    * **Mac:** Press `Cmd + Space`, type `terminal`, press Enter
       * Type `cd` followed by a space, then drag your TutBook folder into the window and press Enter
-      * Type `java -jar [CS2103T-W09-3][TutBook].jar` and press Enter
+      * Type `java -jar <your-downloaded-file-name>.jar` and press Enter
    * **Linux:** Open Terminal
       * Navigate to your download folder (e.g., `cd ~/Downloads`)
-      * Type `java -jar [CS2103T-W09-3][TutBook].jar` and press Enter
+      * Type `java -jar <your-downloaded-file-name>.jar` and press Enter
 
    A window like the one below should appear:
  ![UI](images/Ui.png)
