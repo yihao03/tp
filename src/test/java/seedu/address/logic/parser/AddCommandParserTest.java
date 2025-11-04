@@ -29,6 +29,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PERSON_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -62,7 +63,7 @@ public class AddCommandParserTest {
         Person expectedPersonMultipleTags = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                         .build();
         assertParseSuccess(parser,
-                        NAME_DESC_BOB + PHONE_DESC_BOB + ROLE_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + ROLE_AMY
+                        NAME_DESC_BOB + PHONE_DESC_BOB + ROLE_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                                         + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                         new AddCommand(expectedPersonMultipleTags));
     }
@@ -92,7 +93,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser,
                         validExpectedPersonString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY
                                         + validExpectedPersonString,
-                        Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_ADDRESS, PREFIX_EMAIL,
+                        Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_PERSON_TYPE, PREFIX_ADDRESS, PREFIX_EMAIL,
                                         PREFIX_PHONE));
 
         // invalid value followed by valid value
