@@ -38,7 +38,15 @@ public class AddSessionCommandParser implements Parser<AddSessionCommand> {
 
         String className = ParserUtil.parseClassName(argMultimap.getValue(PREFIX_CLASS).get());
         String sessionName = ParserUtil.parseSessionName(argMultimap.getValue(PREFIX_SESSION).get());
-        LocalDateTime dateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_DATETIME).get());
+
+        // Check if datetime value contains potential unrecognized prefixes
+        String dateTimeStr = argMultimap.getValue(PREFIX_DATETIME).get();
+        if (dateTimeStr.contains(" l/") || dateTimeStr.contains(" L/")) {
+            throw new ParseException("Unrecognized prefix 'l/'. Did you mean 'lo/' for location?\n"
+                    + "Correct format: " + AddSessionCommand.MESSAGE_USAGE);
+        }
+
+        LocalDateTime dateTime = ParserUtil.parseDateTime(dateTimeStr);
         String location = argMultimap.getValue(PREFIX_LOCATION).isPresent()
                 ? ParserUtil.parseLocation(argMultimap.getValue(PREFIX_LOCATION).get())
                 : null;
